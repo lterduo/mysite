@@ -12,10 +12,7 @@ import HomeHeader from './components/Header'
 import HomeSwiper from './components/Swiper'
 import HomeIcons from './components/Icons'
 import HomeRecommend from './components/Recommend'
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8000'  
-
+import axios from 'axiso'
 export default {
     name: 'Home',
     components: {
@@ -26,7 +23,7 @@ export default {
     },
     methods: {
         getHomeInfo () {
-            axios.get('/vue_home')
+            axios.get('/api/test.json')
                 .then(this.getHomeInfoSuss)
         },
         getHomeInfoSuss (res) {

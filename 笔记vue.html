@@ -101,14 +101,27 @@ v-once 加载到内存中，不再重复创建
 5-7 vue中的动画封装，让动画可复用
 
 6-1 项目环境准备
-npm install -g cnpm --registry=https://registry.npm.taobao.org
-用vue-cli  :cnpm install --global vue-cli
-工作路径下：vue init webpack Travel
-cd travel
-npm run dev
+		*******必须用到npm不能用cnpm代替时，比如vue init webpack xxx,可以临时修改配置
+		npm --registry http://registry.cnpmjs.org info express
+	用vue-cli  :cnpm install --global vue-cli
+	使用国内镜像：
+		一.通过命令配置
+		1. 命令
+		npm config set registry https://registry.npm.taobao.org
+		2. 验证命令
+		npm config get registry
+		如果返回https://registry.npm.taobao.org，说明镜像配置成功。
+		二、通过使用cnpm安装
+		1. 安装cnpm
+		npm install -g cnpm --registry=https://registry.npm.taobao.org
+		2. 使用cnpm
+		cnpm install xxx
+	工作路径下：vue init webpack Travel
+	d travel
+	pm run dev
 
-报错  	cnpm install;
-		cnpm run build;
+	报错  	cnpm install;
+			cnpm run build;
 
 6-2 项目代码结构
 
@@ -191,6 +204,36 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 	cnpm install axios --save
 	不要每个组件都发ajax，性能问题。合理的写法是在Home中发ajax,定义	getInfo函数，再通过	mounted钩子调用
 		import axios from 'axios'
+		axios.defaults.baseURL = 'http://localhost:8000'  
+		
+		注意跨域问题：
+			pip install django-cors-headers
+
+			settings.py
+			# 导入cors模块
+			INSTALLED_APPS = {
+				...
+				'corsheaders',
+				...
+			}
+			
+			# 添加cors的中间件
+			MIDDLEWARE = [  # Or MIDDLEWARE_CLASSES on Django < 1.10
+				...
+				# 尽可能将这两条放在前面
+				'corsheaders.middleware.CorsMiddleware',
+				'django.middleware.common.CommonMiddleware',
+				...
+			]
+
+			# 最后设置允许所有跨域 或者 设置允许跨域的白名单  以下二选一
+			CORS_ORIGIN_ALLOW_ALL = True 
+			# CORS_ORIGIN_WHITELIST = (
+			#  'localhost:8080',
+			#  '127.0.0.1:9000'
+			# )
+			
+	*********下面太麻烦，但是测试用本地文件还是需要配的
 		axios.get('/api/index.json') 开发环境中，通过webpack配置文件将/api进行转发，上线不需要改代码
 			config/index.js 中 dev：{proxyTable:{	}} 将/api 进行转发 ,并且可以用本地	/static/mock目录临时代替
 			proxyTable: {
@@ -201,6 +244,9 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 					}
 				}
 				}
+	跨域问题：
+		
+
 
 8-4 better-scroll插件的使用，达到原生app拖拽效果
 
