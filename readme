@@ -8,3 +8,26 @@ git status
 
 git branch branch1
 git checkout branch1
+
+git remote add <refs> <addr>即可关联多个仓库 
+refs 指向远程仓库, 默认的就是origin, addr 就是仓库地址了,比如git@git.coding.net:mbinary/netease-cached-music.git
+
+git remote -v	查看
+
+
+
+开发流程：
+	git pull
+	新建分支
+		git branch b1
+		git checkout b1
+	开发
+		git add
+		git commit
+		git push
+		
+	本地切换主分支
+		git branch master
+	合并到主分支
+		git merge /origin/b1
+		git push

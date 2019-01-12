@@ -152,12 +152,38 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 
 	在样式中，将常用的参数定义成变量保存在文件中，使用会非常方便：
 		新建文件	assets/styles/varibles.styl	文件名随便起	定义 $bgColor = #00bcd4
-		在需要使用的<style>中，@import '../../../assets/styles/varibles.stylus'
-			这样写路径太长，也可以用 @ 代表src目录，但是在样式中需要用 ~@	@import '~@/assets/styles/varibles.stylus'
+		在需要使用的<style>中，@import '../../../assets/styles/varibles.styl'
+			这样写路径太长，也可以用 @ 代表src目录，但是在样式中需要用 ~@	@import '~@/assets/styles/varibles.styl'
 		然后在需要的地方直接使用 $bgColor	如 background $bgColor
 	经常用到styles目录，可以在	build/webpack.base.conf.js	中配置别名	alias: 	然后就可以直接使用别名了
 		
 7-3 首页轮播图
+	github	搜索	vue-awesome-swiper	
+	npm install vue-awesome-swiper --save	
+	npm install vue-awesome-swiper@2.6.7 --save 	稳定版本
+	按照github中的说明，在main.js中 import和use
+		import VueAwesomeSwiper from 'vue-awesome-swiper'
+		// require styles
+		import 'swiper/dist/css/swiper.css'
+		Vue.use(VueAwesomeSwiper, /* { default global options } */)
+	新建Swiper.vue,按照模板拷贝SPA 
+	在Home.vue中import并注册使用即可
+	***为了防止网速慢时图片下方的元素加载有抖动，可以在外部包裹div，先设置好宽高和灰色背景色，先占位，下面的就不会跳了
+	***在 scoped 的样式中修改外层样式是不起作用的，要用穿透符号	>>>
+	轮播图采用数据分离方式循环
+	轮播中	loop 选项设为	true
+
+7-4 图标区域布局
+	Icons.vue 
+7-5 图标逻辑
+	超过8个图标，会隐藏不显示。需要借助 computed 属性
+	文字过长，后面用省略号表示，需要在样式中：
+    	overflow hidden
+        white-space nowrap
+        text-overflow ellipsis
+
+7-6 推荐组件开发
+	
 
 8-4 better-scroll插件的使用，达到原生app拖拽效果
 
