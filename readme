@@ -5,3 +5,6 @@ git commit -m 'add new code'
 git push
 
 git status
+
+git branch branch1
+git checkout branch1
