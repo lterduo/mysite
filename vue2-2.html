@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>vue</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{content}}   
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                content: "hello"
+            }
+        })
+        setTimeout(function(){
+            vm.$data.content = "bye"
+        }, 1000)
+    </script>
+</body>
+</html>

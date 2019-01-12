@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>vue</title>
+    <script src='./vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="inputValue1"/>
+        <button v-on:click="clickme">提交</button>
+        <ul>
+            <todu-item v-bind:content1="item1"
+                       v-bind:index="index"
+                       v-for="(item1,index) in list1"
+                       @delete="handleItemDelete">
+            </todu-item>
+        </ul>
+    </div>
+    <script>
+        var ToduItem = {
+            props: ['content1','index'],
+            template: "<li @click='handleItemClick'>{{content1}}---{{index}}</li>",
+            methods: {
+                handleItemClick: function(){
+                    // alert("handleItemClick")
+                    this.$emit("delete",this.index)
+                }
+            }
+        }
+        var app = new Vue({
+            el: '#app',
+            components: {
+                ToduItem: ToduItem
+            },
+            data: {
+                list1:['first','second'],
+                inputValue1: '123'
+            },
+            methods: {
+                clickme: function() {
+                    this.list1.push(this.inputValue1)
+                    this.inputValue1 = ''
+                    // alert('clickme')
+                },
+                handleItemDelete: function(index){
+                    // alert("handleItemDelete")
+                    // alert(index)
+                    this.list1.splice(index,1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

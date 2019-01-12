@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>vue</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <child @click="handleClick">此click是子组件定义的</child>  -->
+        <child @click.native="handleClick"></child>
+    </div>
+    
+    <script>
+        var Child = {
+            // template: '<div @click="childClick">hello</div>',
+            // methods: {
+            //     childClick: function() {
+            //         alert('child')
+            //         this.$emit('click')
+            //     }
+            // }
+            template: '<div>hello</div>'
+        }
+        var app = new Vue({
+            el: '#app',
+            components: {
+                Child: Child
+            },
+            methods: {
+                handleClick: function() {
+                    alert('father')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

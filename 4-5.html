@@ -1,0 +1,47 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src='./vue.js'></script>
+</head>
+<body>
+    <div id="root">
+       <child content="dell"></child>
+       <child content="lee"></child>
+    </div>
+    <script>
+        Vue.prototype.bus = new Vue() //重点
+
+        Vue.component('child',{
+            data: function(){
+                return {
+                    selfContent: this.content
+                }
+            },
+            props:{
+                content:String
+            },
+            template:'<div @click="handleClick">{{selfContent}}</div>',
+            methods: {
+                handleClick: function() {
+                    alert('handleClick  ' + this.selfContent);
+                    this.bus.$emit('change',this.selfContent)
+                }
+            },
+            mounted: function() {
+                var this_ = this
+                this.bus.$on('change',function(msg){
+                    alert(msg);
+                    this_.selfContent = msg
+                })
+            },
+        })
+        var vm = new Vue({
+           el: '#root',
+           data: {
+               content: 'hello world'
+           }
+       })
+    </script>
+</body>
+</html>

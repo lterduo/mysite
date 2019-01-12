@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>vue</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="inputValue">
+        <button @click="handleBtnClick">commit</button>
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list: [1,2,3],
+                inputValue: ''
+            },
+            methods: {
+                handleBtnClick: function(){
+                    this.list.push(this.inputValue);
+                    this.inputValue = ''
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title>v-on</title>
+	<script src='./vue.min.js'></script>
+</head>
+<body>
+<div id="app">
+		<button v-on:click='showme'>{{message}}</button>
+</div>	
+		<script>
+			new Vue({
+				el:'#app',
+				data:{
+					message:'click me'
+				},
+				methods:{
+					showme:function(){
+						alert('showme!')
+					}
+				}
+				
+			})
+		</script>
+</body>
+</html>
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>vue</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{fullName}}
+        {{fullNameWath}}
+    </div>
+    
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                firstName: 'Wang',
+                lastNmae: 'BaDan',
+                fullNameWath: 'haha'
+            },
+            computed: {
+                fullName: function(){
+                    return this.firstName + this.lastNmae;
+                }
+            },
+            watch: {
+                firstName: function() {
+                    this.fullNameWath = this.firstName + this.lastNmae
+                }
+            }
+        })
+    </script>
+</body>
+</html>

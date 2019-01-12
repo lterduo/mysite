@@ -1,0 +1,176 @@
+3-2
+生命周期钩子
+
+3-4
+计算属性，可以直接用，不用加括号 fullName
+methods，必须加括号 fullName()
+watch跟computed类似，但是代码量大，因为要同时监听firstName和lastName
+
+3-5
+用get、set方法也可以实现
+
+3-6
+vue中的样式绑定
+
+3-7
+v-if 
+v-show 不会每次刷新页面都添加或删除，只是根据true、false显示不显示，性能好
+
+3-8
+为了提升循环性能，在每一个item上加一个唯一的key值。但是不推荐将index作为key，而是把后台返回的唯一id作为key
+<div v-for="(item,index) of list" :key="item.id">{{item}}--{{index}}</div>
+操作数组方法：
+push pop shift unshift splice sort reverse
+
+4-1
+(1)用 is 属性来解决bug
+定义一个组件row
+html5中，某些标签有严格规定，比如
+<table><tbody>这里必须写tr</tbody></table>
+那么我写一个组件row代替<tr><td>this is a row</td></tr>
+写成<table><tbody><row></row></tbody></table>就会出错
+可以写成<table><tbody>
+			<tr is="row"></tr>
+		</tbody></table>
+同理，<ul><li is="row"></li><ul>，<ol><li is="row">... ,<select><option is="row">...
+(2)在子组件中使用data时，data必须是function，而不能是数据，只有根组件的data才能是数据。
+这是因为子组件可能会被调用很多次，所以需要每个对象数据的独立性。
+(3)vue不建议直接操作dom，但是在某些复杂的情况下（比如动画），必须操作dom，此时可以用 ref 获取dom节点
+<div hef='hello' @click='handleClick'> Hello </div>
+可以在函数值用this.$hefs.hello获得节点，进行下一步操作（比如this.$hefs.hello.innerHTML）
+(4)两个counter自动求和的例子，懒得打了
+
+4-2 父子组件的数据传递
+局部组件必须在 componets:{} 中注册
+父组件通过属性的方式（<counter :count='1'...另，用:count='1'1来传值，是表达式，'1'为数字，用count='1'，是字符串）
+子组件不能通过this.count来直接修改传值（单向数据流，因为还可能其他子组件用到这个值）
+可以通过增加data对象，copy一个父组件传值的副本来修改（子组件的data必须是function）：
+data: function(){
+	return { number: this.count}
+}
+子组件向父组件传值，通过this.$emit('change',参数1,参数2……)方法，同时在父组件中监听change方法来实现
+父组件：<counter :count='1' @inc="handleIncrease"></counter>
+父组件的methods中添加handleIncrease方法
+
+4-3 组件参数校验与非Props特性
+父组件向子组件传值，子组件有权利对传值进行约束，叫组件参数校验
+非Props特性，如果在子组件中未用props定义此属性，则会报错；  如果不使用，那此属性会显示在dom中，而props属性是不显示在dom中的
+
+4-4 给组件绑定原生事件
+<child @click="handleClick"
+此时监听的click事件是自定义事件，不会调用父组件的handleClick方法，需要在子组件中定义
+template:'<div @click="handleClick"'></div>,
+methods: {
+	handleClick: function(){
+		this.$emit('click')
+	}
+	}
+这样写太麻烦了，如果要调用原生事件，只需要加.native
+<child @click.native="handleClick" ，就会调用父组件的handleClick方法了
+
+4-5 非父子组件间传值
+Bus/总线/发布订阅模式/观察者模式
+
+4-6 使用插槽
+父组件可以方便的向子组件传递dom元素
+在子组件template中使用<slot></slot>语法
+
+4-7 作用域插槽
+
+4-8 动态组件和v-once
+is="type"
+v-once 加载到内存中，不再重复创建
+
+5-1 vue中的css动画
+<transition name="xxx">标签包裹，name可省略
+定义4个类
+
+5-2 vue中使用Animate.css库
+
+5-3 vue中同时使用过渡和动画
+
+5-4 vue中js动画与Velocity.js结合
+动画钩子：befor-enter,enter,after-enter/befor-leave,leave,after-leave
+
+5-5 vue中多个元素或组件的过渡
+不想dom复用，要给标签一个key
+
+5-6 vue中的列表过渡
+
+5-7 vue中的动画封装，让动画可复用
+
+6-1 项目环境准备
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+用vue-cli  :cnpm install --global vue-cli
+工作路径下：vue init webpack Travel
+cd travel
+npm run dev
+
+报错  	cnpm install;
+		cnpm run build;
+
+6-2 项目代码结构
+
+6-3 vue中单文件组件与vue中的路由
+es6中，键和值相同的时候，可以只写键即可，如router，其实是router: router,	App 其实是App:App
+
+入口文件为 /src/main.js，写了/index.html中显示的组件（一般都用组件App开始）
+渲染 /src/App.vue 其中<router-view/>为路由选项
+router-view显示的是当前路由地址对应的内容，如'/test'就对应路由文件中'/test'对应的组件
+路由文件为 /router/index.js 。在配路由时，要先import，如:import Home from '@/pages/home/Home' @代表 src目录
+	代码结构优化：新建src/pages/home/Home.vue
+	/router/index.js中 import Home，并将访问的根目录指向Home
+	<router-link to="/">hello</router-link>
+	
+6-4	多页面应用和单页面应用
+	多页优缺点：首屏快，seo效果好，但是页面切换慢
+	单页面：页面跳转时不是通过服务器返回，而是js渲染，所以页面切换快，但是首屏慢，seo差
+	
+	
+	
+
+6-5	开发准备
+	1、进行app开发时，要先设置 /index.html <meta name="viewport" ,增加 minimumscale=1.0,maximumscal=1.0,userscalable=no ，使页面比例始终固定在1（现 版本已经不建议了？）
+	2、下载reset.css到 /scr/assets/styles/ ，在入口文件main.js中 import './assets/styles/reset.css'  （报警告，待查）
+		一像素边框问题：border.css
+	3、解决移动端点击300毫秒延时问题
+	travel目录下：cnpm install fastclick --save
+	main.js中： import fastClick from 'fastclick'  , Vue.config......语句下加： fastClick.attach(document.body) 
+4、准备   www.iconfont.cn 图标管理--我的项目--右侧新建项目
+
+7-1 header开发
+	travel下：cnpm install stylus --save   cnpm install stylus-loader --save
+	home下新建componets，把小组件都放入。新建Header.vue，name: 'HomeHeader'
+	Home.vue 中 import HomeHeader form './components/Header' ,在components中注册HomeHeader
+	在Header.vue中写样式： <style lang="stylus" scoped>  (scoped 表示只在此组件生效）
+
+7-2 iconfont 以及代码优化
+	www.iconfont.cn
+		选好图标放入购物车，添加到项目，下载到本地，解压拷贝到assets/styles/iconfont，把iconfont.css拷贝到styles文件夹
+		修改css文件，在url有关文件路径的地方加上./iconfont/
+		在网站上需要的图标上“复制代码”，在header中需要用的地方添加<span>&#xe62d;（或者div）
+
+	在样式中，将常用的参数定义成变量保存在文件中，使用会非常方便：
+		新建文件	assets/styles/varibles.styl	文件名随便起	定义 $bgColor = #00bcd4
+		在需要使用的<style>中，@import '../../../assets/styles/varibles.stylus'
+			这样写路径太长，也可以用 @ 代表src目录，但是在样式中需要用 ~@	@import '~@/assets/styles/varibles.stylus'
+		然后在需要的地方直接使用 $bgColor	如 background $bgColor
+	经常用到styles目录，可以在	build/webpack.base.conf.js	中配置别名	alias: 	然后就可以直接使用别名了
+		
+7-3 首页轮播图
+
+8-4 better-scroll插件的使用，达到原生app拖拽效果
+
+8-5 axios动态数据渲染
+
+8-6 兄弟数据联动
+
+8-7 列表切换性能提升
+
+8-8 搜索功能实现
+
+8-9 vuex实现数据共享
+
+8-10 vuex高级功能  本地存储使用
+
+8-11 keep-alive 优化

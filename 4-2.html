@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>vue</title>
+    <script src='./vue.min.js'></script>
+</head>
+<body>
+    <div id="root">
+        <counter :count='0' @inc="handleIncrease"></counter>
+        <counter :count='1' @inc="handleIncrease"></counter>
+        <div >{{total}}</div>
+    </div>
+    <script>
+        var counter = {
+            props: ['count'],
+            data: function(){
+                return{
+                    number:this.count
+                }
+            },
+            template:'<div @click="handleClick">{{number}}</div>',
+            methods: {
+                handleClick: function() {
+                    this.number = this.number + 1 ;
+                    this.$emit('inc',1)
+                }
+            }
+        }
+        var vm = new Vue({
+           el: '#root',
+           data: {
+               total:5
+           },
+            components: {
+                counter:counter
+            },
+            methods: {
+                handleIncrease: function(step1) {
+                    // alert(step1)
+                    this.total = this.total + step1;
+                }
+            }
+       })
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>vue2</title>
+    <script src="vue.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div @click="handleClick">
+            {{message}}
+        </div>
+        <item>21.24</item>
+    </div>
+    <script>
+        Vue.component(
+            'item',{template: "<div>hello world</div>"}
+        )
+        var root = new Vue({
+            el: "#root",
+            data: {
+                message: "hello!"
+            },
+            methods: {
+                handleClick: function() {
+                    alert('hello')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

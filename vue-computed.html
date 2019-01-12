@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>vue</title>
+    <script src='./vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+       <p>a = {{a}}  b = {{b}}  c = {{c}}</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            data:{
+				a:1
+            },
+            computed:{
+                b:function(){
+                    return this.a + 1
+                }
+            },
+            methods:{
+                c:function(){
+                    return 5*5
+                }
+            }
+        })
+        app.b = 8
+    </script>
+    <div></div>
+</body>
+</html>

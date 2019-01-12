@@ -1,0 +1,11 @@
+1. django-admin startproject mysite
+django-admin startapp login
+或 python manage.py startapp login
+python manage.py runserver 
+python manage.py runserver 0.0.0.0:8000 //监听
+
+TemplateDoesNotExist的解决方法：settings.py 修改templates的dirs
+'DIRS': [os.path.join(BASE_DIR, 'templates')],
+'login' 这个 app 加入到 settings.py 中
+
+python manage.py migrate

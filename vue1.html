@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>vue</title>
+    <script src='./vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="inputValue1"/>
+        <button v-on:click="clickme">提交</button>
+        <ul>
+            <todu-list v-bind:aaa="list1"></todu-list>
+        </ul>
+    </div>
+    <script>
+        var ToduList = {
+            props:['aaa'],
+            template: "<li>{{aaa}}</li>"
+        }
+        var app = new Vue({
+            el: '#app',
+            components: {
+                ToduList: ToduList
+            },
+            data: {
+                list1:['first','second'],
+                inputValue1: '123'
+            },
+            methods: {
+                clickme: function() {
+                    this.list1.push(this.inputValue1)
+                    this.inputValue1 = ''
+                    // alert('clickme')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

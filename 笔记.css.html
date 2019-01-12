@@ -1,0 +1,189 @@
+1、	font-style :最常用的 italic normal
+	font-weight:  单词取值：bold，加粗；bolder,比bold更粗； lighter,细线
+                 数字取值：100--900，用的比较少，一般用单词取值
+    font-size:
+	font-family:"微软雅黑"，默认宋体
+	
+	font:style weight size family   style/weight可以省略，style/weight位置可以互换
+		size和family不能省略，且不能互换位置
+2、文本属性
+	文本装饰的属性：
+	text-decoration: underline;
+					 line-through;
+					 overline;
+					 none;   去掉超链接的下划线
+	文本水平对齐的属性：
+	text-align: center;
+				left;
+				right;
+	缩进：
+	text-indent: 2em;  缩进两个文字。也可以用px，但是不准确。
+3、颜色控制
+	color: 单词  一般用于调试
+			rgb  (0,0,0)黑色，开发中一般用灰色，不用黑色
+			rgba (0,0,0,1)  a代表透明度,取值0-1
+			#十六进制 ：本质是两位代表agb中的r/g/b
+			#十六进制简写: 如果两位值一样，就可以简写，#FFEE00 等同于 #FE0
+			
+简写：div.box$*3 + tab class名为box1--3的div写三个
+			
+			css三大特性：
+1、继承性：只有以color/font-/text-/line- 开头的才能继承
+			只要是后代都可以继承
+2、层叠性：
+3、优先级：
+	1、选择器是否直接选中（间接选中就是继承）
+		间接选中的选近的
+	2、都是直接选中，都是同类型的选择器，选写在后面的（比如都是p标签或者类选择器）
+	3、都是直接选中，不同类型选择器
+		id>class>标签>通配符>继承>浏览器默认
+4、!important：将优先级提升为最高
+	1、必须是直接选中，不能间接
+	2、通配符选择器也是直接选择器，可以直接选中所有标签
+	3、只能提升指定的属性
+	格式   color: red !important;
+5、优先级权重：多个选择器混合使用时，计算优先级
+	1、首先计算选择器中多少个id，id多的选择器最高
+	2、id个数一样，class多的高
+	3、类名个数一样，标签个数多的高
+	4、id、class、标签个数都一样，不再计算，写在后面的最高
+	
+6、元素的显示模式
+	1、html标签分两类，容器级和文本级： div h ul ol dl li dt dd;  span p ...文本级只能放文字、链接、图片
+	css标签页分两类，块级元素和行内元素: 独占一行的为块级，也就是html标签中的容器级标签，再加一个p标签
+		行内元素就是文本级标签，减去p标签
+	2、如果块级元素没有设置宽高，则和父级元素相同
+	行内元素是不可以设置宽高的
+	
+	3、为了让元素不独占一行，又可以设置高宽，出现了行内块级元素。
+7、元素显示模式转换：
+	display: inline	转换为行内
+			 block  转换为块级
+			 inline-block	转换为行内块级
+8、
+	background-color:rgb/rgba/#十六进制、简写
+	background-image: url()
+	background-repeat:repeat repeat-x repeat-y no-repeat    通过一张小图（纯色的，或有规律的）的平铺降低背景图的大小，提升访问速度
+	background-position: 水平方向 垂直方向  
+		取值：1、left center right   top center bottom
+			  2、具体的像素
+		背景图位置的常用场景：大图片中的重要信息突出显示，比如  center top
+	background: 颜色 图片 平铺方式 关联方是 定位方法
+		任何一个都可以省略
+	background-attachment: scroll（默认值，随着滚动条的滚动而滚动）   fixed（不随滚动条滚动）
+9、css精灵图
+	工具：firework
+	
+10、边框属性
+	1、连写，同时设置四条边框		border: 5px solid blue;
+		border: 宽度 样式 颜色;		样式常用的两个：实线和虚线--solid，dashed
+	2、连写，分别设置四条边框
+		border-top:
+		border-right:
+		border-bottom:
+		border-left:
+			宽度可以省略，样式不能省略，颜色可以省略，默认黑色
+	3、连写，安装顺时针赋值
+			border-width: 上 右 下 左;
+			border-style: 上 右 下 左;
+			border-color: 上 右 下 左;
+			可省略，对称取值，如果只写一个，则4个取值一样
+	4、不连写，不常用
+		border-top-width:
+	border-bottom: none;		不需要某个边框
+	通过设置div宽度高度为0，设置边框宽度、颜色，实现三角形、箭头等
+	
+11、内边距：边框和内容的距离
+	1、非连写
+		padding-top:
+		padding-right:
+		padding-bottom:
+		padding-left:
+	2、连写
+		padding: 上 右 下 左;		省略规则和边框相同
+	给标签设置内边距后，标签占有的高宽会发生变化
+	内边距也会有背景色
+	
+12、外边距：标签和标签之间的距离
+	1、非连写
+		margin-top:
+		margin-right:
+		margin-bottom:
+		margin-left:
+	2、连写
+		margin: 上 右 下 左;		省略规则同边框
+	外边距是没有背景色的
+
+13、外边距合并现象/塌陷现象
+	在默认布局的垂直方向上，默认情况下外边距是不会叠加的，会出现合并现象，谁的外边距大就听谁的
+	
+14、盒子box-sizing属性：CSS3中新增了一个box-sizing属性, 这个属性可以保证我们给盒子新增padding和border之后, 盒子元素的宽度和高度不变
+		box-sizing: content-box;（没有效果）	border-box(盒子元素宽高不变)
+
+	盒子居中和内容居中：margin:0 auto;作用：让盒子自己水平居中
+15、清空默认边距：百度 yui css reset
+	body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{
+		margin:0;
+		padding:0;
+	}
+16、行高和字号
+	line-height: 80px;
+	行高和盒子高不同
+	行高默认是垂直居中的
+	经常需要在盒子中文字要垂直居中，只要将盒子高和行高设置一致
+	但是多行文字是不行的，需要用padding和box-sizing
+17、文字界面
+	从上至下,从外向内，进行编写
+	li标签的属性：	list-style: none
+	
+18、网页布局方式
+	标准流排版方式
+	浮动流排版方式
+		float: left/right;	只能水平排列，且只有左右，没有居中
+		使用float后，margin: 0 auto;是无效的
+		***浮动流中，不区分块级/行内/行内块级的，都可以水平排版；	且都可以看做行内块级，都可以设置宽高！
+	定位流排版方式
+	
+19、浮动元素脱标
+		浮动元素脱离标准流，也就是元素浮动后，看上去仿佛从标准流中删除
+		影响就是前面一个元素浮动了，后一个元素没有浮动，前面的元素会盖住后面元素
+		
+20、浮动元素的排序规则
+		1、同一方向上，先浮动的在前面
+		2、不同方向上，左找左，右找右（同1）
+		3、***浮动元素浮动后的位置，由浮动元素在浮动之前在标准流中的位置确定！
+		
+21、浮动元素的贴靠现象
+
+22、浮动元素字围现象
+
+23、清除浮动的五种方式
+		推荐使用	overflow: hidden;
+					*zoom: 1;
+
+
+24、定位流
+		1、相对定位
+			不会脱离标准流，相对自己在标准流中的位置移动（配合top/right/bottom/left参数使用）
+				position: relative;
+				top: ;	right: ;	bottom: ;	left: ;
+				因为不脱离标准流，加margin的时候，是加给位移前的盒子的
+				主要用于微调，配合绝对定位使用
+		2、绝对定位
+			默认相对于body的定位，并且是相对首屏body
+			脱离标准流的，和float一样不区分行内、块级
+				position: absolute;	（配合top/right/bottom/left参数使用）
+			如果一个绝对定位的元素有祖先元素，且祖先元素也是绝对、相对、固定定位的（只有静态的不行），则要相对祖先元素来定位，如果有多个祖先，选最近的
+			绝对定位会忽略父元素的padding
+		3、固定定位
+		4、静态定位
+	
+
+
+
+
+
+
+
+
+
