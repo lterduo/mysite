@@ -1,0 +1,7 @@
+git clone git@github.com:lterduo/mysite.git
+将代码考入
+git add .
+git commit -m 'add new code'
+git push
+
+git status
