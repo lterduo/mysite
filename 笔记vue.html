@@ -74,6 +74,7 @@ Bus/总线/发布订阅模式/观察者模式
 4-6 使用插槽
 父组件可以方便的向子组件传递dom元素
 在子组件template中使用<slot></slot>语法
+slot="..." 具名插槽，可以在不同位置插入多个
 
 4-7 作用域插槽
 
@@ -184,6 +185,22 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 
 7-6 推荐组件开发
 	
+7-7 周末游
+
+7-8 ajax
+	cnpm install axios --save
+	不要每个组件都发ajax，性能问题。合理的写法是在Home中发ajax,定义	getInfo函数，再通过	mounted钩子调用
+		import axios from 'axios'
+		axios.get('/api/index.json') 开发环境中，通过webpack配置文件将/api进行转发，上线不需要改代码
+			config/index.js 中 dev：{proxyTable:{	}} 将/api 进行转发 ,并且可以用本地	/static/mock目录临时代替
+			proxyTable: {
+				'/api': {
+					target: 'http://localhost:8080',
+					pathRewrite: {
+					'^/api': '/static/mock'
+					}
+				}
+				}
 
 8-4 better-scroll插件的使用，达到原生app拖拽效果
 

@@ -29,5 +29,8 @@ git remote -v	查看
 	本地切换主分支
 		git branch master
 	合并到主分支
-		git merge /origin/b1
+		合并远程到master
+			git merge /origin/b1
+		合并本地
+			git merge b1
 		git push
