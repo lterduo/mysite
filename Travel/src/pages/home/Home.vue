@@ -1,8 +1,8 @@
 <template>
     <div>
-        <home-header></home-header>
-        <home-swiper></home-swiper>
-        <home-icons></home-icons>
+        <home-header :city="city"></home-header>
+        <home-swiper :swiperList="swiperList"></home-swiper>
+        <home-icons :iconList="iconList"></home-icons>
         <home-recommend></home-recommend>
     </div>
 </template>
@@ -24,13 +24,25 @@ export default {
         HomeIcons,
         HomeRecommend
     },
+    data () {
+        return {
+            city: '',
+            swiperList: [],
+            iconList: []
+        }
+    },
     methods: {
         getHomeInfo () {
             axios.get('/vue_home')
                 .then(this.getHomeInfoSuss)
         },
         getHomeInfoSuss (res) {
-            console.log(res)
+            res = res.data
+            const data = res.data
+            console.log(data)
+            this.city = data.city
+            this.swiperList = data.swiperList
+            this.iconList = data.iconList
         }
     },
     mounted () {

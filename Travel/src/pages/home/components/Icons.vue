@@ -1,6 +1,6 @@
 <template>
     <div class="icons">
-        <swiper >
+        <swiper :options="swiperOption" v-if="showSwiper">
             <swiper-slide v-for="(page,index) of pages" :key="index">
                 <div class="icon"  v-for="item of page" :key=item.id>
                     <div class="icon-img">
@@ -14,47 +14,16 @@
 </template>
 
 <script>
-export default{
+export default {
     name: 'HomeIcons',
+    props: {
+        iconList: Array
+    },
     data() {
         return {
-            iconList: [{
-                id: '0001',
-                imgUrl: 'https://fuss10.elemecdn.com/3/01/c888acb2c8ba9e0c813f36ec9e90ajpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '热门景点快点来玩啊大爷'
-            },{
-                id: '0002',
-                imgUrl: 'https://fuss10.elemecdn.com/7/0a/af108e256ebc9f02db599592ae655jpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '滑雪季'
-            },{
-                id: '0003',
-                imgUrl: 'https://fuss10.elemecdn.com/c/7e/76a23eb90dada42528bc41499d6f8jpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '好吃的'
-            },{
-                id: '0004',
-                imgUrl: 'https://fuss10.elemecdn.com/3/01/c888acb2c8ba9e0c813f36ec9e90ajpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '好玩的'
-            },{
-                id: '0005',
-                imgUrl: 'https://fuss10.elemecdn.com/3/01/c888acb2c8ba9e0c813f36ec9e90ajpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '热门景点'
-            },{
-                id: '0006',
-                imgUrl: 'https://fuss10.elemecdn.com/3/01/c888acb2c8ba9e0c813f36ec9e90ajpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '热门景点'
-            },{
-                id: '0007',
-                imgUrl: 'https://fuss10.elemecdn.com/3/01/c888acb2c8ba9e0c813f36ec9e90ajpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '热门景点'
-            },{
-                id: '0008',
-                imgUrl: 'https://fuss10.elemecdn.com/3/01/c888acb2c8ba9e0c813f36ec9e90ajpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '热门景点'
-            },{
-                id: '0009',
-                imgUrl: 'https://fuss10.elemecdn.com/3/01/c888acb2c8ba9e0c813f36ec9e90ajpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/',
-                desc: '来吧'
-            },]
+            swiperOption: {
+                loop: true
+            }
         }
     },
     computed: {
@@ -68,6 +37,9 @@ export default{
                 pages[page].push(item)
             })
             return pages
+        },
+        showSwiper () {
+            return this.iconList.length
         }
     }
 }

@@ -6,17 +6,27 @@
         <div class="header-input">
             <span class="iconfont">&#xe632;</span>
             输入城市/景点/主题
-        </div>
-        <div class="header-right">
-            城市
-            <span class="iconfont">&#xe62d;</span>
-        </div>
+    </div>
+        <router-link to="city">
+            <div class="header-right" @click="handleClick">
+                {{city}}
+                <span class="iconfont">&#xe62d;</span>
+            </div>
+        </router-link>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'HomeHeader'
+    name: 'HomeHeader',
+    props: {
+        city: String
+    },
+    methods: {
+        handleClick: function() {
+            // alert(this.city)
+        }
+    }
 }
 </script>
 
@@ -47,6 +57,6 @@ export default {
             width 62px
             float right
             text-align center
-        
+            color #fff
 </style>
 

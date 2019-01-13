@@ -215,8 +215,7 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 				...
 				'corsheaders',
 				...
-			}
-			
+			}			
 			# 添加cors的中间件
 			MIDDLEWARE = [  # Or MIDDLEWARE_CLASSES on Django < 1.10
 				...
@@ -225,14 +224,12 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 				'django.middleware.common.CommonMiddleware',
 				...
 			]
-
 			# 最后设置允许所有跨域 或者 设置允许跨域的白名单  以下二选一
 			CORS_ORIGIN_ALLOW_ALL = True 
 			# CORS_ORIGIN_WHITELIST = (
 			#  'localhost:8080',
 			#  '127.0.0.1:9000'
 			# )
-			
 	*********下面太麻烦，但是测试用本地文件还是需要配的
 		axios.get('/api/index.json') 开发环境中，通过webpack配置文件将/api进行转发，上线不需要改代码
 			config/index.js 中 dev：{proxyTable:{	}} 将/api 进行转发 ,并且可以用本地	/static/mock目录临时代替
@@ -244,9 +241,28 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 					}
 				}
 				}
-	跨域问题：
 		
+7-9 首页父子传值
+	先在父组件data中定义
+		data () {
+			return {
+				city: '',
+				swiperList: [],
+				iconList: []
+			}
+		}
+	res = res.data,然后传值给定义的data
+	然后在模板中绑定，再到子组件中props接收
+		************页面初始化时，可能先显示的是最后一页，而且不能loop。	是因为定义的是空数组，在没得到ajax数据时显示的是空的，得到数据后重新渲染的
+			只需要在swiper中添加	v-if="list.length"
+			但是不建议在模板中使用逻辑，因此 v-if="showSwiper" 用computed 计算 showSwiper
 
+8-1 城市组件开发 header
+		配置路由
+		header组件中写<router-link to="city">.....</router-link>
+8-2 城市搜索框
+
+8-3 列表布局
 
 8-4 better-scroll插件的使用，达到原生app拖拽效果
 
