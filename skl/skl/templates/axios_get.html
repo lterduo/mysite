@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <title>发送get请求</title>
+    <script>
+        window.onload=function(){
+            new Vue({
+                el:'#app',
+                data:{
+                    users:{
+                        name:'',
+                        age:''
+                    }
+                },
+                methods:{
+                    //axios.get的发送参数有两种，两个ajax请求函数都可实现
+                    sendGetByStr(){
+                        //1.get通过直接发字符串拼接
+                        axios.get(`get.php?name=${this.users.name}&age=${this.users.name}`)
+                          .then(function (response) {
+                            console.log(response.data);
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                        });
+
+                    },
+                    sendGetByObj(){
+                        //2.get通过params选项
+                        axios.get(`get.php?`,{
+                            params:{
+                                name:this.users.name,
+                                age:this.users.age
+                            }
+                        })
+                          .then(function (response) {
+                            console.log(response.data);
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                        });
+
+                    }
+                }
+            });
+        }
+
+        
+    </script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" :name="users.name" v-model="users.name" placeholder="姓名">
+        <input type="text" :age="users.age" v-model="users.age" placeholder="年龄">
+        <button @click="sendGetByStr">发送get请求</button>
+    </div>
+    
+</body>
+</html>
+
+作者：我就
+链接：https://www.jianshu.com/p/a5fc834ea028
+來源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
