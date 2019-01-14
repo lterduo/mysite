@@ -264,11 +264,26 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 
 8-3 列表布局
 
-8-4 better-scroll插件的使用，达到原生app拖拽效果
+8-4 Better-scroll使用和字母表布局
+		cnpm i better-scroll --save 
+		根据github文档，要在需要滚动的区域外层包裹一层，也就四在  list和  area中间加一层 div，给list一个  ref='wrapper'
+		import BScroll from 'better-scroll'
+		创建mounted钩子，创建一个this.scroll属性（或者const scroll)，等于Bscroll实例，将this.$refs.wrapper传入
+	
+	display:flex	弹性布局
+		flex-direction column
+		justify-content center
 
 8-5 axios动态数据渲染
+		注意循环对象的时候，第二项不是index，而是key
+		<div class="area" v-for="(item, key) of cities" :key="key">   ****将key赋值给key没问题，因为key是不重复的
+			<div class="title border-topbottom">{{key}}</div>
+				<div class="item-list" v-for="innerItem of item" :key="innerItem.id">
+					<div class="item border-bottom">{{innerItem.name}}</div>
 
-8-6 兄弟数据联动
+
+					
+8-6 兄弟组件间联动
 
 8-7 列表切换性能提升
 
