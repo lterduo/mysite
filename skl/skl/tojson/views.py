@@ -11,7 +11,7 @@ def vue_home(request):
     return render(request, 'test.json')
 
 def vue_city(request):
-    return render(request,'city.json')
+    return render(request,'city.json') 
 
 def add(request):
     title = request.GET['title']

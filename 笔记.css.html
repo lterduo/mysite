@@ -206,15 +206,31 @@
 			脱离标准流的，和float一样不区分行内、块级
 				position: absolute;	（配合top/right/bottom/left参数使用）
 			如果一个绝对定位的元素有祖先元素，且祖先元素也是绝对、相对、固定定位的（只有静态的不行），则要相对祖先元素来定位，如果有多个祖先，选最近的
-			绝对定位会忽略父元素的padding
+				绝对定位会忽略父元素的padding
 				如果一个元素以body做绝对定位，则是首屏body，会随着滚动条滚动
-		3、固定定位
-		4、静态定位
+154	绝对定位-水平居中
+	position: absolute
+	left: 50%
+	margin-left: -150px    //-元素width/2
+
+157	固定定位
+	脱标的，不区分行内、块级
+	不随着滚动条的滚动而滚动
+		导航条、广告、返回按钮
+
+159	静态定位，默认就是静态定位
+	z-index属性：控制定位流覆盖关系，默认值0
+		定位流会盖住标准流，后面的会盖住前面的，如果设置了z-index，谁大谁在上面
+		***从父现象，如果父亲设置了z-index，子的实效
 	
 160	a标签的伪类选择器  修改a标签不同状态的样式
 		a:link	a:visited 	a:hover		a:active 	如果多个一起出现，要按照严格的顺序
 		LoVe HAte3+++
-
+	其他标签页一样使用伪类选择器
+	
+164	过渡模块
+	transition-property: width
+	transition-buration: 5s
 
 
 

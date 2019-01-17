@@ -1,38 +1,48 @@
 <template>
     <div>
         <city-header></city-header>
-        <city-serch></city-serch>
-        <city-list :cities="cities" :hotCities="hotCities"></city-list>
-        <city-alphabet :cities="cities"></city-alphabet>
+        <city-search :cities="cities"></city-search>
+        <city-list 
+            :cities="cities" 
+            :hotCities="hotCities" 
+            :letter="letter"
+        >
+        </city-list>
+        <city-alphabet 
+            :cities="cities"
+            @change="handleLetterChange"
+        >
+        </city-alphabet>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
 import CityHeader from './components/CityHeader'
-import CitySerch from './components/Serch'
+import CitySearch from './components/Search'
 import CityList from './components/List'
 import CityAlphabet from './components/Alphabet'
 
-axios.defaults.baseURL = 'http://localhost:8000/vue_city'
+axios.defaults.baseURL = 'http://localhost:8000'
 
 export default {
     name: "City",
     components: {
         CityHeader,
-        CitySerch,
+        CitySearch,
         CityList,
         CityAlphabet
     },
     data () {
         return {
             cities: {},
-            hotCities: []
+            hotCities: [],
+            letter:''
         }
     },
     methods: {
         getCityInfo () {
-            axios.get()
+            axios.get('/vue_city')
                 .then(this.getCityInfoSucc)
         },
         getCityInfoSucc (res) {
@@ -41,8 +51,12 @@ export default {
                 const data = res.data
                 this.cities = data.cities
                 this.hotCities = data.hotCities
-                console.log(this.cities)
+                // console.log(this.cities)
             }
+        },
+        handleLetterChange (letter) {
+            // console.log(letter)
+            this.letter = letter
         }
     },
     mounted () {

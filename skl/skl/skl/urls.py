@@ -25,3 +25,4 @@ urlpatterns = [
     path('vue_home',views.vue_home),
     path('vue_city',views.vue_city)
 ]
+

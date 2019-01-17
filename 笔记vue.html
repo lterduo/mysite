@@ -284,10 +284,22 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 
 					
 8-6 兄弟组件间联动
+	1、点击字母，滚动到相应区域。
+		alphabet通过$emit传给city，city通过绑定子组件list属性穿给list，
+		list接受后，watch监听，调用betterScroll的函数	scrollToElement 滚动
+	2、拖动字母
+		绑定touchmove事件（注意是小写，触发前先定义touchstart和touchend），
+		计算滑动到的字母，调用this.$emit('change',xxx)
 
-8-7 列表切换性能提升
+8-7 alphabet列表切换性能提升
+	1、const startY = this.$refs['A'][0].offsetTop   //[0]才是dom元素。offsetTop是距离顶部的像素  264
+		放到updated中，而不是touch时计算
+	2、通过函数节流的方式，减少touchmove执行频率
+		定义一个timer = null
+		this.timer = setTimeout，将代码放入其中延时16毫秒
 
 8-8 搜索功能实现
+	
 
 8-9 vuex实现数据共享
 
