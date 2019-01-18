@@ -300,9 +300,94 @@ router-view显示的是当前路由地址对应的内容，如'/test'就对应�
 
 8-8 搜索功能实现
 	
-
 8-9 vuex实现数据共享
+	新建./store/index.js	使用插件：import，use
+	在main.js中import store， el中定义 store: store
+	在home中、home-header中、list中的城市信息都删除，不用axios获取了，直接使用	this.$store.state.city
+	实现点击按钮切换城市功能：
+		定义click方法，里面调用this.$store.dispatch('changeCity',city)
+		在store/index.js中实现
+					actions中定义	changeCity(ctx,city){
+						ctx.commit(changeCityMutation,city)
+					}
+					mutations中定义 changeCityMutation(state, city) {
+						state.city = city
+					}
+	取数据时，直接用	this.$store.state.xxx
+	改数据时，在相关方法中调用this.$store.dispatch('xxxmethodeDispatch', data)
+		在store的 actions 中定义 xxxmethodDispatch(ctx,data){  //两个参数 ctx,data ,用ctx.commit调用mutation
+			ctx.commit('xxxmethodMutation',data)
+		} 
+		在 mutations 中定义 xxxmethodeMutation(store, data){
+			store.data = ......data 
+		}
+	如果没有异步操作，可以直接在相关方法中调用 this.$store.commit('xxxmethoddMutation', data)
 
-8-10 vuex高级功能  本地存储使用
+	页面跳转，可以用router的编程式导航：  router.puch()
+		this.$router.push('/')
+
+8-10 vuex高级功能  localStorage 本地存储使用
+		h5新增的 localStorage 可以直接使用，但是为了防止用户关闭了本地存储功能或隐身模式，需要在使用时 try...catch
+		当state、actions、mutations比较多时，可以将其查分成三个独立的文件，便于维护
+		this.$store.state.xxx，写法麻烦，可以用 mapState 辅助函数简化
+			在组件中 import { mapState } from 'vuex'
+			将state中要用的data用 mapState 映射到计算属性中
+				computed: {
+					...mapState(['city'])
+				}
+			也可以传对象
+				computed: {
+					...mapState({
+						current: 'city'
+					})
+				}
+				this.changeCity(city)  //
+		mutations也可以映射
+		import { mapState, mapMutations } from 'vuex'
+    	this.$store.commit('changeCityMutation',city)，也可以用mapMutations映射，简化写法
+		methods: {
+			handleCityClick (city) {
+			this.changeCity(city)  //
+			// this.$store.commit('changeCityMutation',city)
+			this.$router.push('/')
+			},
+			//...mapMutations(['changeCityMutation'])   调用时用this.changeCityMutation
+			//传对象也可以
+			...mapMutations({
+			changeCity: 'changeCityMutation'})
+		},
+
+		getters：{ }	类似于组件的computed属性
+		module：数据过于复杂时可用，便于维护
 
 8-11 keep-alive 优化
+	在App中的<router-view>外面包裹 <keep-alive></keep-alive> 标签 ，页面跳转时读的是缓存而不用请求了
+	使用keep-alive后，多出来一个 activated 钩子，需要发axios请求的时候，放在此钩子里即可。
+
+9-3	header渐隐渐现效果
+	methods: {
+		handleScroll () {
+			//特别注意，scrollTop中的每一对 () 都是来自网络的一种取法。已兼容安卓浏览器和UA为苹果的浏览器
+			const top = (window.parent.document.documentElement.scrollTop || window.parent.document.body.scrollTop) || (document.body.scrollTop + document.documentElement.scrollTop) || (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)
+				if (top > 60) {
+					let opacity = top / 140
+					opacity = opacity > 1 ? 1 : opacity
+					this.opacityStyle = { opacity: opacity }
+					this.showAbs = false
+				} else {
+					this.showAbs = true
+				}
+				// console.log(document.documentElement.scrollTop)
+			}
+	},
+	// 每一次页面展示的时候执行 activated 生命周期钩子
+	activated () {
+		window.addEventListener('scroll', this.handleScroll)
+	},
+	// 使用 deactivated 生命周期钩子（页面即将被隐藏或替换成其他页面时） 对全局事件解绑
+	deactivated () {
+		window.removeEventListener('scroll', this.handleScroll)
+	},
+9-4	对全局事件解绑！！！！！！！！！！！！！！！！！！！！
+	deactivated () {
+		window.removeEventListener('scroll', this.handleScroll)

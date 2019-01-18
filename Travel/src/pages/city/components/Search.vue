@@ -6,7 +6,8 @@
         <div class="search-content" ref="search" v-show="keyword">
           <ul>
             <li class="search-item border-bottom" 
-            v-for="item of list" :key="item.id">
+            v-for="item of list" :key="item.id"
+            @click="handleCityClick(item.name)">
               {{item.name}}</li>
             <li class="search-item border-bottom" v-if="!list.length">没有找到符合条件的城市</li>
           </ul>
@@ -28,13 +29,20 @@ export default {
       timer: null
     }
   },
+  methods:{
+    handleCityClick (city) {
+      // this.$store.dispatch('changeCity',city)
+      this.$store.commit('changeCityMutation',city)
+      this.$router.push('/')
+    }
+  },
   watch: {
     keyword () {
       if (this.timer) {
         clearTimeout(this.timer)
       }
       if (!this.keyword) {
-        list = []
+        this.list = []
         return
       }
       this.timer = setTimeout(() => {
