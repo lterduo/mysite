@@ -1,0 +1,25 @@
+（自己方案，视频有集中解决，所以不用： C:\Users\Administrator\.gradle\wrapper\dists
+	将下载的gradle-2.14-1all.zip放在下两层的 lck 和 part 一起
+	注意修改可能也好用，墙的坑  C:\flutter\packages\flutter_tools\gradle\flutter.gradle
+		修改 buildscript）
+
+2、下载flutter 解压，添加 bin目录到path
+	创建两个变量（可选）
+	PUB_HOSTED_URL=https://pub.flutter-io.cn
+	FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+	flutter doctor
+	启动as，plugsin，flutter
+
+
+创建虚拟机，运行，点击debug
+	Error runing Gradle 错误解决（1.x版本已经修复）
+		Initializing gradle...较长时间
+		Resolving dependencies...卡住：
+		！！！！！曹尼玛太坑了,代码都是拷贝的，换个行数，把谷歌的注释放下边就好使了！！！！！
+			repositories {
+				maven { url 'https://maven.aliyun.com/repository/google' }
+				maven { url 'https://maven.aliyun.com/repository/jcenter' }
+				maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+		//        google()
+		//        jcenter()
+			}
