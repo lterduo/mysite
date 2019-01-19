@@ -1,21 +1,21 @@
-£¨×Ô¼º·½°¸£¬ÊÓÆµÓĞ¼¯ÖĞ½â¾ö£¬ËùÒÔ²»ÓÃ£º C:\Users\Administrator\.gradle\wrapper\dists
-	½«ÏÂÔØµÄgradle-2.14-1all.zip·ÅÔÚÏÂÁ½²ãµÄ lck ºÍ part Ò»Æğ
-	×¢ÒâĞŞ¸Ä¿ÉÄÜÒ²ºÃÓÃ£¬Ç½µÄ¿Ó  C:\flutter\packages\flutter_tools\gradle\flutter.gradle
-		ĞŞ¸Ä buildscript£©
+ï¼ˆè‡ªå·±æ–¹æ¡ˆï¼Œè§†é¢‘æœ‰é›†ä¸­è§£å†³ï¼Œæ‰€ä»¥ä¸ç”¨ï¼š C:\Users\Administrator\.gradle\wrapper\dists
+	å°†ä¸‹è½½çš„gradle-2.14-1all.zipæ”¾åœ¨ä¸‹ä¸¤å±‚çš„ lck å’Œ part ä¸€èµ·
+	æ³¨æ„ä¿®æ”¹å¯èƒ½ä¹Ÿå¥½ç”¨ï¼Œå¢™çš„å‘  C:\flutter\packages\flutter_tools\gradle\flutter.gradle
+		ä¿®æ”¹ buildscriptï¼‰
 
-2¡¢ÏÂÔØflutter ½âÑ¹£¬Ìí¼Ó binÄ¿Â¼µ½path
-	´´½¨Á½¸ö±äÁ¿£¨¿ÉÑ¡£©
+2ã€ä¸‹è½½flutter è§£å‹ï¼Œæ·»åŠ  binç›®å½•åˆ°path
+	åˆ›å»ºä¸¤ä¸ªå˜é‡ï¼ˆå¯é€‰ï¼‰
 	PUB_HOSTED_URL=https://pub.flutter-io.cn
 	FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 	flutter doctor
-	Æô¶¯as£¬plugsin£¬flutter
+	å¯åŠ¨asï¼Œplugsinï¼Œflutter
 
 
-´´½¨ĞéÄâ»ú£¬ÔËĞĞ£¬µã»÷debug
-	Error runing Gradle ´íÎó½â¾ö£¨1.x°æ±¾ÒÑ¾­ĞŞ¸´£©
-		Initializing gradle...½Ï³¤Ê±¼ä
-		Resolving dependencies...¿¨×¡£º
-		£¡£¡£¡£¡£¡²ÜÄáÂêÌ«¿ÓÁË,´úÂë¶¼ÊÇ¿½±´µÄ£¬»»¸öĞĞÊı£¬°Ñ¹È¸èµÄ×¢ÊÍ·ÅÏÂ±ß¾ÍºÃÊ¹ÁË£¡£¡£¡£¡£¡
+åˆ›å»ºè™šæ‹Ÿæœºï¼Œè¿è¡Œï¼Œç‚¹å‡»debug
+	Error runing Gradle é”™è¯¯è§£å†³ï¼ˆ1.xç‰ˆæœ¬å·²ç»ä¿®å¤ï¼‰
+		Initializing gradle...è¾ƒé•¿æ—¶é—´
+		Resolving dependencies...å¡ä½ï¼š
+		ï¼ï¼ï¼ï¼ï¼æ›¹å°¼ç›å¤ªå‘äº†,ä»£ç éƒ½æ˜¯æ‹·è´çš„ï¼Œæ¢ä¸ªè¡Œæ•°ï¼ŒæŠŠè°·æ­Œçš„æ³¨é‡Šæ”¾ä¸‹è¾¹å°±å¥½ä½¿äº†ï¼ï¼ï¼ï¼ï¼
 			repositories {
 				maven { url 'https://maven.aliyun.com/repository/google' }
 				maven { url 'https://maven.aliyun.com/repository/jcenter' }
@@ -23,3 +23,10 @@
 		//        google()
 		//        jcenter()
 			}
+
+
+5	vscodeå®‰è£…flutter
+	åˆ›å»ºemulatorçš„bat
+	ctr+` è¿è¡Œflutter run
+
+6
