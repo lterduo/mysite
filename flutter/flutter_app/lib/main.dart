@@ -1,50 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
-void main () => runApp(MyAppContainer());
+void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext content){
-    return MaterialApp(
-      title: 'Text Widget',
-      home: Scaffold(
-        body: Center(
-          child: Text(
-            'Hei,maxLines属性设置最多显示的行数，比如我们现在只显示1行，类似一个新闻列表的题目。代码如下：overflow属性是用来设置文本溢出时，如何处理,它有下面几个常用的值供我们选择。',
-            // textAlign: TextAlign.center,
-            textAlign: TextAlign.left,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 20,
-              color: Color.fromARGB(255, 255, 100, 200),
-              decoration: TextDecoration.underline,
-              decorationStyle: TextDecorationStyle.double,
-              decorationColor: Color.fromARGB(255, 200, 200, 200)
-            ),
-            ),
-        )
-      )
+  //构建一个容器
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      theme: ThemeData(primaryColor: Colors.yellowAccent),
+      title: 'Startup Name Generator',
+      home: new RandomWords(),//定义子组件为有状态控件RandomWords类的实例
     );
   }
 }
 
-class MyAppContainer extends StatelessWidget{
+class RandomWords extends StatefulWidget{
   @override
-  Widget build(BuildContext content){
-    return MaterialApp(
-      title: 'Text Widget',
-      home: Scaffold(
-        body: Center(
-          child: Container(
-            child: Text('我是container......', style:TextStyle(fontSize: 40,)),
-            alignment: Alignment.bottomCenter,
-            height: 400,
-            width: 400,
-            color: Colors.red,
-          ),
-        ),
+  createState() => new RandomWordsState();
+}
+
+class RandomWordsState extends State<RandomWords>{
+  @override
+  // final _suggestions = <WordPair>[];
+  final _suggestions = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);   //用于标识字符串的样式
+  final _saved = Set<WordPair>();
+
+  Widget build(BuildContext context) {
+    return new Scaffold (
+      appBar: new AppBar(
+        title: new Text('Startup Name Generator'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.list),onPressed: _pushSaved,),
+        ],
       ),
+      body: _buildSuggestions(), 
+    );
+  }
+
+  Widget _buildSuggestions() {
+    return new ListView.builder(  //ListView(列表视图)是material.dart中的基础控件
+      padding: const EdgeInsets.all(16.0),  //padding(内边距)是ListView的属性，配置其属性值
+      //通过ListView自带的函数itemBuilder，向ListView中塞入行，变量 i 是从0开始计数的行号
+      //此函数会自动循环并计数，咋结束的我也不知道，走着瞧咯
+      itemBuilder: (context, i) {
+        if (i.isOdd) return new Divider();//奇数行塞入分割线对象
+        final index = i ~/ 2;  //当前行号除以2取整，得到的值就是_suggestions数组项索引号
+        // 如果计算得到的数组项索引号超出了_suggestions数组的长度，那_suggestions就再生10个随机组合的字符串词组
+        if (index >= _suggestions.length) {
+          _suggestions.addAll(generateWordPairs().take(10));
+        }
+        print(Text('${_suggestions[index]}'));
+        return _buildRow(_suggestions[index]);//把这个数据项塞入ListView中
+      }
+    );
+  }
+
+  //定义的_suggestions数组项属性
+  Widget _buildRow(WordPair pair) {
+    final alreadySaved = _saved.contains(pair);
+    return new ListTile(
+      title: new Text(
+        pair.asPascalCase,  //使用驼峰样式
+        style: _biggerFont,
+      ),
+      trailing: Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: Colors.red,
+      ),
+      onTap: () {
+        setState((){
+          if (alreadySaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      }
+    );
+  }
+  //点击跳转 navigator用法
+  void _pushSaved(){
+    print('点我！');
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          final tiles = _saved.map(
+            (pair) {
+              return Text('${pair.asPascalCase}');
+            }
+          );
+          return Scaffold(
+            appBar: AppBar(title: Text('收藏列表'),), 
+            body: ListView(
+              children: tiles.toList(),
+            )
+          );
+        }
+      )
     );
   }
 }
