@@ -8,7 +8,7 @@ def index(request):
     return render(request, 'index.html')
     
 def vue_home(request):
-    return render(request, 'test.json')
+    return render(request, 'photo.json')
 
 def vue_city(request):
     return render(request,'city.json') 

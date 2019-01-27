@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
+
 import './home/home_screen.dart';
 import './constants.dart' show AppColors;
 
-void main() => runApp(MaterialApp(
-  title: '微信',
-  //建议使用theme来定义背景色等统一的信息
-  theme: ThemeData.light().copyWith(
-    primaryColor: Color(AppColors.AppBarColor)
-  ),
-  home: HomeScreen(),
-));
+import './test.dart';
+import './flutterChina/main.dart';
+
+void main() {
+  debugPaintSizeEnabled = false; //打开视觉调试开关
+
+  runApp(MaterialApp(
+    title: '微信',
+    //建议使用theme来定义背景色等统一的信息
+    theme:
+        ThemeData.light().copyWith(primaryColor: Color(AppColors.AppBarColor)),
+    home: Main(),
+  ));
+}
 
 // class MyApp extends StatelessWidget {
 //   // This widget is the root of your application.
@@ -73,7 +82,7 @@ void main() => runApp(MaterialApp(
 
 //   @override
 //   Widget build(BuildContext context) {
-    
+
 //     return Scaffold(
 //       appBar: AppBar(
 //         // Here we take the value from the MyHomePage object that was created by

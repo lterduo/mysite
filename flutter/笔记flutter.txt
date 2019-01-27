@@ -1,32 +1,26 @@
-（自己方案，视频有集中解决，所以不用： C:\Users\Administrator\.gradle\wrapper\dists
-	将下载的gradle-2.14-1all.zip放在下两层的 lck 和 part 一起
-	注意修改可能也好用，墙的坑  C:\flutter\packages\flutter_tools\gradle\flutter.gradle
-		修改 buildscript）
+﻿
+全局状态管理，可以使用 redux 包
+简单数据存储 shared_preferences
+http	dio
+********************************
 
-2、下载flutter 解压，添加 bin目录到path
-	创建两个变量（可选）
-	PUB_HOSTED_URL=https://pub.flutter-io.cn
-	FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-	flutter doctor
-	启动as，plugsin，flutter
-
-
-创建虚拟机，运行，点击debug
-	Error runing Gradle 错误解决（1.x版本已经修复）
-		Initializing gradle...较长时间
-		Resolving dependencies...卡住：
-		！！！！！曹尼玛太坑了,代码都是拷贝的，换个行数，把谷歌的注释放下边就好使了！！！！！
-			repositories {
-				maven { url 'https://maven.aliyun.com/repository/google' }
-				maven { url 'https://maven.aliyun.com/repository/jcenter' }
-				maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
-		//        google()
-		//        jcenter()
-			}
-
-
-5	vscode安装flutter
-	创建emulator的bat
-	ctr+` 运行flutter run
-
-6
+Map<String, dynamic> users = JSON.decode(msg);
+dart升级了，JSON要小写
+void getHttp() async {
+    try {
+      Response response = await dio.get('http://192.168.1.116:8000/vue_home');
+      //非常重要，避免渲染时获得空数据而报错，我写的这段没效果，而是在imgs加了await
+      if (!mounted) return;  
+      var msg = response.data.toString();
+      imgs =  await json.decode(msg);
+	//有可能获得空值，在声明时赋值0，写在setState里
+      setState(() {
+        _itemCount = imgs.length;
+      });
+      _itemCount = imgs.length;
+      debugPrint(msg);
+      debugPrint(imgs.length.toString());
+    } catch (e) {
+      return print(e);
+    }
+  }
