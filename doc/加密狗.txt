@@ -1,0 +1,47 @@
+获取USB设备参数
+
+将usb设备插入主机之前
+
+$lsusb > usb.old
+
+usb设备插入主机之后
+
+$lsusb > usb.new
+然后
+
+vimdiff usb.old usb.new
+
+找到新增加的那一行，类似下面这行
+
+Bus 002 Device 004: ID 13fd:1040 Initio Corporation
+
+ID后面的两个字段分别是vendor_id和product_id
+
+
+宿主机上新建usb_device.xml 
+usb_device.xml内容如下
+
+< hostdev mode='subsystem' type='usb' managed='yes'>
+< source>
+< vendor id='0x13fd'/>
+< product id='0x1040'/>
+< /source>
+< /hostdev>
+
+
+最后一步绑定
+[root@node-16 ~]# virsh attach-device 虚拟机名字 usb_device.xml
+Device attached successfully
+成功绑定
+ 
+可以查看配置文件：
+virsh dumpxml 虚拟机名字，存在下面一段：
+
+< hostdev mode='subsystem' type='usb' managed='yes' >
+      < source>
+        < vendor id='0x13fd'/>
+        < product id='0x1040'/>
+      < /source>
+      < alias name='hostdev0'/>
+    < /hostdev>
+

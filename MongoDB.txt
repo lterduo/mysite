@@ -1,0 +1,64 @@
+非官方下载地址
+	https://blog.csdn.net/alvin_lam/article/details/80970430
+
+安装时选择是否作为service
+
+安装完成后，新建目录d:/mongodb/data/db
+指定目录
+	$ mongod -dbpath d:\mongodb\data\db
+python依赖
+	pip install pymongo
+第三方工具	连接不上
+	https://robomongo.org/download
+概念对比：
+	database		database
+	table		collection
+	row		document
+	column		field
+	index		index
+	primary_key	primary_key	MongoDB自动将_id字段设置为主键
+
+use admin
+db.auth("admin","admin")
+db.dropUser("admin")
+db.createUser({user:"admin",pwd:"admin",roles:[{"role":"userAdminAnyDatabase","db":"admin"},{"role":"readWrite","db":"test"}]})
+
+查看有数据的数据库
+	show dbs	
+创建集合
+	db.createCollection("name",options)	options可选
+删除集合
+	db.collectionName.drop()
+db.collectionName.insert()	命令行可以省略双引号
+db.collectionName.find()
+db.collectionName.find().pretty
+
+update必须有set，否则会只剩下被update的field
+	db.user.update(
+	    {
+	        "name":"xujunhao"
+  	  },
+ 	   {
+  	      $set:{
+  	          "name":"mike"
+   	     }
+  	  },
+  	  {
+  	      multi:true
+  	  }
+save方法也一样，需要set。save只能一次改一条，根据主键查找
+
+删除文档
+db.collection_name.remove(
+    query, # 删除之前先查询, 如果没有查询条件, 则删除所有
+    {
+        justOne: boolean, # 只删除一个文档, 默认为false
+        writeConcern: document # 异常抛出级别
+    }
+)
+删除name为xujunhao的文档
+
+db.user.remove({
+    "name": "xujunhao"
+})
+)

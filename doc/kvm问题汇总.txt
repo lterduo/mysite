@@ -1,0 +1,140 @@
+
+1、临时关闭（不用重启机器）：
+setenforce 0                  ##设置SELinux 成为permissive模式
+                              ##setenforce 1 设置SELinux 成为enforcing模式
+2、修改配置文件需要重启机器：
+修改/etc/selinux/config 文件
+将SELINUX=enforcing改为SELINUX=disabled
+重启机器即可 
+
+
+<input type=’tablet’ bus=’usb’/>
+
+virsh # migrate centos64a qemu+ssh://root@labkvm1-private/system --live  --persistent --undefinesource --verbose
+
+setsebool -P 
+
+migrate静态迁移时只迁移xml文件，不迁移镜像，需要手动mv
+
+提高性能要使用virtio
+
+最小化安装，默认不启动图形界面
+https://jingyan.baidu.com/article/ea24bc39960fa0da62b331e0.html
+systemctl set-default graphical.target
+multi-user.target
+startx   init 5    init 3
+Ctrl + Alt +F1，到图形界面      Ctrl + Alt +F2，到命令行界面
+
+#第一：在物理机上创建一个桥接设备
+	vim /etc/sysconfig/network-scripts/ifcfg-br0
+DEVICE=br0
+TYPE=Bridge
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=172.17.100.56
+PREFIX=24
+GATEWAY=172.17.100.1
+DNS1=114.114.114.114			
+#第二：在物理机上将物理网卡设备设为桥接模式
+	vim /etc/sysconfig/network-scripts/ifcfg-enp3s0
+
+TYPE=Ethernet
+BOOTPROTO=none
+DEVICE=enp6s0
+ONBOOT=yes
+BRIDGE=br0
+HWADDR=6c:92:bf:08:22:55
+#第三：在物理机上重启网络服务
+	systemctl restart network
+第四：内网的gateway一定不能设
+第五：桌面环境默认用NetworkManager管理网络，可以在界面下将配置都删除即可使用vi的配置文件了
+p2v v2v迁移
+安装libguestfs-winsupport
+# yum -y install libguestfs-winsupport
+
+# rpm -qi libguestfs-winsupport
+# wget https://fedorapeople.org/groups/virt/virtio-win/virtio-win.repo -O /etc/yum.repos.d/virtio-win.repo
+
+# yum -y install virtio-win
+# rpm -ql virtio-win
+
+virt-v2v 安装
+# yum install virt-v2v
+
+
+
+
+调整分区
+# mkdir /backup
+# mv /home/* /backup/
+# fuser -km /home
+# umount /home
+# lvremove /dev/cl/home
+# lvcreate -L 50G -n home cl
+     
+# mkfs -t xfs /dev/cl/home
+# mv /backup/* /home/
+# rm -rf /backup
+# vgdisplay 查看剩余空间
+# lvcreate -L 100G -n lvdrbd0 cl
+
+lvcreate -l 50%Free -n lvdata0 cl 
+mkfs.xfs /dev/cl/lvdata0
+mkdir /data
+mount /dev/cl/lvdata0 /data
+vi /etc/fstab  开机自动挂载
+
+·  ·  
+vgdisplay
+# lvextend -L +xxxG /dev/cl/root
+·  ·  # xfs_growfs /dev/cl/root
+·  ·  
+
+远程桌面：
+看是否装了桌面 #rpm -qa | grep gnome
+安装xrdp #yum install xrdp -y
+#systemctl start xrdp
+#systemctl enable xrdp
+还要装vnc，删了
+#yum remove xrdp
+
+https://blog.csdn.net/evandeng2009/article/details/49814097
+# mkdir /backup
+# mv /home/* /backup/
+#fuser -km /home
+·  ·  # umount /home
+·  ·  # lvremove /dev/centos/home
+·  ·  # lvcreate -L 50G -n home cents
+·  ·  # mkfs -t xfs /dev/centos/home
+·  ·  # mv /backup/* /home/
+·  ·  # lvextend -L +xxxG /dev/centos/root
+·  ·  # xfs_growfs root
+·  ·  # rm -rf /backup
+
+lvcreate -L 100G -n lv_drbd0 cents(具体查看)
+
+1.查看分区
+df -h (centos-home和centos-root每人的名字可能不一样) 
+vgdisplay (查看空闲磁盘大小）
+2.备份home分区文件
+tar cvf /tmp/home.tar /home
+3.卸载/home，如果无法卸载，先终止使用/home文件系统的进程
+umount /home （卸载）
+fuser -km /home/（终止）
+4.删除/home所在的lv
+lvremove /dev/mapper/centos-home
+5.扩展/root所在的lv
+lvextend -L +50G /dev/mapper/centos-root
+6.扩展/root文件系统
+xfs_growfs /dev/mapper/centos-root
+7.重新创建home lv 
+lvcreate -L 50G -n /dev/mapper/centos-home 
+8.创建文件系统
+mkfs.xfs /dev/mapper/centos-home
+9.挂载home
+mount /dev/mapper/centos-home
+10.home文件恢复
+tar xvf /tmp/home.tar -C /home/
+
+
+

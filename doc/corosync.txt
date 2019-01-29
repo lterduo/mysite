@@ -1,0 +1,327 @@
+1、
+yum -y install pacemaker corosync pcs psmisc policycoreutils-python fence-agents-all
+yum -y update
+2、
+hostnamectl set-hostname skl-node1
+vi /etc/hosts 
+添加 
+172.17.100.55 skl-node1   172.17.100.56 skl-node2 
+3、
+ls -a
+ssh-keygen -t rsa -P ''
+ssh-copy-id -i .ssh/id_rsa.pub root@skl-node2
+4、
+/sbin/ntpdate time.windows.com
+crontab -e 添加
+*/30 * * * *  /sbin/ntpdate time.windows.com &> /dev/null
+检查时钟是否一致 
+ssh skl-node2 'date'; date
+5、
+iptables -L
+systemctl enable firewalld
+systemctl start firewalld
+iptables --list
+firewall-cmd --permanent --add-service=high-availability
+firewall-cmd --reload
+
+6、配置pcs守护进程
+systemctl status pcsd
+systemctl enable pcsd
+ystemctl start pcsd
+systemctl status pcsd
+
+7、hacluster
+tail -n 2 /etc/passwd
+tail -n 2 /etc/shadow
+//echo “112358jqk” | passwd --stdin hacluster
+passwd hacluster
+112358jqk
+验证
+pcs cluster auth skl-node1 skl-node2
+username:hacluster
+配置和同步：
+另开窗口看日志： tail -f /var/log/messages
+
+pcs cluster setup --name cluster-skl skl-node1 skl-node2
+cat /etc/corosync/corosync.conf
+启动
+pcs status
+pcs cluster start --all
+pcs cluster enable --all
+生产环境不要设成enable
+pcs status
+
+web GUI
+
+无共享存储
+1、创建资源
+在所有节点上都要操作
+pcs status
+pcs resource 查看一下状态
+pcs resource --help
+pcs resource list | more 
+pcs resource describe....
+
+pcs resouce create VirtualIP ocf:heartbeat:IPAddr2 \
+ip=x.x.x.x cidr_netmusk=24 op monitor interval=30s
+yum -y install httpd wget
+systemctl start httpd
+如果无法访问，则修改防火墙
+firewall-cmd --permanent --add-service=http
+firewall-cmd --reload
+cd /var/www/html
+cat <<-END > /var/www/html/index.html
+<html>
+<body>Test -- $(hostname)</body>
+</html>
+END
+此时应该可以访问
+
+apache 状态url
+#cd /etc/httpd/conf.d
+#ls
+#vi status.conf
+<Location /server-status>
+SetHandler server-status
+Order deny,allow
+Deny from all
+Allow from 127.0.0.1
+</Location>
+创建website
+#pcs resource create Website1 ocf:heartbeat:apache \
+configfile=/etc/httpd/conf/httpd.conf \
+statusurl=”http://localhost/server-status” \
+op monitor interval=1min
+#pcs status
+另开窗口
+#tail -f /var/log/messages
+#pcs status
+Pacemaker默认资源不放在一个节点上，必须将ip和website限制在一个节点上。此时访问VirtualIP，无法访问。
+#pcs constraint
+#pcs constraint colocation add Website1 with VirtualIP INFINITY （场地约束，永久绑定）
+#pcs constraint 此时ip和website处于同一个节点上（node1），访问ip，显示node1
+#pcs cluster standby node1 
+#pcs status  自动飘到node2，访问ip，显示node2
+#pcs cluster unstandby node1  恢复node1正常状态
+#pcs status  节点都online，但是资源不会回切到node1
+顺序约束
+#pcs constraint order VirtualIP then Website1 
+位置约束 node1配置高，所以优先将资源放在node1上，所以给一个高于node2的分数。
+此时访问ip显示node2。修改分数后应该为node1
+#pcs status
+#pcs constraint location Website1 prefers node1=50 
+
+
+nfs共享存储
+#pcs resource delete Website1
+可以不删
+#pcs status
+#pcs constraint
+#pcs resouce delete VirtualIP
+
+yum -y install nfs-utils
+systemctl enable rpcbind
+systemctl start rpcbind
+systemctl enable nfs-server
+systemctl start nfs-server
+
+firewall-cmd --list-service
+firewall-cmd --get-service
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --permanent --add-service=rpc-bind
+firewall-cmd --permanent --add-service=mountd
+firewall-cmd --reload 
+
+showmount -e localhost
+mkdir /http
+ll -d /http/
+chmod a+w /http
+vi  /etc/exports 添加
+/http *(rw)
+systemctl restart nfs-server
+showmount -e localhost
+
+在其他节点都要安装配置nfs
+yum -y install nfs-utils
+修改 /etc/hosts 添加
+x.x.x.x stor1
+showmount -e stor1
+测试：
+mkdir /mnt/nfs
+mout stor1:/http /mnt/nfs
+cp ~/anaconda-ks.cfg /mnt/nfs/test1.txt
+到节点2
+mkdir /mnt/nfs
+mout stor1:/http /mnt/nfs
+ls /mnt/nfs/test1.txt
+读写都没问题，则两个节点都
+umount /mnt/nfs
+
+创建集群资源
+pcs resource list （查看所有支持的资源）
+pcs resource list ocf:heartbeat:Filesystem
+pcs resource describe ocf:heartbeat:Filesystem （详细描述用法）
+
+pcs resource create ClusterIP ocf:heartbeat:IPAddr2 \
+ip=x.x.x.x cidr_netmask=24 op monitor interval=30s
+
+pcs resource create WebFS ocf:heartbeat:Filesystem \
+device=’stor1:/http’ directory=’/var/www/html/’ fstype=’nfs’ \
+op monitor interval=20s timeout=40s \
+op start timeout=60s op stop timeout=60s
+pcs resource (对比一下 pcs status ，看结果)
+9:03
+
+
+SAN共享存储
+1、在stor1上
+fdisk -l
+yum -y install targetcli
+firewall-cmd --list-service
+firewall-cmd --get-service
+firewall-cmd --add-service=iscsi-target --permanent
+firewall-cmd --reload
+targetcli
+创建block
+创建target
+创建lun
+在node1、 2上安装
+vi
+在stor1上创建node1、node2的访问列表acls
+systemctl enable target
+systemctl restart target
+在node1、node2上
+iscsiadm --help
+发现stor1
+iscsiadm --mode（或者-m） discovery --type sendtargets --portal x.x.x.x
+此时fdisk -l 没有发现新存储
+iscsiadm -m node --login （-d 2 加上debug信息）
+此时 fdisk -l 发现新存储
+两个节点都logout
+iscsiadm -m node --logout
+systemctl enable iscsi
+systemctl enable iscsid
+
+
+
+
+
+
+drbd
+清除群集信息
+cd /var/lib/pcsd/
+cat tokens 将配置文件清除
+
+ cluster-skl skl-node1 skl-node2
+
+lvcreate -L 100G -n lvdrbd0 cl
+安装drbd
+#DRBD管理软件的安装（先添加key和elrepo源）
+	rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+	rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+
+yum -y install kmod-drbd84 drbd84-utils
+firewall-cmd --permanent --zone=trusted --add-source=172.17.100.0/24
+firewall-cmd --reload
+firewall-cmd --zone=trusted --list-sources
+firewall-cmd --get-active-zones
+配置selinux
+yum install -y policycoreutils-python	#安装这个软件包，才会有下面的命令
+semanage permissive -a drbd_t
+#修改全局配置文件：
+	vi /etc/drbd.d/global_common.conf
+		usage-count yes; 改成no，这是使用计数,drbd团队收集互联网上有多少在使用drbd
+#创建配置文件
+	vi /etc/drbd.d/drbd_kvm.res //最好以.res结尾
+resource drbd_kvm1 {
+	protocol C;
+	meta-disk internal;
+	device /dev/drbd0;  //0开头，drbd1、drbd2....
+	disk /dev/cl/lvdrbd0;
+	net {
+		allow-two-primaries;
+	}
+	on skl-node1 {  //主机名
+		address 172.17.100.55:7789;  //最好用专用网络
+	}
+	on skl-node2 {
+		address 172.17.100.56:7789;
+	}
+
+#初始化
+		drbdadm create-md drbd_kvm1  #创建元数据
+如果出现：ERROR: modinfo: could not find module drbd 
+	 ERROR: modinfo: could not find module drbd
+#yum install kernel* -y #更新内核后重启
+
+		cat /proc/drbd		#此时还看不到状态
+类似命令： drbd-overview
+		modprobe drbd		#加载drbd模块，
+		drbdadm up drbd_kvm1
+		cat /proc/drbd		#此时便能看见状态
+#同步（在其中一个节点上，将其置为主，并查看是否从指定网卡进行同步）
+注意两个节点都设置完再同步
+		drbdadm primary drbd_kvm1 --force   #数据不一致，加force
+		cat /proc/drbd		#查看同步进度
+ll /dev/drbd0
+可以当裸设备用，可以做文件系统等等，
+后面要在群集中添加文件系统，不需要做这步mkfs -t xfs /dev/drbd0 #非群集文件系统
+测试：主节点#mkdir /kvmdata #mount /dev/drbd0 /kvmdata
+#cp anaconda-ks.cfg /kvmdata/test1.txt
+从节点无法mount，需要互换角色才能操作从节点
+节点1：#umount /kvmdata # drbdadm secondary drbd_kvm1
+节点2： #drbdadm primary drbd_kvm1 #mount /dev/drbd0 /kvmdata #ls
+ummount /kvmdata
+
+#创建drbd资源
+#cd
+#pcs cluster cib drbd_cfg
+#pcs -f drbd_cfg resource create DrbdKvm ocf:linbit:drbd \
+drbd_resource=drbd_kvm1 op monitor interval=60s --group drbdgroup
+#pcs -f drbd_cfg resource master DrbdKvmClone DrbdKvm \
+master-max=1 master-node-max=1 clone-max=2 clone-node-max=1 \
+notify=true --group drbdgroup
+#pcs -f drbd_cfg resource show
+#pcs cluster cib-push drbd_cfg
+#创建文件系统
+所有节点 #mkdir /kvmdata
+#pcs cluster cib fs_cfg
+#pcs -f fs_cfg resource create KvmFS ocf:heartbeat:Filesystem \
+device=”/dev/drbd0” directory=”/kvmdata” fstype=”xfs” \
+--group drbdgroup
+#pcs resource show -f fs_cfg
+#pcs -f fs_cfg constraint colocation add KvmFS \
+with DrbdKvmClone INFINITY with-rsc-role=Master
+#pcs -f fs_cfg constraint order promote DrbdKvmClone then start KvmFS
+#pcs constraint show -f fs_cfg
+#pcs cluster cib-push fs_cfg
+
+测试
+#pcs cluster standby sklnode1 #主节点
+#pcs cluster unstandby sklnode1 #取消，然后测试
+进行读写数据测试，查看进程#cat /proc/drbd 等测试
+
+
+
+drbd双活
+运行测试：
+如果node1  standby后unstandby，不能恢复正常
+#cat /proc/drbd 发现变成了主从关系
+可能需要手工#drbdadm primary res_0
+
+
+群集资源管理
+pcs resource update VirtualIP ip=x.x.x.x  不用delete后create
+pcs resource disable 
+
+#pcs resource meta dummy_resource migration-threshold=10
+不要有风吹草动就迁移，先尝试恢复10次
+
+#pcs resource ban resource_id [node]
+防止资源在指定节点中运行
+
+#pcs resource debug-start resource_id
+
+
+
+#echo “date” > /home/log/

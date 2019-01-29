@@ -1,0 +1,607 @@
+基于iscsi
+1.1.拓扑结构
+
+
+
+
+
+1.2.宿主机操作系统安装
+修改了之前的kicksart文件，添加的HA的组件。
+
+# Kickstart file for KVM + HA
+
+#version=RHEL7
+# System authorization information
+auth --enableshadow --passalgo=sha512
+
+# Use CDROM installation media
+install 
+cdrom
+text
+# Run the Setup Agent on first boot
+firstboot --enable
+ignoredisk --only-use=vda
+# Keyboard layouts
+keyboard us
+# System language
+lang en_US.UTF-8
+
+# Network information
+network  --bootproto=dhcp --device=eth0 --onboot=yes --noipv6
+firewall --disabled
+# Root password
+rootpw 123456
+# System timezone
+timezone Asia/Shanghai --isUtc
+# System bootloader configuration
+bootloader --location=mbr --boot-drive=vda
+autopart --type=lvm
+# Partition clearing information
+clearpart --all --initlabel --drives=vda
+reboot
+%packages
+@base
+@core
+@virtualization-hypervisor
+@virtualization-platform
+@virtualization-tools
+@virtualization-client
+@gnome-desktop
+
+tigervnc-server
+# for iSCSI
+iscsi-initiator-utils
+
+# HA component
+pacemaker
+corosync
+pcs 
+psmisc
+policycoreutils-python
+fence-agents-all
+
+# FS component
+dlm
+lvm2-cluster
+gfs2-utils
+
+%end
+
+1.3.配置操作系统
+1.3.1.检查网络
+1.3.2.配置主机名
+1.3.3.配置名称解析
+
+所有节点：配置名称解析。本实验中使用hosts文件。生产环境中建议使用使用DNS。
+[ALL]# vi /etc/hosts
+添加如下内容
+                192.168.1.55    stor-node1
+                192.168.1.56    stor-node2
+                192.168.1.1             stor
+#心跳及业务
+                172.17.100.55   node1
+                172.17.100.56   node2
+尝试是通过可以名称访问
+ping skl-node2
+1.3.4.SSH KEY等价
+[ALL]# ssh-keygen -t rsa -P ''
+[root@skl-node1 ~]# ssh-copy-id -i ~/.ssh/id_rsa.pub root@skl-node2
+
+1.3.5.配置时钟
+
+[ALL]# crontab -e
+添加如下一行，每30分钟同步一次时钟。
+*/30 * * * * /sbin/ntpdate time.windows.com &> /dev/null
+
+1.4.配置群集组件
+ [ALL]# yum -y install pacemaker pcs corosync psmisc policycoreutils-python 
+yum -y install pacemaker corosync pcs psmisc policycoreutils-python fence-agents-all
+
+1.4.1.配置防火墙
+
+[ALL]# systemctl enable firewalld
+[ALL]# systemctl start firewalld
+
+[ALL]# firewall-cmd --permanent --add-service=high-availability
+[ALL]# firewall-cmd --reload
+
+
+[ALL]# firewall-cmd --permanent --zone=trusted --add-source=172.17.100.0/24
+[ALL]# firewall-cmd --permanent --zone=trusted --add-source=10.0.1.0/24
+
+[ALL]# firewall-cmd --reload
+
+
+[ALL]# firewall-cmd --add-port=16509/tcp --permanent  //libvirt
+[ALL]# firewall-cmd --add-port=49152-49215/tcp --permanent 
+[ALL]# firewall-cmd --reload 
+
+
+
+1.4.2.启用pcs Daemon为自动启动
+
+[ALL]# systemctl enable pcsd
+[ALL]# systemctl start pcsd
+1.4.3.配置hacluster账户密码
+
+[ALL]# echo "33668899" | passwd --stdin hacluster 
+Changing password for user hacluster.
+passwd: all authentication tokens updated successfully.
+
+1.4.4.配置节点身份验证
+# pcs cluster auth skl-node1-cr skl-node2-cr
+
+1.5.配置iSCSI Target服务器
+1.5.1.Linux-IO软件安装
+# yum -y install targetcli
+
+1.5.2.配置防火墙
+
+[root@labstor1 ~]# firewall-cmd --add-service=iscsi-target --permanent 
+[root@labstor1 ~]# firewall-cmd --reload 
+
+
+
+1.5.3.为Target准备后端存储
+通过web端配置两个lun：lunstonith 10G    lundata 300G
+cd /etc/iscsi
+vi initiatorname.iscsi
+InitiatorName=iqn.1994-05.com.redhat:skl-node1
+此名称为创建acl所用，即web端添加的initiator
+
+
+[root@labstor1 ~]# fdisk /dev/vdb
+创建一个分区用于LVM
+[root@labstor1 ~]# pvcreate /dev/vdb1
+[root@labstor1 ~]# vgcreate vglabstor1 /dev/vdb1
+[root@labstor1 ~]# lvcreate -l 100%FREE -n lvlabstor1 vglabstor1
+[root@labstor1 ~]# mkfs.xfs /dev/vglabstor1/lvlabstor1 
+[root@labstor1 ~]# echo "/dev/vglabstor1/lvlabstor1 /labstor1/ xfs defaults 0 0" >> /etc/fstab
+
+[root@labstor1 ~]# mount /labstor1/
+[root@labstor1 ~]# df -H /labstor1/
+1.5.4.配置Target及ACL
+通过两个文件来创建1GB、20GB的两个磁盘给Target
+[root@labstor1 ~]# targetcli 
+
+/> cd backstores/fileio 
+/backstores/fileio> create disk01 /labstor1/disk01.img 1G
+/backstores/fileio> create disk02 /labstor1/disk02.img 20G
+
+
+/backstores/fileio> cd /iscsi 
+/iscsi> create iqn.2016-10.linuxplus.srv:storage.target00
+
+/iscsi> cd /iscsi/iqn.2016-10.linuxplus.srv:storage.target00/tpg1/luns 
+
+/iscsi/iqn.20...t00/tpg1/luns> create /backstores/fileio/disk01
+
+/iscsi/iqn.20...t00/tpg1/luns> create /backstores/fileio/disk02
+
+/iscsi/iqn.20...t00/tpg1/luns> ls /
+o- / ......................................................... [...]
+  o- backstores .............................................. [...]
+  | o- block .................................. [Storage Objects: 0]
+  | o- fileio ................................. [Storage Objects: 2]
+  | | o- disk01 .. [/labstor1/disk01.img (1.0GiB) write-back activated]
+  | | o- disk02 ..[/labstor1/disk02.img (20.0GiB) write-back activated]
+  | o- pscsi .................................. [Storage Objects: 0]
+  | o- ramdisk ................................ [Storage Objects: 0]
+  o- iscsi ............................................ [Targets: 1]
+  | o- iqn.2016-10.linuxplus.srv:storage.target00 ........ [TPGs: 1]
+  |   o- tpg1 ............................... [no-gen-acls, no-auth]
+  |     o- acls .......................................... [ACLs: 0]
+  |     o- luns .......................................... [LUNs: 2]
+  |     | o- lun0 .............. [fileio/disk01 (/labstor1/disk01.img)]
+  |     | o- lun1 .............. [fileio/disk02 (/labstor1/disk02.img)]
+  |     o- portals .................................... [Portals: 1]
+  |       o- 0.0.0.0:3260 ..................................... [OK]
+  o- loopback ......................................... [Targets: 0]
+
+创建ACL，这两个iqn是从两个节点上获得的。
+/iscsi/iqn.20...t00/tpg1/luns> cd ../acls 
+/iscsi/iqn.20...t00/tpg1/acls> create iqn.1994-05.com.redhat:skl-node1
+/iscsi/iqn.20...t00/tpg1/acls> create iqn.1994-05.com.redhat:skl-node2
+
+/iscsi/iqn.20...t00/tpg1/acls> cd /
+
+/> ls
+o- / ............................................................... [...]
+  o- backstores .................................................... [...]
+  | o- block ........................................ [Storage Objects: 0]
+  | o- fileio ....................................... [Storage Objects: 2]
+  | | o- disk01 ........ [/labstor1/disk01.img (1.0GiB) write-back activated]
+  | | o- disk02 ....... [/labstor1/disk02.img (20.0GiB) write-back activated]
+  | o- pscsi ........................................ [Storage Objects: 0]
+  | o- ramdisk ...................................... [Storage Objects: 0]
+  o- iscsi .................................................. [Targets: 1]
+  | o- iqn.2016-10.linuxplus.srv:storage.target00............... [TPGs: 1]
+  |   o- tpg1 ..................................... [no-gen-acls, no-auth]
+  |     o- acls ................................................ [ACLs: 2]
+  |     | o- iqn.1994-05.com.redhat:skl-node1 ................ [Mapped LUNs: 2]
+  |     | | o- mapped_lun0 ......................[lun0 fileio/disk01 (rw)]
+  |     | | o- mapped_lun1 ......................[lun1 fileio/disk02 (rw)]
+  |     | o- iqn.1994-05.com.redhat:skl-node2 ................ [Mapped LUNs: 2]
+  |     |   o- mapped_lun0 ......................[lun0 fileio/disk01 (rw)]
+  |     |   o- mapped_lun1 ......................[lun1 fileio/disk02 (rw)]
+  |     o- luns ................................................ [LUNs: 2]
+  |     | o- lun0 .....................[fileio/disk01 (/labstor1/disk01.img)]
+  |     | o- lun1 .....................[fileio/disk02 (/labstor1/disk02.img)]
+  |     o- portals .......................................... [Portals: 1]
+  |       o- 0.0.0.0:3260 ........................................... [OK]
+  o- loopback ............................................... [Targets: 0]
+  
+/> saveconfig 
+/> exit
+
+[root@labstor1 ~]# systemctl enable target
+[root@labstor1 ~]# systemctl start target
+
+重新启动，检查配置是否还在。
+[root@labstor1 ~]# reboot
+
+1.5.5.KVM节点测试存储访问
+yum -y install iscsi-initiator-utils
+
+[all]# iscsiadm --mode discovery --type sendtargets --portal 172.17.100.50
+报错尝试重启iscsid
+
+[all]# iscsiadm -m node --login -d 2
+iscsiadm -m node --login -d 2 --portal 172.17.100.50
+
+[all]# fdisk -l
+
+会看到两个盘
+
+Disk /dev/sdb: 21.5 GB, 21474836480 bytes, 41943040 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 8388608 bytes
+
+
+Disk /dev/sda: 1073 MB, 1073741824 bytes, 2097152 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 8388608 bytes
+
+[all]# iscsiadm -d2 -m node --logout
+[all]# fdisk –l
+盘设备消失了。
+
+
+在另外一个节点做类似的操作。
+
+yum -y install iscsi-initiator-utils
+iscsiadm --mode discovery --type sendtargets --portal 10.0.1.235
+iscsiadm -m node --login -d 2
+fdisk -l
+iscsiadm -m node --logout -d 2
+fdisk -l
+
+要保证在每个节点上看到设备名称是一致的。
+
+在所有节点上进行以下操作。
+[ALL]# systemctl enable iscsi
+[ALL]# systemctl enable iscsid
+
+2.配置
+2.1.创建群集
+
+# pcs cluster setup --name cluster-skl skl-node1 skl-node2
+
+# pcs cluster start --all
+
+
+2.2.配置STONITH
+干脆关掉
+pcs property set stonith-enabled=false
+不能关掉，因为create dlm时，查看状态会报错。暂时先不create
+pcs property set stonith-enabled=true
+DISK
+确认磁盘的ID。
+# ll /dev/disk/by-id/ | grep sdc
+lrwxrwxrwx. 1 root root  9 Oct 19 15:06 scsi-360014058f98fd66a2f64f93b4ecd812b -> ../../sda
+lrwxrwxrwx. 1 root root  9 Oct 19 15:06 wwn-0x60014058f98fd66a2f64f93b4ecd812b -> ../../sda
+//没有wwn，用scsi-26130373434313433测试
+
+注意：节点必须都login存储，否则stonith无法启动
+# pcs stonith create scsi-shooter-node12 fence_scsi pcmk_host_list="skl-node1 skl-node2" devices="/dev/disk/by-id/scsi-26130373434313433" meta provides=unfencing
+
+
+2.3.安装群集文件系统软件
+[all]# yum -y install gfs2-utils dlm
+2.4.配置DLM
+# cd
+# pcs cluster cib dlm_cfg
+
+# pcs -f dlm_cfg resource create dlm ocf:pacemaker:controld op monitor interval=60s
+
+# pcs -f dlm_cfg resource clone dlm clone-max=2 clone-node-max=1
+
+# pcs cluster cib-push dlm_cfg
+CIB updated
+
+# pcs status
+Cluster name: cluster1
+Last updated: Sun Oct 16 12:19:52 2016          Last change: Sun Oct 16 12:19:45 2016 by root via cibadmin on skl-node1-cr
+Stack: corosync
+Current DC: skl-node2-cr (version 1.1.13-10.el7-44eb2dd) - partition with quorum
+2 nodes and 3 resources configured
+
+Online: [ skl-node1-cr skl-node2-cr ]
+
+Full list of resources:
+
+ ipmi-fencing   (stonith:fence_ipmilan):        Started skl-node1-cr
+ Clone Set: dlm-clone [dlm]
+     Started: [ skl-node1-cr skl-node2-cr ]
+
+PCSD Status:
+  skl-node1-cr: Online
+  skl-node2-cr: Online
+
+Daemon Status:
+  corosync: active/disabled
+  pacemaker: active/disabled
+  pcsd: active/enabled
+
+另外一个场景
+[root@skl-node1 ~]# pcs resource create dlm-node12 ocf:pacemaker:controld op monitor interval=30s on-fail=fence clone interleave=true ordered=true
+
+[root@skl-node1 ~]# pcs status
+Cluster name: cluster1
+Last updated: Wed Oct 19 16:35:18 2016          Last change: Wed Oct 19 16:35:10 2016 by root via cibadmin on skl-node1-cr
+Stack: corosync
+Current DC: skl-node1-cr (version 1.1.13-10.el7-44eb2dd) - partition with quorum
+2 nodes and 3 resources configured
+
+Online: [ skl-node1-cr skl-node2-cr ]
+
+Full list of resources:
+
+ scsi-shooter   (stonith:fence_scsi):   Started skl-node1-cr
+ Clone Set: dlm-clone [dlm]
+     Started: [ skl-node1-cr skl-node2-cr ]
+
+PCSD Status:
+  skl-node1-cr: Online
+  skl-node2-cr: Online
+
+Daemon Status:
+  corosync: active/disabled
+  pacemaker: active/disabled
+  pcsd: active/enabled
+
+
+
+2.5.配置CLVM
+2.5.1.安装并启用CLVM
+
+[ALL]# yum -y install lvm2-cluster
+[ALL]# lvmconf --enable-cluster
+在所有节点上修改。
+#reboot
+#vgscan 有警告，因为安装了clvm，需要启动群集
+#pcs cluster start --all
+[ALL]# vi /etc/lvm/lvm.conf
+# Configuration option global/fallback_to_local_locking.
+# Use locking_type 1 (local) if locking_type 2 or 3 fail.
+# If an attempt to initialise type 2 or type 3 locking failed, perhaps because cluster components such as clvmd are not running, with this enabled, an attempt will be made to use local file-based locking (type 1). If this succeeds, only commands against local VGs will proceed. VGs marked as clustered will be ignored.
+fallback_to_local_locking = 1
+不需要改！！！
+fallback_to_local_locking=0
+
+
+这个比较很，在如果群集没有启动，本地的也看不到。
+[root@skl-node1 ~]# vgscan
+  connect() failed on local socket: No such file or directory
+  Internal cluster locking initialisation failed
+
+但是，本地的VG的功能不受影响
+[root@skl-node1 ~]# mount
+……
+/dev/mapper/centos-root on / type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
+
+
+
+2.5.2.向群集中添加CLVM资源
+
+# pcs resource create clvm-node12 ocf:heartbeat:clvm op monitor interval=30s on-fail=fence clone interleave=true ordered=true
+
+这是一种添加资源的同时添加clone的作法。
+
+# pcs status
+Cluster name: cluster1
+Last updated: Tue Oct 18 11:17:07 2016          Last change: Tue Oct 18 11:00:22 2016 by root via cibadmin on skl-node1-cr
+Stack: corosync
+Current DC: skl-node2-cr (version 1.1.13-10.el7-44eb2dd) - partition with quorum
+2 nodes and 5 resources configured
+
+Online: [ skl-node1-cr skl-node2-cr ]
+
+Full list of resources:
+
+ ipmi-fencing   (stonith:fence_ipmilan):        Started skl-node1-cr
+ Clone Set: dlm-clone [dlm]
+     Started: [ skl-node1-cr skl-node2-cr ]
+ Clone Set: clvmd-clone [clvmd]
+     Started: [ skl-node1-cr skl-node2-cr ]
+
+PCSD Status:
+  skl-node1-cr: Online
+  skl-node2-cr: Online
+
+Daemon Status:
+  corosync: active/disabled
+  pacemaker: active/disabled
+  pcsd: active/enabled
+
+
+
+# pcs constraint order start dlm-node12-clone  then  clvm-node12-clone
+# pcs constraint colocation add  clvm-node12-clone with dlm-node12-clone
+# pcs constraint 
+
+如何删除约束：
+#pcs constraint --full
+#pcs constraint delete id
+2.5.3.创建LV
+
+在每个节点，连接存储，并创建LV
+# iscsiadm -d2 -m node --login 
+
+# fdisk -l
+……
+
+# fdisk /dev/sdb
+t:8e
+ALL:# partprobe ;multipath -r //扫描
+
+# vgcreate vgkvm0 /dev/sdb1
+
+
+创建LV。
+# lvcreate -n lvkvm0 -L 40G vgkvm0
+  Logical volume "lvvm0" created.
+
+另外一个场景：
+# lvcreate -n lvkvm0 -l 99%FREE vgkvm0
+  Logical volume "lvvm0" created.
+
+# lvscan
+  ACTIVE            '/dev/vmvg0/lvvm0' [40.00 GiB] inherit
+  ACTIVE            '/dev/centos/swap' [2.00 GiB] inherit
+  ACTIVE            '/dev/centos/root' [17.47 GiB] inherit
+
+
+
+2.6.配置GFS2
+2.6.1.创建GFS2文件系统
+
+# lvscan
+  ACTIVE            '/dev/vmvg0/lvvm0' [40.00 GiB] inherit
+  ACTIVE            '/dev/centos/swap' [2.00 GiB] inherit
+  ACTIVE            '/dev/centos/root' [17.47 GiB] inherit
+
+# mkfs.gfs2 -p lock_dlm -j 2 -t cluster-skl:skl-node1 /dev/vgkvm0/lvkvm0
+-p 用lock_dlm协议来锁  -j 两份日志
+-t 群集名:自己能标识的随便起 用来建表
+/dev/vmvg0/lvvm0 is a symbolic link to /dev/dm-2
+This will destroy any data on /dev/dm-2
+Are you sure you want to proceed? [y/n]y
+在实验的时候，这可能会花一些时间。
+
+Device:                    /dev/vmvg0/lvvm0
+Block size:                4096
+Device size:               40.00 GB (10485760 blocks)
+Filesystem size:           40.00 GB (10485758 blocks)
+Journals:                  2
+Resource groups:           161
+Locking protocol:          "lock_dlm"
+Lock table:                "cluster1:skl-node1"
+UUID:                      20e100e0-22b6-735a-389f-dbd205c8f947
+
+
+2.6.2.向群集添加GFS2文件系统
+
+ALL # mkdir /kvm
+# pcs -f fs_cfg resource create KVMFS Filesystem \
+device="/dev/vgkvm0/lvkvm0" directory="/kvm" fstype="gfs2" 
+
+另外一种写法：
+pcs resource create KVMFS-node12 Filesystem \
+device="/dev/vgkvm0/lvkvm0" directory="/kvm" fstype="gfs2" clone
+
+
+
+# pcs -f fs_cfg resource clone KVMFS
+
+# pcs -f fs_cfg resource 
+Clone Set: dlm-clone [dlm]
+     Started: [ skl-node1-cr skl-node2-cr ]
+ Clone Set: clvmd-clone [clvmd]
+     Started: [ skl-node1-cr skl-node2-cr ]
+ Clone Set: VMFS-clone [VMFS]
+     Stopped: [ skl-node1-cr skl-node2-cr ]
+
+GFS2依赖CLVMD，所以我们添加新的order约束。
+
+# pcs -f fs_cfg constraint order clvm-node12-clone then KVMFS-node12-clone
+
+# pcs -f fs_cfg constraint colocation add KVMFS-node12-clone with clvm-node12-clone
+
+看一下。
+
+# pcs -f fs_cfg constraint
+Location Constraints:
+Ordering Constraints:
+  start dlm-clone then start clvmd-clone (kind:Mandatory)
+  start clvmd-clone then start VMFS-clone (kind:Mandatory)
+Colocation Constraints:
+  clvmd-clone with dlm-clone (score:INFINITY)
+  VMFS-clone with clvmd-clone (score:INFINITY)
+
+提交！
+# pcs cluster cib-push fs_cfg
+CIB updated
+
+2.6.3.配置SELinux
+
+配置SELinux设定，不然虚拟机无法访问存储文件。
+如果没有semanage，那么安装policycoreutils-python
+
+# semanage fcontext -a -t virt_image_t "/kvm(/.*)?"
+# restorecon -R -v /kvm
+
+
+
+2.7.准备测试用的虚拟机
+鼠标问题：
+# cd /etc/libvirt/qemu/
+vi xxx.xml
+device中添加  <input type='tablet' bus='usb'/>
+
+
+2.8.添加资源
+
+qemu-img create -f qcow2 /kvm/win2008.qcow2 20G
+
+virt-install --name win2008 --virt-type kvm --ram 4096 --cdrom=/kvm/win2008.iso --disk path=/kvm/win2008.qcow2 --network network=default --graphics vnc,listen=0.0.0.0 --noautoconsole 
+
+virsh migrate win2008 qemu+ssh://root@skl-node2/system --live --unsafe --persistent --undefinesource  --verbose
+Centos
+# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 3     centos7a                       running
+
+# virsh shutdown centos7a
+Domain centos7a is being shutdown
+
+
+# mkdir /kvm/qemu_config
+# virsh dumpxml centos7a > /vm/qemu_config/centos7a.xml
+
+# ll /vm/qemu_config/centos7a.xml 
+-rw-r--r--. 1 root root 2742 Oct 19 18:14 /vm/qemu_config/centos7a.xml
+
+# virsh undefine centos7a
+Domain centos7a has been undefined
+
+# virsh list --all 
+ Id    Name                           State
+----------------------------------------------------
+
+
+最佳创建的命令
+#pcs resource create win2008_res VirtualDomain \
+ hypervisor="qemu:///system" \
+ config="/kvm/qemu_config/win2008.xml" \
+ migration_transport=ssh \
+meta allow-migrate="true"
+2.9.迁移测试
+pcs resource move
+pcs cluster standby
+pcs cluster stop
+强制reboot一个节点
+
