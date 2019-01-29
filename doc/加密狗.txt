@@ -1,3 +1,7 @@
+9-3
+lsusb
+virt-manager中 usb host device
+
 获取USB设备参数
 
 将usb设备插入主机之前
