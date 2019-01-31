@@ -1,4 +1,7 @@
 ﻿
+虚拟机bat：
+C:\Users\Administrator\AppData\Local\Android\Sdk\emulator\emulator.exe -netdelay none -netspeed full -avd Nexus_5X_API_28
+
 全局状态管理，可以使用 redux 包
 简单数据存储 shared_preferences
 http	dio
