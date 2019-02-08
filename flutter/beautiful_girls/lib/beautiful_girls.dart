@@ -13,8 +13,9 @@ class _BeautifulGirlsState extends State<BeautifulGirls> {
   int _itemCount = 0;
   void getHttp() async {
     try {
-      Response response = await dio.get('http://192.168.1.116:8000/vue_home');
-      //非常重要，避免渲染时获得空数据而报错，我写的这段没效果，而是在imgs加了await
+      debugPrint('Dio***************         begain');
+      Response response = await dio.get('http://192.168.1.124:8000/vue_home');
+      //非常重要，避免渲染时获得空数据而报错。我写的这段没效果，而是在imgs加了await
       if (!mounted) return;  
       var msg = response.data.toString();
       imgs =  await json.decode(msg);
@@ -28,22 +29,7 @@ class _BeautifulGirlsState extends State<BeautifulGirls> {
       return print(e);
     }
   }
-  // getHttp() async {
-  //   var responseBody;
-  //   var url = 'http://192.168.1.116:8000/vue_home';
-  //   var httpClient = new HttpClient();
-  //   var request = await httpClient.getUrl(Uri.parse(url));
-  //   var response = await request.close();
-  //   if (response.statusCode == 200) {
-  //     responseBody = await response.transform(utf8.decoder).join();
-  //     responseBody = json.decode(responseBody);
-  //   } else {
-  //     print("error");
-  //   }
-  //   await responseBody['img'].map((Map item) {
-  //     imgs.add(item);
-  //   }).toList();
-  // }
+  
 
   void initState() {
     super.initState();
@@ -86,8 +72,8 @@ class _BeautifulGirlsState extends State<BeautifulGirls> {
                     // itemCount: imgs.length,
                     itemCount: _itemCount,
                     itemBuilder: (BuildContext context, i) {
-                      // return Image.network(imgs[i]['img'].toString());
                       return Image.network(imgs[i]['img'].toString());
+                      // return Text(imgs[i]['img'].toString());
                     }))
 
             // body: Column(

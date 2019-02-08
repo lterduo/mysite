@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/rendering.dart';
 import 'beautiful_girls.dart';
+import 'home.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -47,11 +48,12 @@ class _LoginHomePageState extends State<LoginHomePage> {
         setState(() {
           _showLoading = false;
         });
-        if (_userNameTextController.text == 'cdz' &&
-            _passwordTextController.text == 'cdz') {
+        if (_userNameTextController.text == 'a' &&
+            _passwordTextController.text == 'a') {
         // if (true) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => BeautifulGirls()));
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (context) => Home(_userNameTextController.text))
+              , (route) => route == null);
         } else {
           String alertText = '请不要盗用老板的账号！';
           showDialog<Null>(

@@ -26,3 +26,56 @@
 5	vscode安装flutter
 	创建emulator的bat
 	ctr+` 运行flutter run
+
+
+第一步：修改掉项目下的android目录下的build.gradle文件，把google() 和 jcenter()这两行去掉。改为阿里的链接。
+
+maven { url 'https://maven.aliyun.com/repository/google' }
+maven { url 'https://maven.aliyun.com/repository/jcenter' }
+maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+全部代码：
+
+buildscript {
+    repositories {
+        //  google()
+        //  jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public'}
+        }
+        dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+    }
+}
+allprojects {
+    repositories {
+        // google()
+        // jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+}
+
+第二步：修改Flutter SDK包下的flutter.gradle文件,这个目录要根据你的SDK存放的位置有所变化。比如我放在了D盘Flutter目录下，那路径就是这个。
+
+D:\Flutter\flutter\packages\flutter_tools\gradle
+打开文件进行修改，修改代码如下（其实也是换成阿里的路径就可以了）。
+
+buildscript {
+    repositories {
+        //jcenter()
+        // maven {
+        //     url 'https://dl.google.com/dl/android/maven2'
+        // }
+        maven{
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven{
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+    }
+}

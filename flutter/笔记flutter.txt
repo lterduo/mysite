@@ -1,6 +1,11 @@
 ﻿
+安装完android sdk， 新增环境变量
+ANDROID_HOME，路径现查
+C:\Users\Administrator\AppData\Local\Android\android-sdk
+
 虚拟机bat：
-C:\Users\Administrator\AppData\Local\Android\Sdk\emulator\emulator.exe -netdelay none -netspeed full -avd Nexus_5X_API_28
+C:\Users\Administrator\AppData\Local\Android\Sdk\emulator\emulator.exe -netdelay none -netspeed full -avd lt
+C:\Users\Administrator\AppData\Local\Android\android-sdk\emulator\emulator.exe -netdelay none -netspeed full -avd lt
 
 全局状态管理，可以使用 redux 包
 简单数据存储 shared_preferences
@@ -27,3 +32,6 @@ void getHttp() async {
       return print(e);
     }
   }
+
+使用iconfont
+	https://juejin.im/post/5b1bb68c6fb9a01e4508cbf5

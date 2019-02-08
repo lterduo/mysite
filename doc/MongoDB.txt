@@ -1,14 +1,12 @@
 非官方下载地址
 	https://blog.csdn.net/alvin_lam/article/details/80970430
 
-安装时选择是否作为service
-
 安装完成后，新建目录d:/mongodb/data/db
 指定目录
 	$ mongod -dbpath d:\mongodb\data\db
 python依赖
 	pip install pymongo
-第三方工具	连接不上
+第三方工具
 	https://robomongo.org/download
 概念对比：
 	database		database
@@ -19,19 +17,28 @@ python依赖
 	primary_key	primary_key	MongoDB自动将_id字段设置为主键
 
 use admin
+drop:
+	>use mydb
+	switched to db mydb
+	>db.dropDatabase()
+	>{ "dropped" : "mydb", "ok" : 1 }
+
 db.auth("admin","admin")
 db.dropUser("admin")
 db.createUser({user:"admin",pwd:"admin",roles:[{"role":"userAdminAnyDatabase","db":"admin"},{"role":"readWrite","db":"test"}]})
 
 查看有数据的数据库
 	show dbs	
+	
 创建集合
+在MongoDB中并不需要创建集合。 当插入一些文档 MongoDB 会自动创建集合。
 	db.createCollection("name",options)	options可选
+	show collections
 删除集合
 	db.collectionName.drop()
-db.collectionName.insert()	命令行可以省略双引号
-db.collectionName.find()
-db.collectionName.find().pretty
+	db.collectionName.insert()	命令行可以省略双引号
+	db.collectionName.find()
+	db.collectionName.find().pretty
 
 update必须有set，否则会只剩下被update的field
 	db.user.update(
@@ -62,4 +69,42 @@ db.user.remove({
     "name": "xujunhao"
 })
 )
+
+
+
+https://www.yiibai.com/mongodb/enable-authentication.html
+验证
+	启用非验证的mongo	mongod -dbpath xxx
+创建userAdminAnyDatabase用户，并断开mongo shell
+	use admin
+	db.createUser(
+	  {
+		user: "admin",
+		pwd: "112358",
+		roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+	  }
+	)
+mongod --auth --port xxx --dbpath xxx
+
+使用-u <username>，-p <password>和--authenticationDatabase <database>命令行选项启动一个mongo shell：
+	$ mongo --port 27017 -u "myUserAdmin" -p "abc123" --authenticationDatabase "admin"
+或者mongo普通登录后用db.auth()验证
+	use admin
+	db.auth("myUserAdmin", "abc123" )
+
+根据需要创建其他用户：
+	use yld
+	db.createUser(
+	  {
+		user: "yldAdmin",
+		pwd: "112358",
+		roles: [ { role: "readWrite", db: "yld" },
+				 { role: "read", db: "reporting" } ]
+	  }
+	)
+	$db.auth("yldAdmin","112358")	进行yld集合的操作
+	
+	$ mongo --port 27017 -u "yldAdmin" -p "112358" --authenticationDatabase "yld"
+	或者登录后用db.auth("yldAdmin","112358")验证
+
 
