@@ -1,10 +1,6 @@
 Define SRVROOT "/Apache24"
 DocumentRoot "${SRVROOT}/htdocs
 
-
-
-
-
 DocumentRoot /var/www/html                                                                 
                                                                                                  
       <Directory /var/www>                                                                       

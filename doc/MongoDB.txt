@@ -4,10 +4,14 @@
 安装完成后，新建目录d:/mongodb/data/db
 指定目录
 	$ mongod -dbpath d:\mongodb\data\db
+	
 python依赖
 	pip install pymongo
+	
 第三方工具
 	https://robomongo.org/download
+	不要用mongodb4
+	
 概念对比：
 	database		database
 	table		collection
@@ -15,17 +19,6 @@ python依赖
 	column		field
 	index		index
 	primary_key	primary_key	MongoDB自动将_id字段设置为主键
-
-use admin
-drop:
-	>use mydb
-	switched to db mydb
-	>db.dropDatabase()
-	>{ "dropped" : "mydb", "ok" : 1 }
-
-db.auth("admin","admin")
-db.dropUser("admin")
-db.createUser({user:"admin",pwd:"admin",roles:[{"role":"userAdminAnyDatabase","db":"admin"},{"role":"readWrite","db":"test"}]})
 
 查看有数据的数据库
 	show dbs	
@@ -86,6 +79,8 @@ https://www.yiibai.com/mongodb/enable-authentication.html
 	)
 mongod --auth --port xxx --dbpath xxx
 
+db.system.users.find().pretty()
+
 使用-u <username>，-p <password>和--authenticationDatabase <database>命令行选项启动一个mongo shell：
 	$ mongo --port 27017 -u "myUserAdmin" -p "abc123" --authenticationDatabase "admin"
 或者mongo普通登录后用db.auth()验证
@@ -105,6 +100,12 @@ mongod --auth --port xxx --dbpath xxx
 	$db.auth("yldAdmin","112358")	进行yld集合的操作
 	
 	$ mongo --port 27017 -u "yldAdmin" -p "112358" --authenticationDatabase "yld"
+	mongo 47.104.242.85 -u "yldAdmin" -p "112358" --authenticationDatabase "yld"
 	或者登录后用db.auth("yldAdmin","112358")验证
 
 
+云端启动：
+	mongod --auth --dbpath c:\mongodb\data --logpath c:\mongodb\log\mongodb.log --install --serviceName "MongoDB"
+	net start mongoDB
+	
+注意：shell使用时一定先 use yld (妈的报错查半天，以为roles里设置的是yld，默认就是yld了)

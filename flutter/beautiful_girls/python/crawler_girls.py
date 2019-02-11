@@ -21,9 +21,9 @@ for url in urls:
             photos.append({"img":temp})
 
 #mongoDB
-client = MongoClient()
-db_girls = client.girls
-collection_imgs = db_girls.imgs
+client = MongoClient('mongodb://yldAdmin:112358@47.104.242.85:27017')
+db_yld = client.yld
+collection_imgs = db_yld.imgs
 # imgs = {'img':'1'}
 # imgs_insert = collection_imgs.insert_one(imgs)
 # imgs_remove = collection_imgs.remove()
@@ -36,7 +36,7 @@ for i in photos:
     imgs_find_one = collection_imgs.find_one(i)
     if imgs_find_one :
         continue
-    imgs_insert = collection_imgs.insert(i)
+    imgs_insert = collection_imgs.insert_one(i)
 
 # with open('./python/photo.json', 'w') as f:
 #     json.dump(photos, f, sort_keys=False , indent=4, separators=(',', ': '), ensure_ascii=False)
