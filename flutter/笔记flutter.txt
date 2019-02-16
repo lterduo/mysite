@@ -35,3 +35,7 @@ void getHttp() async {
 
 使用iconfont
 	https://juejin.im/post/5b1bb68c6fb9a01e4508cbf5
+	
+一定要注意setState的写法
+	setState((){......});
+	错误：setState(){......}	关键是他妈的还不报错，害老子查了半天

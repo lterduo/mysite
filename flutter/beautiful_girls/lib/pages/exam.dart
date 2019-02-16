@@ -1,144 +1,81 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
-class Question {
-  final String number;
-  final String question;
-  final List answers;
-  final String answer;
-  Question(this.number, this.question, this.answers, this.answer);
-}
+import 'package:dio/dio.dart';
+import './examStart.dart';
 
 class Exam extends StatefulWidget {
-  _ExamState createState() => _ExamState();
+  final String userId;
+  Exam(this.userId) {}
+  _ExamState createState() => _ExamState(userId);
 }
 
 class _ExamState extends State<Exam> {
-  List _result = [];
-  int _index = 0;
-  List<Question> _questions = List();
-  static String que = '''
-    [{"number": "1", "question": "1 + 1 = ?", "answers": ["2", "3", "4"], "answer": "2"},
-    {"number": "2", "question": "1 + 2 = ?", "answers": ["2", "3", "4"], "answer": "3"},
-    {"number": "3", "question": "2 + 2 = ?", "answers": ["2", "3", "4"], "answer": "4"}]
-  ''';
-  List ques = json.decode(que);
-  @override
-  void initState() {
-    super.initState();
-    for (var i in ques) {
-      var temp =
-          Question(i['number'], i['question'], i['answers'], i['answer']);
-      _questions.add(temp);
+  final String userId;
+  _ExamState(this.userId) {}
+  //获得试卷字符串准备传给考试页面，获得用户名和分数等用户信息
+  String questions;
+  String userInfo;
+  var info;
+  String score = '0';
+  void _getHttp() async {
+    try {
+      Response response;
+      Dio dio = new Dio();
+      response = await dio.get("http://192.168.1.102:8000/questions");
+      questions = response.data.toString();
+      print('questions******' + questions);
+      response = await dio
+          .get("http://192.168.1.102:8000/get_user", data: {"user_id": userId});
+      userInfo = response.data.toString();
+      print('userInfo********' + userInfo);
+      info = json.decode(userInfo); //转换成map使用用户的具体信息
+      setState(() {
+        score = info['score'].toString();
+      });
+    } catch (e) {
+      print(e);
     }
   }
 
-  String _newValue = "";
-  bool _offstage = true;
-  String _raisedButton = '下一题';
+  @override
+  void initState() {
+    super.initState();
+    _getHttp();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        body: Center(
+      child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(16),
-            child: Center(
-                child: Text(
-              "第${_index + 1}题：",
-              style: TextStyle(fontSize: 18),
-            )),
+            padding: EdgeInsets.fromLTRB(0, 100, 0, 50),
+            child: Text('您上次测试的得分是：'),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 20, 18, 18),
-            child: Text(
-              _questions[_index].question,
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 14),
-            ),
-          ),
-          Expanded(
-            flex: 10,
-            child: ListView.builder(
-                itemCount: _questions[_index].answers.length,
-                itemBuilder: (BuildContext context, i) {
-                  return Row(
-                    children: <Widget>[
-                      Radio(
-                          value: _questions[_index].answers[i].toString(),
-                          groupValue: _newValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _newValue = value;
-                              print('*****************' + value);
-                            });
-                          }),
-                      Text((i + 1).toString() +
-                          '.   ' +
-                          _questions[_index].answers[i].toString()),
-                    ],
-                  );
-                }),
+            padding: EdgeInsets.fromLTRB(0, 50, 0, 100),
+            child: Text('$score 分！'),
           ),
           RaisedButton(
-            child: Text(_raisedButton),
+            child: Text('开始测试'),
             onPressed: () {
-              if (_newValue == '') {
-                showDialog<Null>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return new AlertDialog(
-                      title: new Text('警告：'),
-                      content: new SingleChildScrollView(
-                        child: new ListBody(
-                          children: <Widget>[
-                            new Text('请选择一个答案！'),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text('确定'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              } else {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ExamStart(userId, questions)))
+                  .then((onValue) {
+                //返回时带回新成绩
                 setState(() {
-                  if (_result.length < _questions.length) {
-                    _result.add({_index: _newValue});
-                  }
-                  debugPrint(_result.toString());
-                  if (_index + 1 < _questions.length) {
-                    _index = _index + 1;
-                    _newValue = '';
-                  }
-                  if (_index + 1 == _questions.length) {
-                    _offstage = false;
-                    _raisedButton = '提交';
-                    //添加提交代码
+                  if (onValue != null) {
+                    score = onValue;
                   }
                 });
-              }
+              });
             },
-          ),
-          Offstage(
-            offstage: _offstage,
-            child: Text('您考核的成绩是：100 分！'),)
+          )
         ],
       ),
-      // floatingActionButton: Offstage(
-      //   offstage: _offstage,
-      //   child:
-      // FloatingActionButton(
-      //   child: Text('提交'),
-      //   onPressed: () {},
-      // ),),
-    );
+    ));
   }
 }

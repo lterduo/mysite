@@ -1,4 +1,4 @@
-"""skl URL Configuration
+"""yld URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -15,15 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tojson import views
+from yulingdao import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.index),
-    path('add/new/',views.index),
-    path('add/',views.add),
-    path('vue_home',views.vue_home),
-    path('vue_city',views.vue_city),
-    path('get_user',views.get_user),
+    path('auth',views.auth),
+    path('news', views.news),
+    path('questions', views.questions),
+    path('exam', views.exam),
+    path('get_user',views.get_user)
 ]
-

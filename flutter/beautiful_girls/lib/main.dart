@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/rendering.dart';
 import 'beautiful_girls.dart';
 import 'home.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -33,63 +35,67 @@ class _LoginHomePageState extends State<LoginHomePage> {
   final _userNameTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   bool _showLoading = false;
+  String userId = '', userName = '';
+  String logSuccess = '';
+  var msg, msgs;
 
   Future _loginRequest() async {
-    return Future.delayed(Duration(seconds: 0), () {});
+    return Future.delayed(Duration(seconds: 3), () {});
+  }
+
+  void _getHttp() async {
+    try {
+      Response response;
+      Dio dio = new Dio();
+      // response = await dio.get("http://47.104.242.85:8000/get_user", data: {
+      response = await dio.get("http://192.168.1.102:8000/auth", data: {
+        "user_id": _userNameTextController.text,
+        "password": _passwordTextController.text
+      });
+      msg = response.data.toString();
+      msgs = json.decode(msg);
+      setState(() {
+        logSuccess = msgs['user_id'];
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void _toggleSubmit() {
+    _getHttp();
     if (_formKey.currentState.validate()) {
       setState(() {
         _showLoading = true;
       });
-
       _loginRequest().then((onValue) {
         setState(() {
           _showLoading = false;
         });
-        if (_userNameTextController.text == 'a' &&
-            _passwordTextController.text == 'a') {
-        // if (true) {
-          Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) => Home(_userNameTextController.text))
-              , (route) => route == null);
-        } else {
-          String alertText = '请不要盗用老板的账号！';
-          showDialog<Null>(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return new AlertDialog(
-                title: new Text('警告：'),
-                content: new SingleChildScrollView(
-                  child: new ListBody(
-                    children: <Widget>[
-                      new Text(alertText),
-                    ],
-                  ),
-                ),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text('确定'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          ).then((val) {
-            print(val);
-          });
+        if (logSuccess == '') {
+          showDialog(
+              context: context,
+              builder: (_) => new AlertDialog(
+                      title: new Text("提示："),
+                      content: new Text("验证失败！"),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Text("确定"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ]));
         }
       });
     }
   }
 
+//根据logSuccess来return不同页面
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    List<Widget> childrens = [];
+    final _mainConatiner = Scaffold(
         appBar: AppBar(
           title: Text('郁陵岛'),
         ),
@@ -109,7 +115,7 @@ class _LoginHomePageState extends State<LoginHomePage> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      hintText: '报上名来', prefixIcon: Icon(Icons.person)),
+                      hintText: '账号', prefixIcon: Icon(Icons.person)),
                   validator: (value) {
                     if (value.isEmpty) {
                       return '请输入您的姓名';
@@ -119,7 +125,7 @@ class _LoginHomePageState extends State<LoginHomePage> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      hintText: '说出暗号', prefixIcon: Icon(Icons.lock)),
+                      hintText: '密码', prefixIcon: Icon(Icons.lock)),
                   validator: (value) {
                     if (value.isEmpty) {
                       return '请输入您的密码';
@@ -147,5 +153,28 @@ class _LoginHomePageState extends State<LoginHomePage> {
             ),
           ),
         ));
+    final _loadingContainer = Container(
+        constraints: BoxConstraints.expand(),
+        color: Colors.black12,
+        child: Center(
+          child: Opacity(
+            opacity: 0.9,
+            child: SpinKitWave(
+              color: Colors.red,
+              size: 50.0,
+            ),
+          ),
+        ));
+    childrens.add(_mainConatiner);
+    if (_showLoading) {
+      childrens.add(_loadingContainer);
+    }
+    if (logSuccess != '') {
+      return Home(msg);
+    } else {
+      return Stack(
+        children: childrens,
+      );
+    }
   }
 }

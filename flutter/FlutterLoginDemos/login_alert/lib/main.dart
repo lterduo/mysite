@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/rendering.dart';
+import 'package:dio/dio.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -38,6 +39,31 @@ class _LoginHomePageState extends State<LoginHomePage> {
   final _userNameTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   bool _showLoading = false;
+  String userName = '';
+  String logSuccess = '';
+
+  void _getHttp() async {
+    try {
+      Response response;
+      Dio dio = new Dio();
+      // response = await dio.get("/test?id=12&name=wendu");
+      // response = await dio.get("http://47.104.242.85:8000/get_user", data: {
+      response = await dio.get("http://192.168.1.102:8000/get_user", data: {
+        "user_id": _userNameTextController.text,
+        "password": _passwordTextController.text
+      });
+      var msg = response.data.toString();
+      debugPrint('msg:           ' + msg);
+      var msgs = msg.split('?');
+      debugPrint('msgs:           ' + msgs.toString());
+      setState(() {
+        userName = msgs[0];
+        logSuccess = msgs[1];
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future _loginRequest() async {
     return Future.delayed(Duration(seconds: 3), () {
@@ -51,7 +77,7 @@ class _LoginHomePageState extends State<LoginHomePage> {
       setState(() {
         _showLoading = true;
       });
-
+      _getHttp();
       _loginRequest().then((onValue) {
         setState(() {
           _showLoading = false;
@@ -143,6 +169,9 @@ class _LoginHomePageState extends State<LoginHomePage> {
     childrens.add(_mainConatiner);
     if (_showLoading) {
       childrens.add(_loadingContainer);
+    }
+    if (logSuccess == 'yes') {
+      
     }
     return Stack(
       children: childrens,

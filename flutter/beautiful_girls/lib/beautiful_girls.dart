@@ -13,7 +13,6 @@ class _BeautifulGirlsState extends State<BeautifulGirls> {
   int _itemCount = 0;
   void getHttp() async {
     try {
-      debugPrint('Dio***************         begain');
       Response response = await dio.get('http://192.168.1.124:8000/vue_home');
       //非常重要，避免渲染时获得空数据而报错。我写的这段没效果，而是在imgs加了await
       if (!mounted) return;  
@@ -23,8 +22,6 @@ class _BeautifulGirlsState extends State<BeautifulGirls> {
         _itemCount = imgs.length;
       });
       _itemCount = imgs.length;
-      debugPrint(msg);
-      debugPrint(imgs.length.toString());
     } catch (e) {
       return print(e);
     }
