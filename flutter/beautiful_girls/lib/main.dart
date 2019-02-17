@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/rendering.dart';
-import 'beautiful_girls.dart';
 import 'home.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
+import './constants.dart' show AppConstants;
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -47,8 +47,7 @@ class _LoginHomePageState extends State<LoginHomePage> {
     try {
       Response response;
       Dio dio = new Dio();
-      // response = await dio.get("http://47.104.242.85:8000/get_user", data: {
-      response = await dio.get("http://192.168.1.102:8000/auth", data: {
+      response = await dio.get(AppConstants.ServiceId + "auth", data: {
         "user_id": _userNameTextController.text,
         "password": _passwordTextController.text
       });

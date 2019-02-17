@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import './examStart.dart';
+import '../constants.dart' show AppConstants;
 
 class Exam extends StatefulWidget {
   final String userId;
@@ -21,11 +22,11 @@ class _ExamState extends State<Exam> {
     try {
       Response response;
       Dio dio = new Dio();
-      response = await dio.get("http://192.168.1.102:8000/questions");
+      response = await dio.get(AppConstants.ServiceId + "questions");
       questions = response.data.toString();
       print('questions******' + questions);
       response = await dio
-          .get("http://192.168.1.102:8000/get_user", data: {"user_id": userId});
+          .get(AppConstants.ServiceId + "get_user", data: {"user_id": userId});
       userInfo = response.data.toString();
       print('userInfo********' + userInfo);
       info = json.decode(userInfo); //转换成map使用用户的具体信息

@@ -3,69 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/rendering.dart';
-
-class Exam extends StatefulWidget {
-  final String userId;
-  Exam(this.userId) {}
-  _ExamState createState() => _ExamState(userId);
-}
-
-class _ExamState extends State<Exam> {
-  final String userId;
-  _ExamState(this.userId) {}
-  //获得试卷字符串准备传给考试页面，获得用户名和分数等用户信息
-  String questions;
-  String userInfo;
-  var info;
-  String score = '0';
-  void _getHttp() async {
-    try {
-      Response response;
-      Dio dio = new Dio();
-      response = await dio.get("http://192.168.1.102:8000/questions");
-      questions = response.data.toString();
-      print('questions******' + questions);
-      response = await dio
-          .get("http://192.168.1.102:8000/get_user", data: {"user_id": userId});
-      userInfo = response.data.toString();
-      print('userInfo********' + userInfo);
-      info = json.decode(userInfo); //转换成map使用用户的具体信息
-      setState(() {
-        score = info['score'].toString();
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getHttp();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Column(
-        children: <Widget>[
-          Text('您上次测试的得分是：'),
-          Text('$score 分！'),
-          RaisedButton(
-            child: Text('开始测试'),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ExamStart(userId, questions)));
-            },
-          )
-        ],
-      ),
-    ));
-  }
-}
+import '../constants.dart' show AppConstants;
 
 class Question {
   final String number;
@@ -97,7 +35,7 @@ class _ExamStartState extends State<ExamStart> {
     try {
       Response response;
       Dio dio = new Dio();
-      response = await dio.get("http://192.168.1.102:8000/exam",
+      response = await dio.get(AppConstants.ServiceId + "exam",
           data: {"user_id": userId, "result": _result.toString()});
       setState(() {
         _score = response.data.toString();
@@ -143,7 +81,9 @@ class _ExamStartState extends State<ExamStart> {
       }
       debugPrint('result************' + _result.toString());
       if (_index + 1 < _questions.length) {
-        _index = _index + 1;
+        setState(() {
+          _index = _index + 1;
+        });
         _newValue = '';
       }
       if (_index + 1 == _questions.length) {
@@ -156,25 +96,25 @@ class _ExamStartState extends State<ExamStart> {
             _showLoading = true;
           });
           _scoreRequest().then((onValue) {
-        setState(() {
-          _showLoading = false;
-        });
-        if (_score == '') {
-          showDialog(
-              context: context,
-              builder: (_) => new AlertDialog(
-                      title: new Text("提示："),
-                      content: new Text("获取分数失败"),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text("确定"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ]));
-        }
-      });
+            setState(() {
+              _showLoading = false;
+            });
+            if (_score == '') {
+              showDialog(
+                  context: context,
+                  builder: (_) => new AlertDialog(
+                          title: new Text("提示："),
+                          content: new Text("获取分数失败"),
+                          actions: <Widget>[
+                            new FlatButton(
+                              child: new Text("确定"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ]));
+            }
+          });
         }
         _showScoreDialog = true;
       }
@@ -240,7 +180,10 @@ class _ExamStartState extends State<ExamStart> {
                   );
                 }),
           ),
-          RaisedButton(child: Text(_raisedButton), onPressed: _submit),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+            child: RaisedButton(child: Text(_raisedButton), onPressed: _submit),
+          ),
         ],
       ),
     );
@@ -262,23 +205,23 @@ class _ExamStartState extends State<ExamStart> {
     }
     if (_score != '') {
       return AlertDialog(
-            title: new Text('提示：'),
-            content: new SingleChildScrollView(
-              child: new ListBody(
-                children: <Widget>[
-                  new Text('您本次的考核成绩为 $_score 分！'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text('确定'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+        title: new Text('提示：'),
+        content: new SingleChildScrollView(
+          child: new ListBody(
+            children: <Widget>[
+              new Text('您本次的考核成绩为 $_score 分！'),
             ],
-          );
+          ),
+        ),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text('确定'),
+            onPressed: () {
+              Navigator.pop(context, _score);
+            },
+          ),
+        ],
+      );
     } else {
       return Stack(
         children: childrens,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/rendering.dart';
+import '../constants.dart' show AppConstants;
 
 class Question {
   final String number;
@@ -34,7 +35,7 @@ class _ExamStartState extends State<ExamStart> {
     try {
       Response response;
       Dio dio = new Dio();
-      response = await dio.get("http://192.168.1.102:8000/exam",
+      response = await dio.get(AppConstants.ServiceId + "exam",
           data: {"user_id": userId, "result": _result.toString()});
       setState(() {
         _score = response.data.toString();

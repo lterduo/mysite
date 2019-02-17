@@ -39,3 +39,11 @@ void getHttp() async {
 一定要注意setState的写法
 	setState((){......});
 	错误：setState(){......}	关键是他妈的还不报错，害老子查了半天
+
+listview 包裹expanded
+
+新建constants.dart
+	class AppConstants{static const ServiceId = 'http://192.168.1.102:8000/';}
+	其他文件 import '../constants.dart' show AppConstants;
+	
+django 传字符串时一定要先 json.dumps, flutter接收后才能 json.deconde

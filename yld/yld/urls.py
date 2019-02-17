@@ -23,5 +23,6 @@ urlpatterns = [
     path('news', views.news),
     path('questions', views.questions),
     path('exam', views.exam),
-    path('get_user',views.get_user)
+    path('get_user',views.get_user),
+    path('manage', views.manage)
 ]

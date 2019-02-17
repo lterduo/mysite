@@ -83,3 +83,16 @@ def exam(request):
     user_update = collection_users.update(condition,{'$set':user})
     print(user_update)
     return HttpResponse(score)
+
+def manage(request):
+    client = MongoClient('mongodb://yldAdmin:112358@47.104.242.85:27017')
+    db_yld = client.yld
+    collection_users = db_yld.users
+    user = collection_users.find()
+    users = []
+    for i in user:
+        i.pop('_id')
+        users.append(i)
+    print(users)
+    users = json.dumps(users,ensure_ascii=False)
+    return HttpResponse(users)
