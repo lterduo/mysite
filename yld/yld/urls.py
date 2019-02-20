@@ -24,5 +24,6 @@ urlpatterns = [
     path('questions', views.questions),
     path('exam', views.exam),
     path('get_user',views.get_user),
-    path('manage', views.manage)
+    path('manage', views.manage),
+    path('uploadImg', views.uploadImg)
 ]

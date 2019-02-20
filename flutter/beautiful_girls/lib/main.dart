@@ -16,9 +16,9 @@ class LoginAlertDemoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
         title: '郁陵岛员工管理系统',
-        theme: new ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData.light().copyWith(
+          primaryColor: Color(0xff303030)
+        ),//官方推荐，使用整套主题，再在copywith中修改某个个性的值。太啰嗦，直接ThemeData(...)一样
         home: LoginHomePage());
   }
 }

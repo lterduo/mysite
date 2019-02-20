@@ -59,6 +59,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
           title: Text('郁陵岛  $userName'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(IconData(0xe616, fontFamily: 'iconfont')),
+              onPressed: (){},)
+          ],
         ),
         body: PageView.builder(
           itemBuilder: (BuildContext contenxt, int index) {

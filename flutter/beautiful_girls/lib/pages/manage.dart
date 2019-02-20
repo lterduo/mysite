@@ -3,6 +3,9 @@ import '../constants.dart' show AppConstants;
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 class Manage extends StatefulWidget {
   _ManageState createState() => _ManageState();
 }
@@ -29,6 +32,39 @@ class _ManageState extends State<Manage> {
   void initState() {
     super.initState();
     _getHttp();
+  }
+
+//test upload
+  void _upload() async {
+    File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    // File imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
+
+//dio的请求配置，这一步非常重要！
+    Options options = new Options();
+    options.responseType = ResponseType.PLAIN;
+    options.contentType = ContentType.parse("multipart/form-data");
+
+//创建dio对象
+    Dio dio = new Dio(options);
+
+//文件名
+//创建一个formdata，作为dio的参数
+    FormData data = new FormData.from({
+      'success_action_status': '200', //让服务端返回200，不然，默认会返回204
+      'file': new UploadFileInfo(imageFile, '01.jpg')
+    });
+
+    try {
+      Response response =
+          await dio.post(AppConstants.ServiceId + "uploadImg", data: data);
+      print(response.headers);
+      print(response.data);
+    } on DioError catch (e) {
+      print(e.message);
+      print(e.response.data);
+      print(e.response.headers);
+      print(e.response.request);
+    }
   }
 
   @override
@@ -92,6 +128,17 @@ class _ManageState extends State<Manage> {
                     child: RaisedButton(
                       child: Text('删除员工'),
                       onPressed: () {},
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: RaisedButton(
+                      child: Text('上传图片'),
+                      onPressed: () {
+                        _upload();
+                      },
                     ),
                   ),
                 )

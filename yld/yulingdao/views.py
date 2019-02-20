@@ -96,3 +96,13 @@ def manage(request):
     print(users)
     users = json.dumps(users,ensure_ascii=False)
     return HttpResponse(users)
+
+def uploadImg(request):
+    img = request.FILES.get('file',None)
+    print(img.name)
+    print(img.size)
+    path = './02.jpg'
+    with open(path,'wb') as f:
+        for p in img.chunks():
+           f.write(p)
+    return HttpResponse('图片上传成功！')

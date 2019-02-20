@@ -47,3 +47,24 @@ listview 包裹expanded
 	其他文件 import '../constants.dart' show AppConstants;
 	
 django 传字符串时一定要先 json.dumps, flutter接收后才能 json.deconde
+
+FutureBuilder 有空了解一下
+
+
+升级Flutter SDK和依赖包
+要升级flutter sdk，只需一句命令：
+
+flutter upgrade
+	该命令会同时更新Flutter SDK和你的flutter项目依赖包。如果你只想更新项目依赖包（不包括Flutter SDK），可以使用如下命令：
+	flutter packages get获取项目所有的依赖包。
+	flutter packages upgrade 获取项目所有依赖包的最新版本。
+
+vscode新建项目：view--command palette --flutter new project
+
+image_picker编译时出错：
+	First make sure that compileSdkVersion is at least 28 in app/build.gradle. 
+	https://flutter.io/docs/development/packages-and-plugins/androidx-compatibility
+
+控件之间增加间距：
+	1、中间增加Container(width: 16)
+	2、Container(padding:
