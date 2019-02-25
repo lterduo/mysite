@@ -38,7 +38,17 @@ class _NewsState extends State<News> {
             // itemCount: imgs.length,
             itemCount: _itemCount,
             itemBuilder: (BuildContext context, i) {
-              return Image.network(imgs[i]['img'].toString());
+              return Container(
+                decoration:BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.black,
+                      width: 2
+                    )
+                  )
+                ),
+                child: Image.network(imgs[i]['img'].toString()),
+              );
               // return Text(imgs[i]['img'].toString());
             }));
   }

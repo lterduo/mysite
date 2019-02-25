@@ -68,3 +68,19 @@ image_picker编译时出错：
 控件之间增加间距：
 	1、中间增加Container(width: 16)
 	2、Container(padding:
+	
+PopupMenuButton
+	背景色修改：1、在主题中修改
+				2、老版本用canvasColor，已经失效。用cardColor
+AppBar
+	不要阴影：elevation改为0.0
+	
+BottomNavigationBar:
+	fixedColor:点中状态下的颜色
+	
+randomUser.me:	头像网站
+
+Container增加分割线：
+	decoration属性，decoration: BoxDecoration(border: Border(
+														bottom: BorderSide(color:..., width:...)))
+	注意，用了decoration，那么容器的color也必须写在decoration中，而不能用容器的color属性了，会报错
