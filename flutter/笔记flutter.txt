@@ -53,7 +53,6 @@ FutureBuilder 有空了解一下
 
 升级Flutter SDK和依赖包
 要升级flutter sdk，只需一句命令：
-
 flutter upgrade
 	该命令会同时更新Flutter SDK和你的flutter项目依赖包。如果你只想更新项目依赖包（不包括Flutter SDK），可以使用如下命令：
 	flutter packages get获取项目所有的依赖包。
@@ -68,7 +67,7 @@ image_picker编译时出错：
 控件之间增加间距：
 	1、中间增加Container(width: 16)
 	2、Container(padding:
-	
+	******直接用SizeBox(...)，这玩意就是干这个的吧？
 PopupMenuButton
 	背景色修改：1、在主题中修改
 				2、老版本用canvasColor，已经失效。用cardColor
@@ -84,3 +83,41 @@ Container增加分割线：
 	decoration属性，decoration: BoxDecoration(border: Border(
 														bottom: BorderSide(color:..., width:...)))
 	注意，用了decoration，那么容器的color也必须写在decoration中，而不能用容器的color属性了，会报错
+	BoxDecoration(borderRadius: BorderRadius.circlar(...))	设置圆角
+	
+Stack
+	类似于绝对定位
+	Stack(
+		overflow: Overflow.visible,
+		children: <widget>[
+			c1 显示在底层的放前面
+			c2 显示在上层的放后面
+			Positioned(
+				right: -10,
+				top: 0,
+				child: c3 显示在最上面，右上角切超出10像素，此时要设置Stack的overflow属性为visible,否则显示不全，默认是超出部分不显示的)
+		])
+		
+用某个wedget占位，可以把color设置成	Colors.transparent	透明不显示
+
+列表排序：List<Contact> l =...;
+			l.sort((Contact a, Contact b) => a.nameIndex.compareTo(b.nameIndex));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
