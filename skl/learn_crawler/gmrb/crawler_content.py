@@ -16,23 +16,24 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     if title_sub is None:
         title_sub  = ''
 
-    s = soup.h4.string
+    s = soup.select('.lai > span')[0].text
+    s = s[3:]
     author_name = []
     if s is not None:
         for s1 in s.split(' '):
             if s1 != '':
                 author_name.append(s1)
-
-    s = soup.select('.lai')[0].text
+    print('作者************',author_name)
+    s = soup.select('.lai > b')[0].text
     publish_time = re.findall('\d\d\d\d年\d\d月\d\d日',s)[0]
     print('publish_time:',publish_time)
 
-    s = soup.select('#ozoom > p ')
+    s = soup.select('#articleContent > p ')
     content = ''
     author_org = ''
     for s1 in s:
         s2 = s1.text.strip()
-        if s2[0:4] == '（作者为' or s2[0:5] =='（作者单位' or s2[0:6] =='（作者分别为' :
+        if s2[0:4] == '（作者：' or s2[0:5] =='（作者单位' or s2[0:6] =='（作者分别为' :
             author_org = s2[1:-1]
             print('author_org:',author_org)
         else:
@@ -105,7 +106,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
 
     print(pubtime,'    ',publish_time)
 
-    s = re.findall('renmrb_\d\d\d\d\d\d\d\d_\d', url)[0] #renmrb_20180815_1
+    s = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d', url)[0] #renmrb_20180815_1
     print(s)
 
     import codecs  # 中文问题
@@ -115,8 +116,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     with codecs.open(filename, 'w', 'utf-8') as f:
         json.dump(data, f, sort_keys=False , indent=4, separators=(',', ': '), ensure_ascii=False)
 
-'''headers = {
+headers = {
     'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
 }
-json_save('http://paper.people.com.cn/rmrb/html/2018-11/08/nw.D110000renmrb_20181108_1-07.htm',headers)
-'''
+json_save('http://epaper.gmw.cn/gmrb/html/2018-01/04/nw.D110000gmrb_20180104_2-11.htm',headers)

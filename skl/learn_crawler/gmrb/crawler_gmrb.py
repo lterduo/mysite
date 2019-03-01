@@ -4,55 +4,68 @@ import requests
 import re
 from pdf_save import pdf_save
 from crawler_content import *
+import codecs
 
-# 爬取第七版，如果是理论版，获取下层网址，并保存pdf； 调用json_save爬取下层网址并保存json
+# 进主页面，判断是符合要求的版面，再取出版块url调用get_info
 
 
-def get_info(url, headers):
+def get_info_main(url, headers):
+    # 用临时文件测试  第06版：学习贯彻习近平新时代中国特色社会主义思想特刊  会解析成NavigableString类型  应该是bs4的bug
+    # 没有bug，应该用find_next_sibling()方法，而不是.netx_sibling属性，就可以取到bs类型啦
+    # with codecs.open('temp.html','r','utf-8') as f:
+    #     html = f.read()
+    #     f.close()
     web_data = requests.get(url, headers=headers)
     web_data.encoding = 'utf-8'  # 解决乱码问题
     soup = BeautifulSoup(web_data.text, 'lxml')
-    banmian = soup.select('a[#pageLink]')  # 注意一定要加空格
-    pdf = soup.select('.ban_t > div > ul > li > a')
-    print(banmian[0].text.strip())
-    banmian0 = banmian[0].text.strip().split(
-        '\n')[0].strip()  # 取出第一行，去掉空格，判断是否为'07版:理论'
-    print('banmian0:', banmian0)
-    print(pdf[0])
-    #2018年，11版为理论
-    if banmian0 == '07版:理论':
+    # soup = BeautifulSoup(html,'lxml')
+    banmian = soup.find_all(id='pageLink')
 
-        # 获取具体地址，爬取内容并保存json
-        urls7 = soup.select('#titleList > ul > li > a ')
-        for s in urls7:
-            print(s.get('href'))
-            '''
-            http://epaper.gmw.cn/gmrb/html/2019-02/21/nbs.D110000gmrb_01.htm
-            http://epaper.gmw.cn/gmrb/html/2019-02/18/nw.D110000gmrb_20190218_1-01.htm
-                                                      nw.D110000gmrb_20190218_1-01.htm'''
-            s = re.findall('.*\d\d/\d\d/', url)[0] + s.get('href')
-            print(s)
-            json_save(s, headers)
+    # 选择理论版块，提取url
+    for i in banmian:
+        if '理论' in i.text or '红船初心特刊' in i.text or '学习贯彻习近平新时代中国特色社会主义思想特刊' in i.text:
+            print('banmian:    ' + i.text)
+            url_temp = i.get('href')
+            url_temp = url[0:-6] + url_temp[-6:]
+            print('版面URL：   ', url_temp)
+            pdf = i.find_next_sibling().get('href')
+            pdf = 'http://epaper.gmw.cn/gmrb/' + re.findall('images.*', pdf)[0]
+            print('pdf:   ', pdf)
+            # http://epaper.gmw.cn/gmrb/html/2018-01/04/nbs.D110000gmrb_11.htm
+            #                  ../../../images/2019-02/18/16/zhikuGM16B20190218B.pdf
+            # http://epaper.gmw.cn/gmrb/images/2019-02/18/16/zhikuGM16B20190218B.pdf
+            get_info(url_temp, headers, pdf)
 
-            # 写pdf
-            pdffile = pdf[0].get('href')
-            print(pdffile)
-            pdffile = "http://paper.people.com.cn/rmrb/" + \
-                re.findall('page.*', pdffile)[0]
-            pdf_save(pdffile, headers, s)
+
+def get_info(url, headers, pdf):
+    web_data = requests.get(url, headers=headers)
+    web_data.encoding = 'utf-8'  # 解决乱码问题
+    soup = BeautifulSoup(web_data.text, 'lxml')
+    url_content = soup.select('#titleList > ul > li > a ')
+    for i in url_content:
+        #  http://epaper.gmw.cn/gmrb/html/2019-02/21/nbs.D110000gmrb_01.htm
+        #  http://epaper.gmw.cn/gmrb/html/2019-02/18/nw.D110000gmrb_20190218_1-01.htm
+        #                                            nw.D110000gmrb_20190218_1-01.htm
+        url_content_temp = i.get('href')
+        url_content_temp = re.findall(
+            '.*\d\d/\d\d/', url)[0] + url_content_temp
+        print('url_content:             ' + url_content_temp)
+        pdf_save(pdf, headers, url_content_temp)
+        json_save(url_content_temp, headers)
+
 
 # 按时间获取url
-daystart = datetime.datetime.strptime("2018-01-05", "%Y-%m-%d").date()
-daystop = datetime.datetime.strptime("2018-01-05", '%Y-%m-%d').date()
+daystart = datetime.datetime.strptime("2018-01-04", "%Y-%m-%d").date()
+daystop = datetime.datetime.strptime("2018-01-04", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")
-    s = 'http://epaper.gmw.cn/gmrb/html/'+day+'/nbs.D110000gmrb_11.htm'
+    s = 'http://epaper.gmw.cn/gmrb/html/'+day+'/nbs.D110000gmrb_01.htm'
     urls.append(s)
     daystart = daystart + datetime.timedelta(days=1)
 print(urls)
 headers = {
     'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
 }
-# for url in urls:
-#     get_info(url, headers)
+for url in urls:
+    get_info_main(url, headers)

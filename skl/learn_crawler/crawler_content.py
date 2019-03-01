@@ -115,8 +115,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     with codecs.open(filename, 'w', 'utf-8') as f:
         json.dump(data, f, sort_keys=False , indent=4, separators=(',', ': '), ensure_ascii=False)
 
-'''headers = {
+headers = {
     'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
 }
 json_save('http://paper.people.com.cn/rmrb/html/2018-11/08/nw.D110000renmrb_20181108_1-07.htm',headers)
-'''
