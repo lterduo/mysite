@@ -47,8 +47,7 @@ def get_info(url, headers, pdf):
         #  http://epaper.gmw.cn/gmrb/html/2019-02/18/nw.D110000gmrb_20190218_1-01.htm
         #                                            nw.D110000gmrb_20190218_1-01.htm
         url_content_temp = i.get('href')
-        url_content_temp = re.findall(
-            '.*\d\d/\d\d/', url)[0] + url_content_temp
+        url_content_temp = re.findall('.*\d\d/\d\d/', url)[0] + url_content_temp
         print('url_content:             ' + url_content_temp)
         pdf_save(pdf, headers, url_content_temp)
         json_save(url_content_temp, headers)

@@ -106,13 +106,14 @@ def json_save(url,headers): # 爬取正文，生成json并保存
 
     print(pubtime,'    ',publish_time)
 
-    s = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d', url)[0] #renmrb_20180815_1
+    s = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d-\d\d', url)[0] 
     print(s)
 
     import codecs  # 中文问题
     # filename = './json/' + s + '.json'
-    data['number'] = '10'+ pubtime+'0'+ s[-1]
-    filename = './json/' + '10'+ pubtime+'0'+ s[-1] + '.json' #文件名跟number相同
+    s1 = re.sub('gmrb_','',s)
+    data['number'] = '20'+ s1   #20代表光明日报
+    filename = './json/' + s + '.json' #文件名跟number相同
     with codecs.open(filename, 'w', 'utf-8') as f:
         json.dump(data, f, sort_keys=False , indent=4, separators=(',', ': '), ensure_ascii=False)
 

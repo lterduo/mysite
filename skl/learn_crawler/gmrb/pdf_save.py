@@ -2,13 +2,10 @@ import requests
 import re
 
 path = './pdf/'
-def pdf_save(url,headers,filename): #filename��crawler_content��url����Ҫ����
+def pdf_save(url,headers,filename): 
     data = requests.get(url, headers=headers)
-    filename = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d-\d\d', filename)[0] #renmrb_20180815_1
-#     filename = '10' + filename[7:-2] + '0' + filename[-1]  #名称跟json中的number一致
-# gmrb_20180104_1-05.pdf   很多版面，所以要带-05
+    filename = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d-\d\d', filename)[0]   
     filename =path + filename + '.pdf'
-    print('filename :        '+filename)
     if filename:
         fp = open(filename, 'wb')
         fp.write(data.content)

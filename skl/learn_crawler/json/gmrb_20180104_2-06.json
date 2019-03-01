@@ -1,0 +1,244 @@
+{
+    "number": "2020180104_2-06",
+    "title": "网友之声",
+    "title_en": "",
+    "title_sub": "",
+    "author": [
+        {
+            "name": "光明网记者",
+            "organization": ""
+        },
+        {
+            "name": "吴晋娜",
+            "organization": ""
+        },
+        {
+            "name": "邱晓琴",
+            "organization": ""
+        }
+    ],
+    "source": {
+        "name": "人民日报",
+        "issue": "",
+        "category": "报刊"
+    },
+    "keywords": "",
+    "abstract": "",
+    "abstract_en": "",
+    "references": "",
+    "publish_time": "2018-01-04",
+    "base_category": "重要报刊",
+    "base_sub_category": "人民日报",
+    "subject_category": {
+        "first_class": "",
+        "second_class": "",
+        "third_class": ""
+    },
+    "contents": [
+        {
+            "chapter": [
+                {
+                    "name": "@网友“一只胖河马”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "《习近平谈治国理政》第二卷中的重要论述是围绕新时代坚持和发展中国特色社会主义这一重大时代课题进行的统筹谋划，顶层设计。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "习近平总书记以其高超的治国理政智慧，为新时代中国特色社会主义谋篇布局，充分展现了他卓越的领导才能。"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "chapter": [
+                {
+                    "name": "@网友“食饭”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "在《习近平谈治国理政》第二卷中，“理解改革要实，谋划改革要实，落实改革也要实，既当改革的促进派，又当改革的实干家”，“不得罪成百上千的腐败分子，就要得罪13亿人民”等重要思想和论断，为推进全面深化改革，全面从严治党，不断提高党的执政能力和领导水平提供了坚强理论支撑。"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "chapter": [
+                {
+                    "name": "@网友“过往不恋”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "《习近平谈治国理政》第二卷不是一部普通的理论著作。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "习近平总书记不仅善于联系中国的历史和文化，结合自己的经历谈对重大问题的看法，而且善于讲中国故事、中国共产党故事，善于引用传统历史典故。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "这些都使得他的文章既鞭辟入里，又有强大的感染力；既能以理服人，又能以情动人。"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "chapter": [
+                {
+                    "name": "@网友“九玖人”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "《习近平谈治国理政》第二卷与先期出版的第一卷，构成一脉相承、有机统一的整体，是我们全体党员学习领会党的十九大精神、习近平新时代中国特色社会主义思想的权威读本。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "要学深悟透、融会贯通，切实用党的创新理论武装头脑、指导实践、推动工作。"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "chapter": [
+                {
+                    "name": "@网友“天空”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "习近平新时代中国特色社会主义思想以我们正在做的事情为中心，正确处理尊重客观规律与发挥主观能动性的关系，既部署“过河”的任务，又指导解决“桥或船”的问题，为我们认识问题、分析问题、解决问题树立了典范。"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "chapter": [
+                {
+                    "name": "@网友“万象”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "十九大报告提出实施健康中国战略，全面取消以药养医，健全药品供应保障制度。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "迎接美好生活需要健康体魄，作为一名医务工作者深感肩上责任重大，必将砥砺前行，为广大患者除恶疾、强体魄，用医者仁心为健康中国战略出力献策。"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "chapter": [
+                {
+                    "name": "@网友“水果酱”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "十九大报告提出要加强互联网内容建设，建立网络综合治理体系，营造清朗的网络空间。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "网络空间需要法治阳光，更需要文明、守法的好网民。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "作为一名新媒体工作者，我将立足本职工作，有担当，不传谣，不信谣，努力在清朗网络空间中传递正能量。"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "chapter": [
+                {
+                    "name": "@网友“酸柠檬”说",
+                    "section": [
+                        {
+                            "name": "",
+                            "sentences": [
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "十九大报告谈到要加强文艺队伍建设，造就一大批德艺双馨名家大师，培育一大批高水平创作人才。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "文艺承担着启迪民智、引领民心的责任，德艺双馨的大师要有格调，有品位，有责任心。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "作为一名影视从业者，将以大师从艺为人的精神为引领，用艺术记录下美好时代。"
+                                },
+                                {
+                                    "page_num": 1,
+                                    "is_cross_page": false,
+                                    "sentence": "（光明网记者 吴晋娜、邱晓琴整理）"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "total_page_size": 1,
+    "total_size": 1028,
+    "url": ""
+}
