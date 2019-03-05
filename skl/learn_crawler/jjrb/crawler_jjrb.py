@@ -8,32 +8,28 @@ import codecs
 
 # 进主页面，判断是符合要求的版面，再取出版块url调用get_info
 
-
 def get_info_main(url, headers):
-    # 用临时文件测试  第06版：学习贯彻习近平新时代中国特色社会主义思想特刊  会解析成NavigableString类型  应该是bs4的bug
-    # 没有bug，应该用find_next_sibling()方法，而不是.netx_sibling属性，就可以取到bs类型啦
-    # with codecs.open('temp.html','r','utf-8') as f:
-    #     html = f.read()
-    #     f.close()
     web_data = requests.get(url, headers=headers)
     web_data.encoding = 'utf-8'  # 解决乱码问题
     soup = BeautifulSoup(web_data.text, 'lxml')
     # soup = BeautifulSoup(html,'lxml')
-    banmian = soup.find_all(id='pageLink')
+    # banmian = soup.find_all(id='pageLink')
+    banmian = soup.select('td[class="default"] > a[id="pageLink"]')
 
-    # 选择理论版块，提取url
+    # 选择理论版块，提取url     有一个隐藏的div，a标签id=pageLink，需要过滤掉
     for i in banmian:
-        if '理论' in i.text or '红船初心特刊' in i.text or '学习贯彻习近平新时代中国特色社会主义思想特刊' in i.text:
+        if '理论' in i.text :
             print('banmian:    ' + i.text)
             url_temp = i.get('href')
-            url_temp = url[0:-6] + url_temp[-6:]
+            url_temp = url[0:-10] + url_temp
             print('版面URL：   ', url_temp)
-            pdf = i.find_next_sibling().get('href')
-            pdf = 'http://epaper.gmw.cn/gmrb/' + re.findall('images.*', pdf)[0]
+            j = i.find_parent().find_next_sibling().find('input')
+            pdf = j["value"]
+            pdf = 'http://paper.ce.cn/jjrb' + pdf
             print('pdf:   ', pdf)
-            # http://epaper.gmw.cn/gmrb/html/2018-01/04/nbs.D110000gmrb_11.htm
-            #                  ../../../images/2019-02/18/16/zhikuGM16B20190218B.pdf
-            # http://epaper.gmw.cn/gmrb/images/2019-02/18/16/zhikuGM16B20190218B.pdf
+            # http://paper.ce.cn/jjrb/html/2019-02/20/node_2.htm
+            #                        /page/1/2018-04/19/15/2018041915_pdf.pdf
+            # http://paper.ce.cn/jjrb/page/1/2018-04/19/15/2018041915_pdf.pdf
             get_info(url_temp, headers, pdf)
 
 
@@ -41,13 +37,15 @@ def get_info(url, headers, pdf):
     web_data = requests.get(url, headers=headers)
     web_data.encoding = 'utf-8'  # 解决乱码问题
     soup = BeautifulSoup(web_data.text, 'lxml')
-    url_content = soup.select('#titleList > ul > li > a ')
+    url_content = soup.select('#btdh a ')
     for i in url_content:
-        #  http://epaper.gmw.cn/gmrb/html/2019-02/21/nbs.D110000gmrb_01.htm
+        if i.text.strip() == "本版编辑":
+            continue
+        #  http://paper.ce.cn/jjrb/html/2019-02/20/content_384331.htm
         #  http://epaper.gmw.cn/gmrb/html/2019-02/18/nw.D110000gmrb_20190218_1-01.htm
         #                                            nw.D110000gmrb_20190218_1-01.htm
         url_content_temp = i.get('href')
-        url_content_temp = re.findall('.*\d\d/\d\d/', url)[0] + url_content_temp
+        url_content_temp = url[0:-11] + url_content_temp
         print('url_content:             ' + url_content_temp)
         pdf_save(pdf, headers, url_content_temp)
         json_save(url_content_temp, headers)
@@ -59,7 +57,7 @@ daystop = datetime.datetime.strptime("2019-02-27", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")
-    s = 'http://epaper.gmw.cn/gmrb/html/'+day+'/nbs.D110000gmrb_01.htm'
+    s = 'http://paper.ce.cn/jjrb/html/'+day+'/node_2.htm'
     urls.append(s)
     daystart = daystart + datetime.timedelta(days=1)
 print(urls)
