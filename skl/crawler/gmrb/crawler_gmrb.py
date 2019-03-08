@@ -6,6 +6,8 @@ from pdf_save import pdf_save
 from crawler_content import *
 import codecs
 
+import time
+
 # 进主页面，判断是符合要求的版面，再取出版块url调用get_info
 
 
@@ -28,14 +30,20 @@ def get_info_main(url, headers):
             url_temp = i.get('href')
             url_temp = url[0:-6] + url_temp[-6:]
             print('版面URL：   ', url_temp)
-            pdf = i.find_next_sibling().get('href')
+            if i.find_next_sibling():
+                pdf = i.find_next_sibling().get('href')
+            else:
+                file_temp = open('./err.txt', 'a')
+                file_temp.write('没有pdf：' + url_temp + '\n')
+                file_temp.close()
+                continue
             pdf = 'http://epaper.gmw.cn/gmrb/' + re.findall('images.*', pdf)[0]
             print('pdf:   ', pdf)
             # http://epaper.gmw.cn/gmrb/html/2018-01/04/nbs.D110000gmrb_11.htm
             #                  ../../../images/2019-02/18/16/zhikuGM16B20190218B.pdf
             # http://epaper.gmw.cn/gmrb/images/2019-02/18/16/zhikuGM16B20190218B.pdf
+            # time.sleep(1)
             get_info(url_temp, headers, pdf)
-
 
 def get_info(url, headers, pdf):
     web_data = requests.get(url, headers=headers)
@@ -49,13 +57,15 @@ def get_info(url, headers, pdf):
         url_content_temp = i.get('href')
         url_content_temp = re.findall('.*\d\d/\d\d/', url)[0] + url_content_temp
         print('url_content:             ' + url_content_temp)
+        # time.sleep(1)
         pdf_save(pdf, headers, url_content_temp)
+        # time.sleep(1)
         json_save(url_content_temp, headers)
 
 
 # 按时间获取url
-daystart = datetime.datetime.strptime("2018-01-01", "%Y-%m-%d").date()
-daystop = datetime.datetime.strptime("2018-12-31", '%Y-%m-%d').date()
+daystart = datetime.datetime.strptime("2012-12-01", "%Y-%m-%d").date()
+daystop = datetime.datetime.strptime("2012-12-31", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")
@@ -68,3 +78,6 @@ headers = {
 }
 for url in urls:
     get_info_main(url, headers)
+    # time.sleep(1)
+#  cd d:\mysite\skl\crawler\gmrb\
+#  python crawler_gmrb.py

@@ -6,14 +6,17 @@ path = './pdf/'
 
 def pdf_save(url, headers, filename):
     data = requests.get(url, headers=headers)
-    filename1 = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d-\d\d', filename)
+    #      http://bjrb.bjd.com.cn/html/2019-01/07/content_571504.htm
+    filename1 = re.findall('\d\d\d\d-\d\d/\d\d.*', filename)
     if filename1:
         filename1 = filename1[0]
-    else:
-        filename1 = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d\d-\d\d', filename)[0]
-#      http://epaper.gmw.cn/gmrb/html/2018-01/11/nw.D110000gmrb_20180111_10-05.htm
-#      http://epaper.gmw.cn/gmrb/html/2018-01/10/nw.D110000gmrb_20180110_2-11.htm
-    filename = path + filename1 + '.pdf'
+        filename1 = re.sub('/', '-', filename1)
+        filename1 = re.sub('.htm', '', filename1)
+        # print('filename: ', filename1)
+#     else:
+#         filename1 = re.findall('\d\d\d\d\d\d\d\d_\d\d-\d\d', filename)[0]
+
+    filename = path + 'bjrb_' + filename1 + '.pdf'
     if filename:
         fp = open(filename, 'wb')
         fp.write(data.content)

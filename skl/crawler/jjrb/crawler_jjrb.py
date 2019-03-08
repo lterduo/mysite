@@ -44,16 +44,19 @@ def get_info(url, headers, pdf):
         #  http://paper.ce.cn/jjrb/html/2019-02/20/content_384331.htm
         #  http://epaper.gmw.cn/gmrb/html/2019-02/18/nw.D110000gmrb_20190218_1-01.htm
         #                                            nw.D110000gmrb_20190218_1-01.htm
+        print('url_content_front', url)
         url_content_temp = i.get('href')
-        url_content_temp = url[0:-11] + url_content_temp
+        print(url_content_temp)
+        # url_content_temp = url[0:-11] + url_content_temp\
+        url_content_temp = re.findall('.*\d\d/\d\d/', url)[0] + url_content_temp
         print('url_content:             ' + url_content_temp)
         pdf_save(pdf, headers, url_content_temp)
         json_save(url_content_temp, headers)
 
 
 # 按时间获取url
-daystart = datetime.datetime.strptime("2019-02-27", "%Y-%m-%d").date()
-daystop = datetime.datetime.strptime("2019-02-27", '%Y-%m-%d').date()
+daystart = datetime.datetime.strptime("2012-01-01", "%Y-%m-%d").date()
+daystop = datetime.datetime.strptime("2012-12-31", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")

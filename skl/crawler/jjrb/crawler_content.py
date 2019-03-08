@@ -45,7 +45,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     #判断第一段是否摘要，如果是，从正文摘除
     abstract = ''
     content_temp = content.strip().split('\n')
-    print(content_temp)
+    # print(content_temp)
     abstract_temp = content_temp[0]
     if abstract_temp[0:4] == '内容提要':
         abstract = abstract_temp
@@ -60,7 +60,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     chap = [] #取chapter名称和位置
     i = 0
     while i < len(sens):
-        print("sens: " + str(i) + '  '+ sens[i])
+        # print("sens: " + str(i) + '  '+ sens[i])
         if sens[i][-1] not in ('。', '！', '？', '…', '”'):
             location.append(i)
         i = i + 1
@@ -107,7 +107,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     s = re.findall('\d\d\d\d-\d\d/\d\d/content_\d\d\d\d\d\d', url)[0] 
     s = re.sub('/', '-', s)
     s = 'jjrb_' + s
-    print(s)
+    print('in crawler_content, filename:  ', s)
 
     import codecs  # 中文问题
 

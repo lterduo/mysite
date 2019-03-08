@@ -33,37 +33,7 @@ function checkform(obj)
 function trim(inputString) {
 	return inputString.replace(/^ +/,"").replace(/ +$/,"");
 }
-function openpage(obj){
-var aInfo = new Object();
-aInfo=document.getElementById(obj).value;
 
-
-var sFeatures = "dialogWidth=360px;dialogHeight=180px;center:1;dialogTop=300px;dialogLeft=500px;";
-
-
-/*sFeatures的各项可选参数:
-*dialogWidth:弹出窗口的宽度；
-*dialogHeight:弹出窗口的高度；
-*dialogLeft:弹出窗口的左边距
-*dialogTop:弹出窗口顶部边距；
-*edge:sunken | raised
-*center: yes|no|1|0|on|off
-*dialogHide: yes|no|1|0|on|off
-*help: yes|no|1|0|on|off
-*resizable: yes|no|1|0|on|off
-*scroll: yes|no|1|0|on|off
-*status: yes|no|1|0|on|off
-*unadorned: yes|no|1|0|on|off
-*/
-
-
- //弹出一个showModalDialog,并以returnValue来获取返回值
- var returnValue = window.showModalDialog("http://paper.ce.cn/jjrb/new.htm","http://paper.ce.cn/jjrb/"+aInfo,sFeatures);
- if(returnValue!=null){
- 
- document.all.info.innerHTML=returnValue;
-}
-}
 </script> 
   <style type="text/css">
 <!--
@@ -73,12 +43,9 @@ body {
 
 }
 body,td,th,prelink {font-size: 12px;}
-STYLE30 {color: #B52008; font-weight: bold; }
-commonlight2{background-color:#BD2000;}
-commoncolor3{background-color:#FFFFFF;}
-
-
-
+.STYLE30 {color: #B52008; font-weight: bold; }
+.commonlight2{background-color:#BD2000;}
+.commoncolor3{background-color:#FFFFFF;}
 -->
 #zindexDiv{
 position:absolute;
@@ -115,229 +82,205 @@ function MM_swapImage() { //v3.0
 }
 
 </script> 
-  <script type="text/javascript">
-
-//提交表单 <a href=PDFUrlPh>
-
-
-function per_submit()
-{
- var flag = true;
- 
- //alert("content="+form1.contentKey.value);
- if(form1.contentKey.value==""){
- 	return;
- }
- if( flag == true ) 
- {
- 	document.form1.submit(); 
- 	result_list.innerHTML="正在进行检索，请耐心等待结果...";
- } 
-}
-
-</script> 
  </head> 
  <body id="content" onload="initialize();initMPPage();dohit();" text="#000000" vlink="#000000" alink="#ff0000" link="#000000" leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
   <span id="leveldiv" title="点击查看内容" style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; Z-INDEX: 100; LEFT: 233px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 210px; CURSOR: hand; POSITION: absolute; TOP: 123px; HEIGHT: 34px; BORDER-RIGHT-WIDTH: 0px"></span>  
-  <table cellspacing="0" cellpadding="0" width="1153" align="center" border="0"> 
+  <table cellspacing="0" cellpadding="0" width="1002" align="center" border="0" background="../../../tplimg/cen_bg.gif"> 
    <tbody>
     <tr> 
-     <td valign="top" width="544">
-      <table width="544" border="0" align="right" cellpadding="0" cellspacing="0"> 
+     <td valign="top" width="354">
+      <table width="355" border="0" align="right" cellpadding="0" cellspacing="0"> 
        <tbody>
         <tr> 
-         <td width="544" align="middle"> 
-          <table width="544" height="815" border="0" cellpadding="0" cellspacing="0" background="../../../tplimg/cenews_bg1.jpg" style="background-repeat:no-repeat;"> 
+         <td width="413" align="middle"> 
+          <table width="381" height="146" border="0" cellpadding="0" cellspacing="0"> 
            <tbody>
             <tr> 
-             <td width="25" valign="top">&nbsp;</td> 
-             <td width="506" height="42" valign="top">&nbsp;</td> 
-             <td width="13" valign="top">&nbsp;</td> 
+             <td width="23" rowspan="3" valign="top"><img src="../../../tplimg/top_left.gif" width="23" height="137" /></td> 
+             <td width="322" valign="top" bgcolor="#ffffff"><img src="../../../tplimg/top_center.gif" width="381" height="54" /></td> 
+             <td width="10" rowspan="2" valign="top" background="../../../tplimg/jwb_red_r6_c3.jpg" style="background-repeat:repeat-y"><img src="../../../tplimg/top_right.gif" width="10" height="137" /></td> 
             </tr> 
             <tr> 
-             <td width="25" valign="top">&nbsp;</td> 
-             <td width="477" height="739"><map name="pagepicmap"><area coords="3,88,474,88,474,132,3,132" shape="polygon" href="content_360451.htm"></area><area coords="3,143,127,143,127,495,3,495" shape="polygon" href="content_360452.htm"></area><area coords="139,143,474,143,474,195,139,195" shape="polygon" href="content_360453.htm"></area><area coords="139,200,474,200,474,379,139,379" shape="polygon" href="content_360454.htm"></area><area coords="468,492,468,456,394,456,386,389,139,389,139,545,386,545,386,545,394,545,468,545" shape="polygon" href="content_360455.htm"></area><area coords="3,500,127,500,127,662,3,662" shape="polygon" href="content_360456.htm"></area><area coords="139,552,474,552,474,744,139,744" shape="polygon" href="content_360457.htm"></area><area coords="6,712,125,712,125,730,6,730" shape="polygon" href="content_360458.htm"></area><area coords="6,727,125,727,125,744,6,744" shape="polygon" href="content_360459.htm"></area></map><img src="../../../page/1/2018-04/19/01/2018041901_brief.jpg" border="0" usemap="#PagePicMap" width="506" height="750" /></td> 
-             <td width="13" valign="top">&nbsp;</td> 
+             <td width="381" height="550" bgcolor="#ffffff" style="BORDER: #111111 1px solid"><map name="pagepicmap"><area coords="5,20,84,20,84,124,5,124" shape="polygon" href="content_185054.htm" target="_blank"></area><area coords="88,29,348,29,348,369,88,369" shape="polygon" href="content_185055.htm" target="_blank"></area><area coords="2,131,84,131,84,527,2,527" shape="polygon" href="content_185056.htm" target="_blank"></area><area coords="89,388,344,388,344,536,89,536" shape="polygon" href="content_185057.htm" target="_blank"></area><area coords="2,530,84,530,84,540,2,540" shape="polygon" href="content_185058.htm" target="_blank"></area></map><img src="../../../page/1/2012-01/06/11/2012010611_brief.jpg" border="0" usemap="#PagePicMap" /></td> 
             </tr> 
             <tr> 
-             <td width="25" valign="top">&nbsp;</td> 
-             <td width="506" valign="top">&nbsp;</td> 
-             <td width="13" valign="top">&nbsp;</td> 
+             <td height="23" align="left" valign="top"><img src="../../../tplimg/jwb_red_r8_c2.jpg" width="381" height="9" /></td> 
+             <td valign="top"><img src="../../../tplimg/jwb_red_r8_c3.jpg" width="9" height="9" /></td> 
             </tr> 
            </tbody>
           </table> 
-          <table width="544" border="0" cellpadding="5" cellspacing="0" style="MARGIN-BOTTOM: 3px"> 
+          <table width="413" border="0" cellpadding="5" cellspacing="0" style="MARGIN-BOTTOM: 3px"> 
            <tbody>
             <tr> 
              <td width="12" align="left">&nbsp;</td> 
-             <td width="189" align="left">第01版：<strong>要闻</strong></td> 
-             <td width="140" align="right" nowrap="" style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px"><a class="preart" href="node_3.htm"><span style="font-size:12px; font-weight:bold;font-family:webdings">4</span><strong>下一版</strong></a></td> 
+             <td width="189" align="left">第11版：<strong>理论周刊</strong></td> 
+             <td width="140" align="right" nowrap="" style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px"><a class="preart" href="node_11.htm">上一版<span style="font-size:12px;font-family:webdings">3</span></a>&nbsp;&nbsp;<a class="preart" href="node_13.htm"><span style="font-size:12px;font-family:webdings">4</span>下一版</a></td> 
              <td width="33" align="right" valign="center" nowrap="" style="PADDING-RIGHT: 5px">&nbsp;</td> 
             </tr> 
            </tbody>
-          </table> </td> 
+          </table> 
+          <table cellspacing="0" cellpadding="4" width="413" border="0"> 
+           <tbody>
+            <tr> 
+             <td width="12" align="left" valign="top">&nbsp;</td> 
+             <td width="381" align="left" valign="top">
+              <table width="381" border="0" cellspacing="0" cellpadding="0" style="BORDER: #C0C0C0 1px solid"> 
+               <tbody>
+                <tr> 
+                 <td bgcolor="#FFFFFF" height="4"></td> 
+                </tr> 
+                <tr> 
+                 <td bgcolor="#FFFFFF" height="20" style="PADDING-LEFT: 10px;"><span class="STYLE30">标题导航</span></td> 
+                </tr> 
+                <tr> 
+                 <td bgcolor="#FFFFFF"><img src="../../../tplimg/image06.jpg" /></td> 
+                </tr> 
+                <tr> 
+                 <td bgcolor="#FFFFFF" style="PADDING-LEFT: 10px;"> 
+                  <div style="height:170px; overflow-y:scroll; width:100%;"> 
+                   <table cellspacing="0" cellpadding="1" border="0"> 
+                    <tbody> 
+                     <tr> 
+                      <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
+                      <td class="default" valign="top"> <a href="content_185054.htm">
+                        <div style="display:inline" id="mp185054">
+                         编辑寄语
+                        </div></a> </td> 
+                     </tr>
+                     <tr> 
+                      <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
+                      <td class="default" valign="top"> <a href="content_185055.htm">
+                        <div style="display:inline" id="mp185055">
+                         当前我国经济形势的新特点
+                        </div></a> </td> 
+                     </tr>
+                     <tr> 
+                      <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
+                      <td class="default" valign="top"> <a href="content_185056.htm">
+                        <div style="display:inline" id="mp185056">
+                         理论前沿
+                        </div></a> </td> 
+                     </tr>
+                     <tr> 
+                      <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
+                      <td class="default" valign="top"> <a href="content_185057.htm">
+                        <div style="display:inline" id="mp185057">
+                         把握世界产业变革大趋势
+                        </div></a> </td> 
+                     </tr> 
+                    </tbody> 
+                   </table> 
+                  </div></td> 
+                </tr> 
+               </tbody>
+              </table> </td> 
+            </tr> 
+           </tbody>
+          </table></td> 
         </tr> 
         <tr> 
         </tr>
        </tbody>
       </table></td> 
-     <td valign="top"> 
-      <table height="160" cellspacing="0" cellpadding="0" width="609" border="0" background="../../../tplimg/cenews_bg2.jpg" class="whitenav" style="background-repeat:no-repeat"> 
+     <td valign="top">
+      <table height="115" cellspacing="0" cellpadding="0" width="580" border="0"> 
        <tbody>
         <tr> 
-         <td width="359" height="40"></td> 
-         <td width="250" height="40" align="left" valign="bottom" class="tizi"><a href="http://www.ce.cn" target="_blank">经济网首页</a> | <a href="http://ipaper.ce.cn/" target="_blank">手机版</a> | <span onmouseover="document.getElementById('bmdh').style.display = 'block';" onmouseout="document.getElementById('bmdh').style.display = 'none';">版面导航</span> | <span onmouseover="document.getElementById('btdh').style.display = 'block';" onmouseout="document.getElementById('btdh').style.display = 'none';">标题导航</span></td> 
+         <td width="47%" height="137" colspan="3" align="right" valign="bottom" background="../../../tplimg/logo_bg.gif" class="whitenav" style="background-repeat:no-repeat"><a href="http://www.ce.cn" target="_blank">返回经济网首页</a> | <span onmouseover="document.getElementById('bmdh').style.display = 'block';" onmouseout="document.getElementById('bmdh').style.display = 'none';">版面导航</span> | <span onmouseover="document.getElementById('btdh').style.display = 'block';" onmouseout="document.getElementById('btdh').style.display = 'none';">标题导航</span></td> 
         </tr> 
         <tr> 
-         <td width="359">&nbsp;</td> 
-         <td width="250">&nbsp;</td> 
+         <td height="5" colspan="3"></td> 
+        </tr> 
+        <tr> 
+         <td align="left" valign="top"><span class="default"> <strong>2012年1月6日</strong> <strong>星期<font class="weekday">五</font></strong></span></td> 
+         <td align="center" valign="top" style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px"><a class="preart" href="node_11.htm">上一版<span style="font-size:12px;font-family:webdings">3</span></a>&nbsp;&nbsp;<a class="preart" href="node_13.htm"><span style="font-size:12px;font-family:webdings">4</span>下一版</a></td> 
+         <td align="center" valign="top"><span id="upqi" style="display:none"><img src="../../../tplimg/image01.jpg" /><a href="#" onclick="goPrePeriod()">上一期</a>&nbsp;&nbsp;<a href="#" onclick="goNextPeriod()">下一期</a><img src="../../../tplimg/image02.jpg" width="5" height="9" /></span></td> 
         </tr> 
        </tbody>
       </table> 
-      <table width="609" height="700" border="0" cellpadding="0" cellspacing="0"> 
+      <table width="588" height="507" border="0" cellpadding="0" cellspacing="0"> 
        <tbody>
         <tr valign="top"> 
-         <td width="293"> 
-          <div id="result_list" style="width:100px;text-align:center"> 
-          </div>
-          <table width="293" border="0" cellspacing="0" cellpadding="0"> 
+         <td width="348">
+          <table cellspacing="0" cellpadding="5" width="100%" border="0"> 
            <tbody>
             <tr> 
-             <form name="form1" action="http://116.213.200.74/servlet/SearchServlet.do" onsubmit="per_submit();" method="POST" style="margin:0px; padding:0px"></form> 
-            </tr>
-            <tr> 
-             <td height="14" align="left" valign="center" nowrap=""> <input name="contentKey" id="contentKey" type="text" size="35" maxlength="45" /> <input type="button" value="搜索" name="search" onclick="javascript:per_submit()" /> <input type="hidden" name="op" value="single" /> <input type="hidden" name="siteID" value="" /> <input type="hidden" name="sort" value="date" /> </td> 
-            </tr>    
+             <td height="10"></td> 
+            </tr> 
            </tbody>
           </table> 
-          <table width="293" border="0" cellpadding="0" cellspacing="0" style="BORDER-TOP: #999 0px solid; MARGIN-BOTTOM: 5px"> 
+          <table width="100%" border="0" cellspacing="0" cellpadding="0"> 
            <tbody>
             <tr> 
-             <td valign="top"> 
-              <table width="293" border="0" cellpadding="0" cellspacing="0" style="BORDER: #C0C0C0 1px solid"> 
+             <form name="form1" style="margin:0px;" action="http://219.141.221.103:8080/hlftiweb/search.jsp" onsubmit="return checkform(document.form1.searchText)" method="post"></form>
+             <td height="30" valign="top"> <input type="text" onfocus="if
+	(this.value=='请输入关键字') this.value=''" onblur="if(this.value=='') this.value='请输入关键字'" value="请输入关键字" name="searchText" id="searchText" style="BORDER: #C0C0C0 1px solid;margin:0px; height:20px; line-height:20px;" size="38" /> <input name="searchPaper" type="hidden" style="margin:0px;" id="searchPaper" value="010bjcb" /> <input type="hidden" name="op" style="margin:0px;" value="new" /></td>
+             <td valign="top"> <input type="image" src="../../../tplimg/cesearch.gif" style="margin:0px;" value="搜索" /> </td>  
+            </tr> 
+           </tbody>
+          </table> 
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="BORDER-TOP: #999 0px solid; MARGIN-BOTTOM: 5px"> 
+           <tbody>
+            <tr> 
+             <td valign="top">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="BORDER: #C0C0C0 1px solid"> 
                <tbody>
                 <tr> 
                  <td width="237" background="../../../tplimg/image04.jpg"><img src="../../../tplimg/image03.jpg" width="287" height="23" /></td> 
                 </tr> 
                 <tr> 
                  <td bgcolor="#FFFFFF" style="BORDER-TOP: #C0C0C0 1px solid"> 
-                  <div style="height:600px; overflow-y:scroll; width:100%;"> 
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/01/2018041901_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/02/2018041902_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/03/2018041903_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/04/2018041904_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/05/2018041905_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/06/2018041906_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/07/2018041907_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/08/2018041908_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/09/2018041909_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/10/2018041910_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/11/2018041911_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/12/2018041912_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/13/2018041913_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/14/2018041914_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/15/2018041915_pdf.pdf"></a>
-                   </div>
-                   <div style="display:none">
-                    <a href="../../../page/1/2018-04/19/16/2018041916_pdf.pdf"></a>
-                   </div>
+                  <div style="height:635px; overflow-y:scroll; width:100%;"> 
                    <table cellspacing="0" cellpadding="2" width="100%" border="0">
                     <tbody> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="./node_2.htm">第01版：要闻</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha01')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha01" value="/page/1/2018-04/19/01/2018041901_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_2.htm">第01版：要闻</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_3.htm">第02版：要闻</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha02')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha02" value="/page/1/2018-04/19/02/2018041902_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_3.htm">第02版：要闻</a></td> 
+                     </tr> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_4.htm">第03版：经济要闻</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha03')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha03" value="/page/1/2018-04/19/03/2018041903_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_4.htm">第03版：每周经济观察</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_5.htm">第04版：要闻</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha04')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha04" value="/page/1/2018-04/19/04/2018041904_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_5.htm">第04版：综合新闻</a></td> 
+                     </tr> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_6.htm">第05版：关注</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha05')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha05" value="/page/1/2018-04/19/05/2018041905_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_6.htm">第05版：宏观资讯</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_7.htm">第06版：财经</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha06')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha06" value="/page/1/2018-04/19/06/2018041906_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_7.htm">第06版：资本市场</a></td> 
+                     </tr> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_8.htm">第07版：产经</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha07')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha07" value="/page/1/2018-04/19/07/2018041907_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_8.htm">第07版：环球财经</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_9.htm">第08版：综合</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha08')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha08" value="/page/1/2018-04/19/08/2018041908_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_9.htm">第08版：地方经济</a></td> 
+                     </tr> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_10.htm">第09版：时评</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha09')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha09" value="/page/1/2018-04/19/09/2018041909_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_10.htm">第09版：旅游经济</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_11.htm">第10版：世界经济</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha10')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha10" value="/page/1/2018-04/19/10/2018041910_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_11.htm">第10版：三农报道</a></td> 
+                     </tr> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_12.htm">第11版：新知</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha11')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha11" value="/page/1/2018-04/19/11/2018041911_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="./node_12.htm">第11版：理论周刊</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_13.htm">第12版：区域</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha12')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha12" value="/page/1/2018-04/19/12/2018041912_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_13.htm">第12版：学习与研究</a></td> 
+                     </tr> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_14.htm">第13版：理论周刊</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha13')" style="cursor:pointer"> 
-					  <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> 
-					  <input type="hidden" id="haha13" value="/page/1/2018-04/19/13/2018041913_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_14.htm">第13版：特别报道</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_15.htm">第14版：理论周刊</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha14')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha14" value="/page/1/2018-04/19/14/2018041914_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_15.htm">第14版：广告专版</a></td> 
+                     </tr> 
                      <tr> 
-                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_16.htm">第15版：理论周刊</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha15')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha15" value="/page/1/2018-04/19/15/2018041915_pdf.pdf" /></td> 
-                     </tr>  
+                      <td class="default" align="left">&nbsp;<a id="pageLink" href="node_16.htm">第15版：广告专版</a></td> 
+                     </tr> 
                      <tr bgcolor="#e8e8e8"> 
-                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_17.htm">第16版：中经智库</a> </td>
-                      <td width="22%"> <a href="#" onclick="openpage('haha16')" style="cursor:pointer"> <img src="../../../tplimg/ico4.gif" border="0" />PDF</a> <input type="hidden" id="haha16" value="/page/1/2018-04/19/16/2018041916_pdf.pdf" /></td> 
-                     </tr>  
+                      <td align="left" class="default">&nbsp;<a id="pageLink" href="node_17.htm">第16版：广告专版</a></td> 
+                     </tr> 
                     </tbody>
                    </table> 
                   </div></td> 
@@ -347,19 +290,9 @@ function per_submit()
             </tr> 
            </tbody>
           </table> </td> 
-         <td width="5" align="center"></td> 
-         <td width="300" height="115"> 
-          <table width="300" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px;"> 
-           <tbody>
-            <tr> 
-             <td width="310" align="center" valign="middle" background="../../../tplimg/cenews_tit2.jpg" class="default" style="PADDING-RIGHT: 3px; BORDER:#CFD3D4 1px solid; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; BORDER-BOTTOM: #d2d2d2 1px solid">
-              <div align="center" onclick="calendar()">
-               <strong class="whitenav"><font style="CURSOR: hand">往期报纸查询</font></strong>
-              </div></td> 
-            </tr> 
-           </tbody>
-          </table> 
-          <table width="300" border="0" align="center" cellpadding="0" cellspacing="0"> 
+         <td width="10" align="center"></td> 
+         <td width="230" height="115">
+          <table width="200" border="0" align="left" cellpadding="0" cellspacing="0"> 
            <tbody>
             <tr> 
              <td><script language="JavaScript">
@@ -367,10 +300,32 @@ function per_submit()
 document.write("<div id=detail style=position:absolute;width:200px;></div>");
 //-->
  </script> 
-              <table cellspacing="0" cellpadding="0" width="300" border="0"> 
+              <table cellspacing="0" cellpadding="0" width="200" border="0"> 
                <tbody>
+                <tr> 
+                 <td height="10">
+                  <div align="center"></div></td> 
+                </tr> 
+                <tr> 
+                 <td background="../../../tplimg/red_a1.jpg" class="default" style="PADDING-RIGHT: 3px; BORDER-TOP: #555 0px solid; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; BORDER-BOTTOM: #d2d2d2 1px solid">
+                  <div align="center" onclick="calendar()">
+                   <strong class="whitenav"><font style="CURSOR: hand">经济日报多媒体数字版</font></strong>
+                  </div></td> 
+                </tr> 
+                <tr> 
+                 <td height="81"><a href="#" onclick="openRMP()"><img src="../../../tplimg/menu_r2_c1.jpg" width="200" height="58" border="0" /></a><br /> <a href="#" onclick="viewOL_RMP()"><img src="../../../tplimg/menu_r3_c1.jpg" width="200" height="51" border="0" /></a><br /> <a href="http://211.94.198.12/FFNClt_setup.exe"><img src="../../../tplimg/menu_r4_c1.jpg" width="200" height="51" border="0" /></a><br /> <a href="http://nmgsk.onlinedown.net/down/AdbeRdr708_zh_CN.zip" target="_blank"><img src="../../../tplimg/menu_r5_c1.jpg" width="200" height="63" border="0" /></a></td> 
+                </tr> 
+                <tr> 
+                 <td height="10"></td> 
+                </tr> 
+                <tr> 
+                 <td background="../../../tplimg/red_a1.jpg" class="default" style="PADDING-RIGHT: 3px; BORDER-TOP: #555 1px solid; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; BORDER-BOTTOM: #d2d2d2 1px solid">
+                  <div align="center" onclick="calendar()">
+                   <strong class="whitenav"><font style="CURSOR: hand">按日期查阅</font></strong>
+                  </div></td> 
+                </tr> 
                 <tr align="center"> 
-                 <td width="214"> 
+                 <td>
                   <table width="200" height="100" border="0" cellpadding="0" cellspacing="0"> 
                    <tbody>
                     <tr> 
@@ -405,7 +360,7 @@ document.write("<div id=detail style=position:absolute;width:200px;></div>");
                                 </tbody>
                                </table></td> 
                              </tr> 
-                             <tr align="middle" bgcolor="#E8E8E8" class="default"> 
+                             <tr align="middle" bgcolor="#e8e8e8" class="default"> 
                               <td align="center" class="default"><b><font face="Arial, Helvetica, sans-serif">日</font></b></td> 
                               <td align="center" class="default"><b><font face="Arial, Helvetica, sans-serif">一</font></b></td> 
                               <td align="center" class="default"><b><font face="Arial, Helvetica, sans-serif">二</font></b></td> 
@@ -423,7 +378,7 @@ document.write("<div id=detail style=position:absolute;width:200px;></div>");
 				for(j=0;j<7;j++) 
 				{
 					gNum = i*7+j;
-					document.write('<td bgcolor="#EFF2F7" class="default" align=center id="GD' + gNum +'" style="cursor: default;" width="14%"><a href="" id="CD' + gNum + '"><span class="date" style="font-family:Verdana, Arial;font-size:11px;"><font _onMouseOver="mOvr(' + gNum +')" onMouseOut="mOut()" id="SD' + gNum +'"');
+					document.write('<td bgcolor="#d2d2d2" class="default" align=center id="GD' + gNum +'" style="cursor: default;" width="14%"><a href="" id="CD' + gNum + '"><span class="date" style="font-family:Verdana, Arial;font-size:11px;"><font _onMouseOver="mOvr(' + gNum +')" onMouseOut="mOut()" id="SD' + gNum +'"');
 					document.write('></font></span></a><br><font id="LD' + gNum + '" size=2 class=pt9 style=display:none></font></td>');
 				}
 				document.write('</tr>');
@@ -438,134 +393,33 @@ document.write("<div id=detail style=position:absolute;width:200px;></div>");
                       </form></td> 
                     </tr> 
                    </tbody>
-                  </table> </td> 
-                 <td width="96" valign="middle">
-                  <table width="65" border="0" cellspacing="2" cellpadding="2"> 
-                   <tbody>
-                    <tr> 
-                     <td height="25" align="center" valign="middle" bgcolor="#DEE3E7" style=" border:#CBCCCE 1px solid; color:#0D5387; font-weight:bold;">旧版查询</td> 
-                    </tr> 
-                    <tr> 
-                     <td height="80" align="left" valign="middle" bgcolor="#FFFFFF" style=" border:#CBCCCE 1px solid;" class="ybzi"><img src="../../../tplimg/cenews_icon2.jpg" width="11" height="12" /><a href="#" target="_blank">点击查询2010年1月01日前报纸</a></td> 
-                    </tr> 
-                   </tbody>
                   </table></td> 
                 </tr> 
+                <tr> 
+                 <td><iframe scrolling="no" frameborder="0" width="200" height="200" src="http://www.ce.cn/newmain/papernews/index.htm"></iframe></td> 
+                </tr> 
                </tbody>
-              </table> </td> 
+              </table></td> 
             </tr> 
            </tbody>
-          </table> 
-          <table width="300" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px;"> 
-           <tbody>
-            <tr> 
-             <td width="310" align="center" valign="middle" background="../../../tplimg/cenews_tit2.jpg" class="default" style="PADDING-RIGHT: 3px; BORDER:#CFD3D4 1px solid; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; BORDER-BOTTOM: #d2d2d2 1px solid">
-              <div align="center" onclick="calendar()">
-               <strong class="whitenav"><font style="CURSOR: hand">本期快速导航</font></strong>
-              </div></td> 
-            </tr> 
-           </tbody>
-          </table> 
-          <table width="300" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF"> 
-           <tbody>
-            <tr> 
-             <td> 
-              <div style="height:340px; overflow-y:scroll; width:100%;"> 
-               <table cellspacing="0" cellpadding="1" border="0"> 
-                <tbody> 
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360451.htm">
-                    <div style="display:inline" id="mp360451">
-                     数据图表
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360453.htm">
-                    <div style="display:inline" id="mp360453">
-                     《习近平“一带一路”国际合作高峰论坛重要讲话》出版发行
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360454.htm">
-                    <div style="display:inline" id="mp360454">
-                     网络强国的中国实践
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360452.htm">
-                    <div style="display:inline" id="mp360452">
-                     中办国办印发《地方党政领导干部安全生产责任制规定》
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360455.htm">
-                    <div style="display:inline" id="mp360455">
-                     “科学三号”调查船 青岛起航
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360456.htm">
-                    <div style="display:inline" id="mp360456">
-                     西气东输主力气源地产能建设集中开工
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360457.htm">
-                    <div style="display:inline" id="mp360457">
-                     经济向好带动财政收入较快增长
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360458.htm">
-                    <div style="display:inline" id="mp360458">
-                     放开汽车合资股比激发创新活力
-                    </div></a> </td> 
-                 </tr>
-                 <tr> 
-                  <td class="default" valign="top"> <img src="../../../tplimg/checkbox.gif" width="10" height="10" /> </td> 
-                  <td class="default" valign="top"> <a href="content_360459.htm">
-                    <div style="display:inline" id="mp360459">
-                     在和平合作的时代大潮中贡献中国力量
-                    </div></a> </td> 
-                 </tr> 
-                </tbody> 
-               </table> 
-              </div> </td> 
-            </tr> 
-           </tbody>
-          </table> 
-          <table width="250" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px;"> 
-           <tbody>
-            <tr height="50"> 
-             <td><a href="http://www.ce.cn/yd/jjrbym/index.shtml" target="_blank"><img src="../../../tplimg/app.jpg" width="250" height="42" border="0" /></a></td> 
-            </tr> 
-            <tr height="50"> 
-             <td><a href="http://get.adobe.com/cn/reader/" target="_blank"><img src="../../../tplimg/cenews_pdf.jpg" width="250" height="42" border="0" /></a></td> 
-            </tr> 
-           </tbody>
-          </table> </td> 
+          </table></td> 
         </tr> 
        </tbody>
-      </table> </td> 
+      </table> 
+      <div style="display:none">
+       <img src="../../../tplimg/paper1_01.jpg" />
+      </div> </td> 
     </tr> 
     <tr> 
      <td colspan="2" height="15"></td> 
     </tr> 
     <tr> 
      <td colspan="2" style="line-height: 120%">
-      <table width="1153" border="0" align="center" cellpadding="0" cellspacing="0"> 
+      <table width="979" border="0" align="center" cellpadding="0" cellspacing="0"> 
        <tbody>
         <tr> 
          <td width="4%" align="center" bgcolor="#A90110"> 　</td> 
-         <td width="90%" height="150" align="center" bgcolor="#A90110" class="whitenav" style="line-height: 120%"><p><span class="whitenavb" style="line-height: 120%"><script language="javascript" src="http://www.ce.cn/frontpage/js/cebottom_utf.js"></script></span></p></td> 
+         <td width="90%" height="150" align="center" bgcolor="#A90110" class="whitenav" style="line-height: 120%"><p><span class="whitenav" style="line-height: 120%"><script language="javascript" src="http://www.ce.cn/frontpage/js/cebottom_utf.js"></script></span></p></td> 
          <td width="6%" bgcolor="#A90110"><span class="whitenav"><br /> </span></td> 
         </tr> 
        </tbody>
@@ -574,47 +428,97 @@ document.write("<div id=detail style=position:absolute;width:200px;></div>");
    </tbody>
   </table> 
   <!--bmdh版面导航------> 
-  
+  <iframe id="zindexDiv" frameborder="0"></iframe> 
+  <div id="bmdh" style="display:none; position:absolute; left:50%; margin-left:290px; top:136px; filter:alpha(opacity=90);" onmouseover="document.getElementById('bmdh').style.display = 'block';" onmouseout="document.getElementById('bmdh').style.display = 'none';"> 
+   <table width="200px" border="0" cellpadding="2" cellspacing="0" bgcolor="#FFFFFF"> 
+    <tbody> 
+     <tr id="row_black2" onmouseover="Javascript:focus_row_black(2)" onmouseout="Javascript:blur_row_black(2)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_2.htm" class="black" id="pageLink">第01版：要闻</a></td> 
+     </tr> 
+     <tr id="row_black3" onmouseover="Javascript:focus_row_black(3)" onmouseout="Javascript:blur_row_black(3)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_3.htm" class="black" id="pageLink">第02版：要闻</a></td> 
+     </tr> 
+     <tr id="row_black4" onmouseover="Javascript:focus_row_black(4)" onmouseout="Javascript:blur_row_black(4)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_4.htm" class="black" id="pageLink">第03版：每周经济观察</a></td> 
+     </tr> 
+     <tr id="row_black5" onmouseover="Javascript:focus_row_black(5)" onmouseout="Javascript:blur_row_black(5)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_5.htm" class="black" id="pageLink">第04版：综合新闻</a></td> 
+     </tr> 
+     <tr id="row_black6" onmouseover="Javascript:focus_row_black(6)" onmouseout="Javascript:blur_row_black(6)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_6.htm" class="black" id="pageLink">第05版：宏观资讯</a></td> 
+     </tr> 
+     <tr id="row_black7" onmouseover="Javascript:focus_row_black(7)" onmouseout="Javascript:blur_row_black(7)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_7.htm" class="black" id="pageLink">第06版：资本市场</a></td> 
+     </tr> 
+     <tr id="row_black8" onmouseover="Javascript:focus_row_black(8)" onmouseout="Javascript:blur_row_black(8)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_8.htm" class="black" id="pageLink">第07版：环球财经</a></td> 
+     </tr> 
+     <tr id="row_black9" onmouseover="Javascript:focus_row_black(9)" onmouseout="Javascript:blur_row_black(9)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_9.htm" class="black" id="pageLink">第08版：地方经济</a></td> 
+     </tr> 
+     <tr id="row_black10" onmouseover="Javascript:focus_row_black(10)" onmouseout="Javascript:blur_row_black(10)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_10.htm" class="black" id="pageLink">第09版：旅游经济</a></td> 
+     </tr> 
+     <tr id="row_black11" onmouseover="Javascript:focus_row_black(11)" onmouseout="Javascript:blur_row_black(11)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_11.htm" class="black" id="pageLink">第10版：三农报道</a></td> 
+     </tr> 
+     <tr id="row_black12" onmouseover="Javascript:focus_row_black(12)" onmouseout="Javascript:blur_row_black(12)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="./node_12.htm" class="black" id="pageLink">第11版：理论周刊</a></td> 
+     </tr> 
+     <tr id="row_black13" onmouseover="Javascript:focus_row_black(13)" onmouseout="Javascript:blur_row_black(13)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_13.htm" class="black" id="pageLink">第12版：学习与研究</a></td> 
+     </tr> 
+     <tr id="row_black14" onmouseover="Javascript:focus_row_black(14)" onmouseout="Javascript:blur_row_black(14)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_14.htm" class="black" id="pageLink">第13版：特别报道</a></td> 
+     </tr> 
+     <tr id="row_black15" onmouseover="Javascript:focus_row_black(15)" onmouseout="Javascript:blur_row_black(15)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_15.htm" class="black" id="pageLink">第14版：广告专版</a></td> 
+     </tr> 
+     <tr id="row_black16" onmouseover="Javascript:focus_row_black(16)" onmouseout="Javascript:blur_row_black(16)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_16.htm" class="black" id="pageLink">第15版：广告专版</a></td> 
+     </tr> 
+     <tr id="row_black17" onmouseover="Javascript:focus_row_black(17)" onmouseout="Javascript:blur_row_black(17)"> 
+      <td align="left">&nbsp;</td> 
+      <td align="left" height="24" class="black">&nbsp;<a href="node_17.htm" class="black" id="pageLink">第16版：广告专版</a></td> 
+     </tr> 
+    </tbody> 
+   </table>
+  </div> 
   <!--bmdh版面导航END------> 
   <!-- -------------------------标题导航--------------> 
   <div id="btdh" style="display:none; position:absolute; left:50%; margin-left:215px; top:136px; filter:alpha(opacity=90);" onmouseover="document.getElementById('btdh').style.display = 'block';" onmouseout="document.getElementById('btdh').style.display = 'none';"> 
    <table border="0" cellpadding="2" cellspacing="0" bgcolor="#FFFFFF" width="277"> 
     <tbody> 
-     <tr height="27px" id="row_black360451" onmouseover="Javascript:focus_row_black(360451)" onmouseout="Javascript:blur_row_black(360451)"> 
+     <tr height="27px" id="row_black185054" onmouseover="Javascript:focus_row_black(185054)" onmouseout="Javascript:blur_row_black(185054)"> 
       <td width="10px"></td> 
-      <td class="black"> <a href="content_360451.htm">数据图表</a> </td>
+      <td class="black"> <a href="content_185054.htm">编辑寄语</a> </td>
      </tr> 
-     <tr height="27px" id="row_black360453" onmouseover="Javascript:focus_row_black(360453)" onmouseout="Javascript:blur_row_black(360453)"> 
+     <tr height="27px" id="row_black185055" onmouseover="Javascript:focus_row_black(185055)" onmouseout="Javascript:blur_row_black(185055)"> 
       <td width="10px"></td> 
-      <td class="black"> <a href="content_360453.htm">《习近平“一带一路”国际合作高峰论坛重要讲话》出版发行</a> </td>
+      <td class="black"> <a href="content_185055.htm">当前我国经济形势的新特点</a> </td>
      </tr> 
-     <tr height="27px" id="row_black360454" onmouseover="Javascript:focus_row_black(360454)" onmouseout="Javascript:blur_row_black(360454)"> 
+     <tr height="27px" id="row_black185056" onmouseover="Javascript:focus_row_black(185056)" onmouseout="Javascript:blur_row_black(185056)"> 
       <td width="10px"></td> 
-      <td class="black"> <a href="content_360454.htm">网络强国的中国实践</a> </td>
+      <td class="black"> <a href="content_185056.htm">理论前沿</a> </td>
      </tr> 
-     <tr height="27px" id="row_black360452" onmouseover="Javascript:focus_row_black(360452)" onmouseout="Javascript:blur_row_black(360452)"> 
+     <tr height="27px" id="row_black185057" onmouseover="Javascript:focus_row_black(185057)" onmouseout="Javascript:blur_row_black(185057)"> 
       <td width="10px"></td> 
-      <td class="black"> <a href="content_360452.htm">中办国办印发《地方党政领导干部安全生产责任制规定》</a> </td>
-     </tr> 
-     <tr height="27px" id="row_black360455" onmouseover="Javascript:focus_row_black(360455)" onmouseout="Javascript:blur_row_black(360455)"> 
-      <td width="10px"></td> 
-      <td class="black"> <a href="content_360455.htm">“科学三号”调查船 青岛起航</a> </td>
-     </tr> 
-     <tr height="27px" id="row_black360456" onmouseover="Javascript:focus_row_black(360456)" onmouseout="Javascript:blur_row_black(360456)"> 
-      <td width="10px"></td> 
-      <td class="black"> <a href="content_360456.htm">西气东输主力气源地产能建设集中开工</a> </td>
-     </tr> 
-     <tr height="27px" id="row_black360457" onmouseover="Javascript:focus_row_black(360457)" onmouseout="Javascript:blur_row_black(360457)"> 
-      <td width="10px"></td> 
-      <td class="black"> <a href="content_360457.htm">经济向好带动财政收入较快增长</a> </td>
-     </tr> 
-     <tr height="27px" id="row_black360458" onmouseover="Javascript:focus_row_black(360458)" onmouseout="Javascript:blur_row_black(360458)"> 
-      <td width="10px"></td> 
-      <td class="black"> <a href="content_360458.htm">放开汽车合资股比激发创新活力</a> </td>
-     </tr> 
-     <tr height="27px" id="row_black360459" onmouseover="Javascript:focus_row_black(360459)" onmouseout="Javascript:blur_row_black(360459)"> 
-      <td width="10px"></td> 
-      <td class="black"> <a href="content_360459.htm">在和平合作的时代大潮中贡献中国力量</a> </td>
+      <td class="black"> <a href="content_185057.htm">把握世界产业变革大趋势</a> </td>
      </tr> 
     </tbody>
    </table> 
@@ -625,6 +529,6 @@ document.write("<div id=detail style=position:absolute;width:200px;></div>");
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fcb347b5d8317d9308aede02872839935' type='text/javascript'%3E%3C/script%3E"));
 </script>   
-  <!--enpproperty <founder-date>2018-04-19 23:59:59</founder-date><founder-pagenum>01</founder-pagenum><founder-papername>经济日报</founder-papername><founder-type>2</founder-type><founder-pagepicurl>jjrb/page/1/2018-04/19/01/2018041901_icon.jpg</founder-pagepicurl><founder-content>经济日报</founder-content> /enpproperty-->
+  <!--enpproperty <founder-date>2012-01-06 23:59:49</founder-date><founder-pagenum>11</founder-pagenum><founder-papername>经济日报</founder-papername><founder-type>2</founder-type><founder-pagepicurl>jjrb/page/1/2012-01/06/11/2012010611_icon.jpg</founder-pagepicurl><founder-content>经济日报</founder-content> /enpproperty-->
  </body>
 </html>

@@ -10,13 +10,22 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     web_data.encoding = 'utf-8'  # 解决乱码问题
     soup = BeautifulSoup(web_data.text, 'lxml')
 
-    title = soup.h1.string.strip()
-    print('title:',title)
-    title_sub = soup.h2.string
-    if title_sub is None:
-        title_sub  = ''
+    s = soup.head.title.text
+    if s == '404错误':
+        file_temp = open('./err.txt', 'a')
+        file_temp.write('没有本期报纸：' + url + '\n')
+        file_temp.close()
+        return
+    # title = soup.h1.string.strip()
+    if soup.h1:
+        title = soup.h1.text
+    
+    print('title:', title)
+    title_sub = ''
+    if soup.h2 :
+        title_sub  = soup.h2.text
 
-    s = soup.select('.lai > span')[0].text
+    s = soup.select('.lai > span')[0].text.strip()
     s = re.sub('作者：','',s)
     author_name = []
     if s is not None:
@@ -24,8 +33,11 @@ def json_save(url,headers): # 爬取正文，生成json并保存
             if s1 != '':
                 author_name.append(s1)
     print('作者************',author_name)
-    s = soup.select('.lai > b')[0].text
-    publish_time = re.findall('\d\d\d\d年\d\d月\d\d日',s)[0]
+
+    # 2015-01/02
+    publish_time = re.findall('\d\d\d\d-\d\d/\d\d',url)[0]
+    publish_time = re.sub('-', '年', publish_time)
+    publish_time = re.sub('/', '月', publish_time) + '日'
     print('publish_time:',publish_time)
 
     s = soup.select('#articleContent > p ')
@@ -44,7 +56,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     #判断第一段是否摘要，如果是，从正文摘除
     abstract = ''
     content_temp = content.strip().split('\n')
-    print(content_temp)
+    # print(content_temp)
     abstract_temp = content_temp[0]
     if abstract_temp[0:4] == '内容提要':
         abstract = abstract_temp
@@ -59,7 +71,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     chap = [] #取chapter名称和位置
     i = 0
     while i < len(sens):
-        print("sens: " + str(i) + '  '+ sens[i])
+        # print("sens: " + str(i) + '  '+ sens[i])
         if sens[i][-1] not in ('。', '！', '？', '…', '”'):
             location.append(i)
         i = i + 1
@@ -106,7 +118,13 @@ def json_save(url,headers): # 爬取正文，生成json并保存
 
     print(pubtime,'    ',publish_time)
 
-    s = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d-\d\d', url)[0] 
+    s = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d-\d\d', url)
+    if s :
+        s = s[0]
+    else:
+        s = re.findall('gmrb_\d\d\d\d\d\d\d\d_\d\d-\d\d', url)[0]
+#      http://epaper.gmw.cn/gmrb/html/2018-01/11/nw.D110000gmrb_20180111_10-05.htm
+#      http://epaper.gmw.cn/gmrb/html/2018-01/10/nw.D110000gmrb_20180110_2-11.htm
     print(s)
 
     import codecs  # 中文问题
@@ -119,4 +137,4 @@ def json_save(url,headers): # 爬取正文，生成json并保存
 # headers = {
 #     'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
 # }
-# json_save('http://epaper.gmw.cn/gmrb/html/2018-01/04/nw.D110000gmrb_20180104_2-11.htm',headers)
+# json_save('http://epaper.gmw.cn/gmrb/html/2015-01/02/nw.D110000gmrb_20150102_1-06.htm?div=-1',headers)
