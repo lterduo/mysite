@@ -15,9 +15,9 @@ class _BeautifulGirlsState extends State<BeautifulGirls> {
     try {
       Response response = await dio.get('http://192.168.1.124:8000/vue_home');
       //非常重要，避免渲染时获得空数据而报错。我写的这段没效果，而是在imgs加了await
-      if (!mounted) return;  
+      if (!mounted) return;
       var msg = response.data.toString();
-      imgs =  await json.decode(msg);
+      imgs = await json.decode(msg);
       setState(() {
         _itemCount = imgs.length;
       });
@@ -26,7 +26,6 @@ class _BeautifulGirlsState extends State<BeautifulGirls> {
       return print(e);
     }
   }
-  
 
   void initState() {
     super.initState();

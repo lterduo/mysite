@@ -103,6 +103,17 @@ Stack
 列表排序：List<Contact> l =...;
 			l.sort((Contact a, Contact b) => a.nameIndex.compareTo(b.nameIndex));
 
+状态管理：
+	redux
+	event_bus
+	scoped_model
+	bloc
+
+小红点插件，可以用来显示小红点、未读消息数量等，非常方便
+https://www.cnblogs.com/yangyxd/p/9232308.html
+	badge
+	0.0.3
+	https://pub.dartlang.org/packages/badge
 
 
 

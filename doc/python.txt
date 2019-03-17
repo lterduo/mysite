@@ -1,7 +1,27 @@
-MongoDb:
+﻿MongoDb:
 pip install pymongo
 
 crawler:
 pip install requests
 pip install beautifulsoup4
 pip install lxml
+
+django:
+	??????:settings.py	TEMPLATES	'DIRS': [os.path.join(BASE_DIR, 'templates')](????project????templates?)
+
+socket:
+	django-channels	??WebSocket??
+
+channels:
+	pip install channels
+	??????:
+		# project/routing.py
+		from channels.routing import ProtocolTypeRouter
+
+		application = ProtocolTypeRouter({
+			# (http->django views is added by default)
+		})
+	mysite/settings.py ???? 'channels' ??? INSTALLED_APPS ??
+		INSTALLED_APPS = [
+			'channels',
+	

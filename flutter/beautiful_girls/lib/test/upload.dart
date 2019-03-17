@@ -78,14 +78,8 @@ class _ManageState extends State<Manage> {
                 itemCount: _counter,
                 itemBuilder: (BuildContext context, i) {
                   return Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey, width: 1))
-                    ),
                     child: Row(
                       children: <Widget>[
-                        Container(
-                          child: Image.network(msg[i]['img'], width: 40,),
-                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +88,6 @@ class _ManageState extends State<Manage> {
                             Text('姓名：' + msg[i]['name'].toString()),
                           ],
                         ),
-                        SizedBox(width: 10,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +96,6 @@ class _ManageState extends State<Manage> {
                             Text('分数：' + msg[i]['score'].toString()),
                           ],
                         ),
-                        SizedBox(width: 10,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,

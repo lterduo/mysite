@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from pymongo import MongoClient
 import json
 
+def index(request):
+    return render(request, 'index.html')
+
 def auth(request):
     user_id = request.GET['user_id']
     password = request.GET['password']
