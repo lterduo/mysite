@@ -6,11 +6,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+import '../event_bus.dart';
+
 class Manage extends StatefulWidget {
   _ManageState createState() => _ManageState();
 }
 
 class _ManageState extends State<Manage> {
+  TextEditingController _controller = TextEditingController(); //测试event_bus
   var msg;
   int _counter = 0;
   void _getHttp() async {
@@ -67,6 +70,15 @@ class _ManageState extends State<Manage> {
     }
   }
 
+  var _eventBusMsg;
+  void _buttonEventBus() {
+    eventBus.fire(() {
+      new UserInfo(_eventBusMsg);
+    });
+    print('bus********************');
+    print(_eventBusMsg);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,12 +91,15 @@ class _ManageState extends State<Manage> {
                 itemBuilder: (BuildContext context, i) {
                   return Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey, width: 1))
-                    ),
+                        border: Border(
+                            bottom: BorderSide(color: Colors.grey, width: 1))),
                     child: Row(
                       children: <Widget>[
                         Container(
-                          child: Image.network(msg[i]['img'], width: 40,),
+                          child: Image.network(
+                            msg[i]['img'],
+                            width: 40,
+                          ),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -94,7 +109,9 @@ class _ManageState extends State<Manage> {
                             Text('姓名：' + msg[i]['name'].toString()),
                           ],
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +120,9 @@ class _ManageState extends State<Manage> {
                             Text('分数：' + msg[i]['score'].toString()),
                           ],
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +170,25 @@ class _ManageState extends State<Manage> {
                   ),
                 )
               ],
-            ))
+            )),
+        //测试event_bus
+        Expanded(
+          child: Column(
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(labelText: '请输入你要发送的值'),
+                controller: _controller,
+                onChanged: (v){
+                  _eventBusMsg = v;
+                },
+              ),
+              RaisedButton(
+                child: Text('测试EventBus'),
+                onPressed: (_buttonEventBus),
+              )
+            ],
+          ),
+        )
       ],
     ));
   }

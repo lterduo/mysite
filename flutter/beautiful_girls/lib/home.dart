@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'pages/exam.dart';
 import 'pages/manage.dart';
 import 'pages/news.dart';
+import 'pages/customer.dart';
 import 'dart:convert';
 
 class Home extends StatefulWidget {
@@ -26,9 +27,14 @@ class _HomeState extends State<Home> {
     info = json.decode(userInfo); //转换成map使用用户的具体信息
     userName = info['name'];
 
-    _pages..add(News())..add(Exam(info['user_id']));
+    _pages..add(Customer())..add(News())..add(Exam(info['user_id']));
 
     _bottom = [
+      BottomNavigationBarItem(
+        title: Text('客户管理'),
+        icon: Icon(IconData(0xe667, fontFamily: 'iconfont')),
+        activeIcon: Icon(IconData(0xe664, fontFamily: 'iconfont')),
+      ),
       BottomNavigationBarItem(
         title: Text('岛内动态'),
         icon: Icon(IconData(0xe667, fontFamily: 'iconfont')),

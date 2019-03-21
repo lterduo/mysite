@@ -18,8 +18,8 @@ from django.urls import path
 from yulingdao import views
 
 urlpatterns = [
-    path('', views.index),
     path('admin/', admin.site.urls),
+    path('customer', views.customer),
     path('auth',views.auth),
     path('news', views.news),
     path('questions', views.questions),
