@@ -3,17 +3,18 @@ import 'pages/exam.dart';
 import 'pages/manage.dart';
 import 'pages/news.dart';
 import 'pages/customer.dart';
+import 'pages/joomla.dart';
 import 'dart:convert';
 
 class Home extends StatefulWidget {
   final String userInfo;  //传入的是整个users表信息
-  Home(this.userInfo) {}
+  Home(this.userInfo);
   _HomeState createState() => _HomeState(userInfo);
 }
 
 class _HomeState extends State<Home> {
   final String userInfo;
-  _HomeState(this.userInfo) {}
+  _HomeState(this.userInfo);
 
   var info;
   PageController _pageController;
@@ -27,7 +28,7 @@ class _HomeState extends State<Home> {
     info = json.decode(userInfo); //转换成map使用用户的具体信息
     userName = info['name'];
 
-    _pages..add(Customer())..add(News())..add(Exam(info['user_id']));
+    _pages..add(Customer())..add(News())..add(Exam(info['user_id']))..add(Joomla());
 
     _bottom = [
       BottomNavigationBarItem(
@@ -44,6 +45,11 @@ class _HomeState extends State<Home> {
         title: Text('入职考试'),
         icon: Icon(IconData(0xe660, fontFamily: 'iconfont')),
         activeIcon: Icon(IconData(0xe60d, fontFamily: 'iconfont')),
+      ),
+      BottomNavigationBarItem(
+        title: Text('网页测试'),
+        icon: Icon(IconData(0xe667, fontFamily: 'iconfont')),
+        activeIcon: Icon(IconData(0xe664, fontFamily: 'iconfont')),
       ),
     ];
     //如果是管理角色，加上员工管理

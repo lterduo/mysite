@@ -52,8 +52,8 @@ def get_info(url, headers, pdf):
 
 
 # 按时间获取url
-daystart = datetime.datetime.strptime("2016-01-01", "%Y-%m-%d").date()
-daystop = datetime.datetime.strptime("2016-12-31", '%Y-%m-%d').date()
+daystart = datetime.datetime.strptime("2019-01-01", "%Y-%m-%d").date()
+daystop = datetime.datetime.strptime("2019-04-12", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")

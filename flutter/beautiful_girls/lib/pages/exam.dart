@@ -6,13 +6,13 @@ import '../constants.dart' show AppConstants;
 
 class Exam extends StatefulWidget {
   final String userId;
-  Exam(this.userId) {}
+  Exam(this.userId);
   _ExamState createState() => _ExamState(userId);
 }
 
 class _ExamState extends State<Exam> {
   final String userId;
-  _ExamState(this.userId) {}
+  _ExamState(this.userId);
   //获得试卷字符串准备传给考试页面，获得用户名和分数等用户信息
   String questions;
   String userInfo;

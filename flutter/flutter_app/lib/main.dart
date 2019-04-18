@@ -89,15 +89,15 @@ class RandomWordsState extends State<RandomWords>{
           final tiles = _saved.map(
             (pair) {
               return Text('${pair.asPascalCase}',style: TextStyle(fontSize: 20),);
-            }
-          );
-          return Scaffold(
-            appBar: AppBar(title: Text('收藏列表'),), 
-            body: ListView(
-              children: tiles.toList(),
+           title: Text }
+      );
+        return Scaffold(
+        appBar: AppBar(('收藏列表'),),
               padding: EdgeInsets.all(20),
             )
-          );
+          );            body: ListView(
+              children: tiles.toList(),
+
         }
       )
     );

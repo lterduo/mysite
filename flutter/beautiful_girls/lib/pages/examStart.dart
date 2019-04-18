@@ -15,13 +15,13 @@ class Question {
 
 class ExamStart extends StatefulWidget {
   final String userId, questions;
-  ExamStart(this.userId, this.questions) {}
+  ExamStart(this.userId, this.questions);
   _ExamStartState createState() => _ExamStartState(userId, questions);
 }
 
 class _ExamStartState extends State<ExamStart> {
   final String userId, questions;
-  _ExamStartState(this.userId, this.questions) {}
+  _ExamStartState(this.userId, this.questions);
   List _result = [];
   int _index = 0;
   List<Question> _questions = List();

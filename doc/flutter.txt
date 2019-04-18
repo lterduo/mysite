@@ -7,6 +7,8 @@ C:\Users\Administrator\AppData\Local\Android\android-sdk
 C:\Users\Administrator\AppData\Local\Android\Sdk\emulator\emulator.exe -netdelay none -netspeed full -avd lt
 C:\Users\Administrator\AppData\Local\Android\android-sdk\emulator\emulator.exe -netdelay none -netspeed full -avd lt
 
+flutter create demo_01
+
 全局状态管理，可以使用 redux 包
 简单数据存储 shared_preferences
 http	dio
@@ -118,7 +120,8 @@ https://www.cnblogs.com/yangyxd/p/9232308.html
 	https://pub.dartlang.org/packages/badge
 
 
-
+flutter_web_view没用
+flutter_webview_plugin
 
 
 
