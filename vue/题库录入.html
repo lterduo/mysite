@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>题库录入</title>
+
+    <link rel="stylesheet" href="assets/css/fonticons.css">
+    <link rel="stylesheet" href="assets/css/slider-pro.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!--For Plugins external css-->
+        <link rel="stylesheet" href="assets/css/plugins.css" />
+
+        <!--Theme custom css -->
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <!--Theme Responsive css-->
+        <link rel="stylesheet" href="assets/css/responsive.css" />
+    <style>
+        .app {
+            {% comment %} display: flex;
+            flex-direction: column;
+            justify-content: flex-start; {% endcomment %}
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="app" class="app">
+        <p>请输入题干：</p>
+        <textarea rows="20" cols="30" v-model='question'>
+            </textarea><br>
+
+        <p>请输入答案：</p>
+        <input type="text" v-model="inputValue">
+        </br>
+        <button @click="handleBtnClick">点击加入答案列表：</button>
+
+        <ul>
+            <!-- <li v-for="item in list">{{item}}</li> -->
+            <todu-item v-bind:content="item" :index2="index1" v-for="(item,index1) in list" @delete="handleItemDelete">
+                </todo-item>
+        </ul>
+
+        <form action="/add/" method="get">
+            <p>请输入正确答案：</p>
+            <input type='text' name='answer'>
+            </br>
+
+            <input type='text' v-model='question' v-show='true' name='question'>
+            <input type='text' v-model='list' v-show='true' name='answers'>
+            <input type="submit" value="提交">
+        </form>
+    </div>
+    
+    <script>
+        // Vue.component('TodoItem', {
+        //     props: ['content'],
+        //     template: '<li>{{content}}</li>'
+        // })
+        var ToduItem = {
+            props: ['content', 'index2'],
+            template: '<li @click="handelItemClick">{{content}}</li>',
+            methods: {
+                handelItemClick: function () {
+                    this.$emit("delete", this.index2)
+                }
+            }
+        }
+        var app = new Vue({
+            el: '#app',
+            components: {
+                ToduItem: ToduItem
+            },
+            data: {
+                question: '',
+                list: [],
+                inputValue: ''
+            },
+            methods: {
+                handleBtnClick: function () {
+                    this.list.push(this.inputValue);
+                    this.inputValue = ''
+                },
+                handleItemDelete: function (index3) {
+                    this.$data.list.splice(index3, 1)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
