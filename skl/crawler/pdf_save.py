@@ -8,7 +8,7 @@ def pdf_save(url,headers,filename): #filename��crawler_content��url��
     filename = re.findall('renmrb_\d\d\d\d\d\d\d\d_\d', filename)[0] #renmrb_20180815_1
     filename = '10' + filename[7:-2] + '0' + filename[-1]  #名称跟json中的number一致
     filename =path + filename + '.pdf'
-    print('filename :        '+filename)
+#     print('filename :        '+filename)
     if filename:
         fp = open(filename, 'wb')
         fp.write(data.content)

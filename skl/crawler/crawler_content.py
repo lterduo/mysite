@@ -10,7 +10,11 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     web_data.encoding = 'utf-8'  # 解决乱码问题
     soup = BeautifulSoup(web_data.text, 'lxml')
 
-    title = soup.h1.string.strip()
+    title = soup.h1.string
+    if title is not None:
+        title = title.strip()
+    if title is None:
+        title = ''
     print('title:',title)
     title_sub = soup.h2.string
     if title_sub is None:
@@ -25,7 +29,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
 
     s = soup.select('.lai')[0].text
     publish_time = re.findall('\d\d\d\d年\d\d月\d\d日',s)[0]
-    print('publish_time:',publish_time)
+    # print('publish_time:',publish_time)
 
     s = soup.select('#ozoom > p ')
     content = ''
@@ -43,7 +47,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     #判断第一段是否摘要，如果是，从正文摘除
     abstract = ''
     content_temp = content.strip().split('\n')
-    print(content_temp)
+    # print(content_temp)
     abstract_temp = content_temp[0]
     if abstract_temp[0:4] == '内容提要':
         abstract = abstract_temp
@@ -58,7 +62,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     chap = [] #取chapter名称和位置
     i = 0
     while i < len(sens):
-        print("sens: " + str(i) + '  '+ sens[i])
+        # print("sens: " + str(i) + '  '+ sens[i])
         if sens[i][-1] not in ('。', '！', '？', '…', '”'):
             location.append(i)
         i = i + 1
@@ -103,10 +107,10 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     import os
     pubtime = publish_time[0:4] + publish_time[5:7] + publish_time[8:10]
 
-    print(pubtime,'    ',publish_time)
+    # print(pubtime,'    ',publish_time)
 
     s = re.findall('renmrb_\d\d\d\d\d\d\d\d_\d', url)[0] #renmrb_20180815_1
-    print(s)
+    # print(s)
 
     import codecs  # 中文问题
     # filename = './json/' + s + '.json'
@@ -115,7 +119,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     with codecs.open(filename, 'w', 'utf-8') as f:
         json.dump(data, f, sort_keys=False , indent=4, separators=(',', ': '), ensure_ascii=False)
 
-headers = {
-    'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
-}
-json_save('http://paper.people.com.cn/rmrb/html/2018-11/08/nw.D110000renmrb_20181108_1-07.htm',headers)
+# headers = {
+#     'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
+# }
+# json_save('http://paper.people.com.cn/rmrb/html/2018-11/08/nw.D110000renmrb_20181108_1-07.htm',headers)
