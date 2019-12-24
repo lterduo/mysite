@@ -67,3 +67,4 @@ headers = {
 }
 for url in urls:
     get_info_main(url,headers)
+    
