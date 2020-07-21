@@ -1,37 +1,35 @@
-import datetime
+import os
 from bs4 import BeautifulSoup
 import requests
 import re
 import json
 from duanju import *
 
-def json_save(url,headers): # 爬取正文，生成json并保存
-    web_data = requests.get(url, headers=headers)
-    web_data.encoding = 'utf-8'  # 解决乱码问题
-    soup = BeautifulSoup(web_data.text, 'lxml')
+def json_save(path, file, number): 
+    print(path,file,number)
+    html = open(path + file, "r", encoding="gb18030")
+    web_data = html.read()
+    html.close()
 
-    title = soup.h1.string
-    if title is not None:
-        title = title.strip()
-    if title is None:
-        title = ''
-    print('title:',title)
-    title_sub = soup.h2.string
-    if title_sub is None:
-        title_sub  = ''
+    soup = BeautifulSoup(web_data, 'lxml')
+    filename = re.findall('\d\d\d\d.\d\d.\d\d',file)[0].replace('.', '') #  2015.09.18     20150918
+    if number < 10:
+        filename = "10" + filename + "0" + str(number) # 102015091801
+    else:
+        filename = "10" + filename + str(number) 
 
-    s = soup.h4.string
-    author_name = []
-    if s is not None:
-        for s1 in s.split(' '):
-            if s1 != '':
-                author_name.append(s1)
+    #重写html
+    f = open('./json/' + filename + '.html', 'w')
+    f.write(web_data)
+    f.close()
 
-    s = soup.select('.lai')[0].text
-    publish_time = re.findall('\d\d\d\d年\d\d月\d\d日',s)[0]
-    # print('publish_time:',publish_time)
-
-    s = soup.select('#ozoom > p ')
+    #作者
+    author_name = re.findall("第7版(.*)】",file)[0] #人民日报 2015.07.15 第7版杨光斌】.htm
+    author_name = author_name.replace(' 作者：','')
+    author_name = author_name.split(";")
+    print(author_name)
+    #内容、作者单位
+    s = soup.select('.div_detail-neirong > p ')
     content = ''
     author_org = ''
     for s1 in s:
@@ -41,8 +39,28 @@ def json_save(url,headers): # 爬取正文，生成json并保存
             print('author_org:',author_org)
         else:
             content = content + '\n' + s2
+
     source_name = '人民日报'
     source = {'name':source_name,"issue": "", "category": "报刊"}
+    #标题
+    s = soup.select('.div_biaoti')
+    # print(s)
+    if s is not None:
+        title = s[0].string.strip()
+    if s is None:
+        title = ''
+    print('title:',title)
+    #副标题
+    s = soup.select('.div_biaoti2')
+    # print(s)
+    title_sub = []
+    for s1 in s :
+        if s1.string is not None:
+            title_sub.append(s1.string.strip())
+    print("title_sub:  ", title_sub)
+
+    publish_time = re.findall('\d\d\d\d.\d\d.\d\d',file)[0]
+    print('publish_time:',publish_time)
 
     #判断第一段是否摘要，如果是，从正文摘除
     abstract = ''
@@ -52,7 +70,17 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     if abstract_temp[0:4] == '内容提要':
         abstract = abstract_temp
         content = '\n'.join(content_temp[1:])
+    #判断第一段是否是作者
+    print('author_name[0]: ', author_name[0])
+    # print(abstract_temp)
+    # print(abstract_temp.replace(' ','')) #很神奇，空格去不完全
+    s = abstract_temp
+    s = ''.join(s.split())
+    # print(s)
+    if author_name[0] in s:
+        content = '\n'.join(content_temp[1:])
 
+    # 处理内容
     sentences = []
     sections = []
     chapters = []
@@ -63,7 +91,7 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     i = 0
     while i < len(sens):
         # print("sens: " + str(i) + '  '+ sens[i])
-        if sens[i][-1] not in ('。', '！', '？', '…', '”'):
+        if sens[i][-1] not in ('。', '！', '？', '…', '”',):
             location.append(i)
         i = i + 1
     if len(location) != 0:
@@ -94,40 +122,25 @@ def json_save(url,headers): # 爬取正文，生成json并保存
         sections = [{'name': '', "sentences": sentences}]
         chapters = [{'name': c["name"], 'section': sections}]
         contents.append({"chapter": chapters})
+
     author = []
     for i in author_name:
         author.append({'name':i, 'organization':author_org})
     publish_time1 = publish_time[0:4] + '-'+publish_time[5:7] + '-'+publish_time[8:10]
     total_size = len(content) + len(title) + len(abstract)
+
     data = {'number':'','title':title,'title_en':'','title_sub':title_sub,\
     'author':author,'source':source,"keywords":"","abstract":abstract,"abstract_en":"","references":"",\
     "publish_time":publish_time1,"base_category":"重要报刊",'base_sub_category':source_name, \
     "subject_category": {"first_class": "","second_class": "","third_class": ""},\
     'contents':contents,"total_page_size": 1,"total_size": total_size,"url": ""}
-    import os
-    pubtime = publish_time[0:4] + publish_time[5:7] + publish_time[8:10]
-
-    # print(pubtime,'    ',publish_time)
-
-    s = re.findall('renmrb_\d\d\d\d\d\d\d\d_\d', url)[0] #renmrb_20180815_1
-    # print(s)
 
     import codecs  # 中文问题
-    # filename = './json/' + s + '.json'
-    data['number'] = '10'+ pubtime+'0'+ s[-1]
-    filename = './json/' + '10'+ pubtime+'0'+ s[-1] + '.json' #文件名跟number相同
+    data['number'] = filename
+    filename = './json/' + filename + '.json' #文件名跟number相同
 
     with codecs.open(filename, 'w', 'utf-8') as f:
         json.dump(data, f, sort_keys=False , indent=4, separators=(',', ': '), ensure_ascii=False)
 
-    # 输出html文件
-    html = soup.prettify()
-    filename = './json/' + '10'+ pubtime+'0'+ s[-1] + '.html'
-    with codecs.open(filename, 'w', 'utf-8') as f:
-        f.write(html)
-        f.close
 
-# headers = {
-#     'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
-# }
-# json_save('http://paper.people.com.cn/rmrb/html/2018-11/08/nw.D110000renmrb_20181108_1-07.htm',headers)
+# json_save('/人民日报/2016/', '【人民日报 2016.01.05 第7版巩海滨】.html', 1)
