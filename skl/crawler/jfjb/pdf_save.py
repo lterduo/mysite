@@ -1,7 +1,7 @@
 import requests
 import re
 
-path = './data/'
+path = './pdf/'
 def pdf_save(url,headers,filename): 
     data = requests.get(url, headers=headers)
 #     http://www.81.cn/jfjbmap/content/2019-03/01/content_228400.htm

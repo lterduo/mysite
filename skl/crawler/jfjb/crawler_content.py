@@ -119,9 +119,16 @@ def json_save(url,headers): # 爬取正文，生成json并保存
     import codecs  # 中文问题
 
     data['number'] = s   
-    filename = './data/' + s + '.json' #文件名跟number相同
+    filename = './json/' + s + '.json' #文件名跟number相同
     with codecs.open(filename, 'w', 'utf-8') as f:
         json.dump(data, f, sort_keys=False , indent=4, separators=(',', ': '), ensure_ascii=False)
+
+    # 输出html文件
+    html = soup.prettify()
+    filename = './json/' + s + '.html'
+    with codecs.open(filename, 'w', 'utf-8') as f:
+        f.write(html)
+        f.close
 
 # headers = {
 #     'User-Agent': 'Windows Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
