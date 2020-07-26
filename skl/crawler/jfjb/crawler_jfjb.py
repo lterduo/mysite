@@ -18,7 +18,7 @@ def get_info_main(url, headers):
 
     # 选择理论版块，提取url     有一个隐藏的div，a标签id=pageLink，需要过滤掉
     for i in banmian:
-        if '思想战线' in i.text or '学习与研究' in i.text :
+        if '思想战线' in i.text or '学习与研究' in i.text or '党的建设' in i.text:
             print('banmian:    ' + i.text)
             url_temp = i.get('href')
             url_temp = url[0:-10] + url_temp
@@ -51,8 +51,8 @@ def get_info(url, headers, pdf):
 
 
 # 按时间获取url
-daystart = datetime.datetime.strptime("2019-07-01", "%Y-%m-%d").date()
-daystop = datetime.datetime.strptime("2020-06-30", '%Y-%m-%d').date()
+daystart = datetime.datetime.strptime("2015-01-01", "%Y-%m-%d").date()
+daystop = datetime.datetime.strptime("2015-12-31", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")

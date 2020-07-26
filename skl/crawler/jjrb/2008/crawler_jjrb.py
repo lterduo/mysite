@@ -2,7 +2,7 @@ import datetime
 from bs4 import BeautifulSoup
 import requests
 import re
-from pdf_save import pdf_save
+
 from crawler_content import *
 import codecs
 
@@ -23,13 +23,8 @@ def get_info_main(url, headers):
             url_temp = i.get('href')
             url_temp = url[0:-10] + url_temp
             print('版面URL：   ', url_temp)
-            j = i.find_parent().find_next_sibling().find('input')
-            pdf = j["value"]
-            pdf = 'http://paper.ce.cn/jjrb' + pdf
-            print('pdf:   ', pdf)
-            # http://paper.ce.cn/jjrb/html/2019-02/20/node_2.htm
-            #                        /page/1/2018-04/19/15/2018041915_pdf.pdf
-            # http://paper.ce.cn/jjrb/page/1/2018-04/19/15/2018041915_pdf.pdf
+            
+            pdf = ''
             get_info(url_temp, headers, pdf)
 
 
@@ -50,12 +45,12 @@ def get_info(url, headers, pdf):
         # url_content_temp = url[0:-11] + url_content_temp\
         url_content_temp = re.findall('.*\d\d/\d\d/', url)[0] + url_content_temp
         print('url_content:             ' + url_content_temp)
-        pdf_save(pdf, headers, url_content_temp)
+
         json_save(url_content_temp, headers)
 
 
 # 按时间获取url
-daystart = datetime.datetime.strptime("2008-01-27", "%Y-%m-%d").date()
+daystart = datetime.datetime.strptime("2012-12-28", "%Y-%m-%d").date()
 daystop = datetime.datetime.strptime("2012-12-31", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:

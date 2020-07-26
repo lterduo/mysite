@@ -2,7 +2,6 @@ import datetime
 from bs4 import BeautifulSoup
 import requests
 import re
-from pdf_save import pdf_save
 from crawler_content import *
 
 def get_info_main(url,headers):
@@ -27,15 +26,9 @@ def get_info(url,headers):
     web_data = requests.get(url, headers=headers)
     web_data.encoding = 'utf-8'  # 解决乱码问题
     soup = BeautifulSoup(web_data.text, 'lxml')
-    banmian = soup.select('.ban_t > div > ul > li ')  # 注意一定要加空格
-    pdf = soup.select('.ban_t > div > ul > li > a')
-    print(banmian[0].text.strip())
-    banmian0 = banmian[0].text.strip().split('\n')[0].strip()  # 取出第一行，去掉空格，判断是否为'07版:理论'
-    print('banmian0:', banmian0)
-    print(pdf[0])
 
     #获取具体地址，爬取内容并保存json
-    urls7 = soup.select('#titleList > ul > li > a ')
+    urls7 = soup.select('.news > ul > li > a ')
     for s in urls7:
         print(s.get('href'))
         '''
@@ -45,16 +38,10 @@ def get_info(url,headers):
         s = re.findall('.*\d\d/\d\d/', url)[0] + s.get('href')
         print(s)
         json_save(s,headers)
-		#写pdf
-        pdffile = pdf[0].get('href')
-        print(pdffile)
-        pdffile = "http://paper.people.com.cn/rmrb/" + re.findall('page.*', pdffile)[0]
-        pdf_save(pdffile, headers, s)
-
 
 #按时间获取url
-daystart = datetime.datetime.strptime("2020-01-01", "%Y-%m-%d").date()
-daystop = datetime.datetime.strptime("2020-06-30",'%Y-%m-%d').date()
+daystart = datetime.datetime.strptime("2020-07-01", "%Y-%m-%d").date()
+daystop = datetime.datetime.strptime("2020-07-02",'%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")

@@ -25,7 +25,8 @@ def get_info_main(url, headers):
 
     # 选择理论版块，提取url
     for i in banmian:
-        if '理论' in i.text or '红船初心特刊' in i.text or '学习贯彻习近平新时代中国特色社会主义思想特刊' in i.text:
+        if '理论' in i.text and "新闻" not in i.text\
+            or '红船初心特刊' in i.text or '学习贯彻习近平新时代中国特色社会主义思想特刊' in i.text :
             print('banmian:    ' + i.text)
             url_temp = i.get('href')
             url_temp = url[0:-6] + url_temp[-6:]
@@ -64,8 +65,8 @@ def get_info(url, headers, pdf):
 
 
 # 按时间获取url
-daystart = datetime.datetime.strptime("2019-10-25", "%Y-%m-%d").date()
-daystop = datetime.datetime.strptime("2020-06-30", '%Y-%m-%d').date()
+daystart = datetime.datetime.strptime("2011-11-13", "%Y-%m-%d").date()
+daystop = datetime.datetime.strptime("2011-12-31", '%Y-%m-%d').date()
 urls = []
 while daystart <= daystop:
     day = daystart.strftime("%Y-%m/%d")
