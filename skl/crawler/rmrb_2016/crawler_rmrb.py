@@ -12,7 +12,7 @@ cursor.execute('''CREATE TABLE rmrb
        number            INT     NOT NULL);''')
 
 #将要处理的文件保存在一个目录下
-path = "/人民日报/2011/"
+path = "/人民日报/test/"
 
 dirs = os.listdir(path)
 for file in dirs :
