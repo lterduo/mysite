@@ -19,12 +19,12 @@ def json_save(path, file, number):
         filename = "10" + filename + str(number) 
 
     #重写html
-    f = open('./json/' + filename + '.html', 'w')
+    f = open('./json/' + filename + '.html', 'w', encoding='gb18030')
     f.write(web_data)
     f.close()
 
     #作者
-    author_name = re.findall("第7版(.*)】",file)[0] #人民日报 2015.07.15 第7版杨光斌】.htm
+    author_name = re.findall("第9版(.*)】",file)[0] #人民日报 2015.07.15 第7版杨光斌】.htm
     author_name = author_name.replace(' 作者：','')
     author_name = author_name.split(";")
     print(author_name)
@@ -44,9 +44,9 @@ def json_save(path, file, number):
     source = {'name':source_name,"issue": "", "category": "报刊"}
     #标题
     s = soup.select('.div_biaoti')
-    # print(s)
+    print('title:    ', s)
     if s is not None:
-        title = s[0].string.strip()
+        title = s[0].text.strip()
     if s is None:
         title = ''
     print('title:',title)

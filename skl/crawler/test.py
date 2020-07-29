@@ -1,7 +1,7 @@
 import re
 import os
 
-path = "/报刊数据/人民日报/json2011"
+path = "/报刊数据/人民日报/json2007"
 
 dirs = os.listdir(path)
 html = []
