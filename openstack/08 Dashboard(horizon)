@@ -1,0 +1,27 @@
+https://docs.openstack.org/mitaka/zh_CN/install-guide-rdo/horizon-install.html
+#随便装在哪个节点
+
+yum install openstack-dashboard
+
+vi /etc/openstack-dashboard/local_settings 
+
+OPENSTACK_KEYSTONE_URL = "http://%s:5000/v3" % OPENSTACK_HOST   #不用改
+OPENSTACK_KEYSTONE_URL = "http://10.0.0.11:5000/v3" 
+TIME_ZONE = "TIME_ZONE"
+TIME_ZONE = "Asia/Shanghai"
+
+vi /etc/httpd/conf.d/openstack-dashboard.conf
+WSGIApplicationGroup %{GLOBAL}
+
+systemctl restart httpd.service memcached.service
+
+无法访问，修改firewall
+firewall-cmd --add-port=8080/tcp --permanent  
+systemctl restart firewalld
+
+#应该不会报错，如果报错，检查memcached
+vi /etc/sysconfig/memcached
+    OPTIONS="-l 127.0.0.1,::1"
+    修改 OPTIONS="-l 127.0.0.1,::1,controller" 或 OPTIONS="-l 10.0.0.11,::1"
+systemctl restart memcached.service
+

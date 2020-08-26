@@ -1,0 +1,56 @@
+#####???web能否操作？
+
+#  控制节点  创建虚拟网络 
+neutron net-create --shared --provider:physical_network provider \
+  --provider:network_type flat provider
+
+
+############################修改后更差，明天改回来
+openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_flat flat_networks  provider
+systemctl restart openstack-nova-api.service
+systemctl restart neutron-server.service \
+  neutron-linuxbridge-agent.service neutron-dhcp-agent.service \
+  neutron-metadata-agent.service
+
+
+
+####################需要手工配了
+neutron subnet-create --name provider \
+  --allocation-pool start=10.0.0.101,end=10.0.0.250 \
+  --dns-nameserver 223.5.5.5 --gateway 10.0.0.2 \
+  provider 10.0.0.0/24    
+#######此provider对应上一步的名称provider
+
+#创规格，也就是硬件配置
+openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano  #测试用
+openstack flavor list
+
+#生成密钥对
+ssh-keygen -q -N "" -f ~/.ssh/id_rsa
+openstack keypair create --public-key ~/.ssh/id_rsa.pub mykey
+openstack keypair list
+
+#增加安全组
+openstack security group rule create --proto icmp default
+openstack security group rule create --proto tcp --dst-port 22 default
+
+#启动实例， 也可以用web页面
+openstack server create --flavor m1.tiny --image cirros \
+  --nic net-id=ac4524d5-f12e-458f-b030-fa09ae68fe0f --security-group default \
+  --key-name mykey provider-instance
+###################### net-id 用 openstack network list "provider"的id
+####################### provider-instance 可更换成需要的实例名称
+
+
+#各种报错，启动不了,bug, 修改计算节点
+vi /etc/nova/nova.conf
+[libvirt]
+cpu_mode = none
+virt_type = qemu
+systemctl restart openstack-nova-compute.service
+控制台里硬重启
+
+#  控制台无法打开  firewalld 确定5900、6080端口
+firewall-cmd --add-port=5900/tcp --permanent 
+firewall-cmd --add-port=6080/tcp --permanent 
+systemctl restart firewalld

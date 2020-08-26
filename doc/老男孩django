@@ -1,0 +1,23 @@
+p5
+    jinja2
+p09
+    静态文件
+
+10 通用步骤
+    创建project
+    配置
+        1、模板路径
+            template
+        2、静态文件路径 js、css、图片 
+            static: 一定加逗号
+                STATIC_URL = '/static/'
+                STATICFILES_DIRS = (
+                    os.path.join(BASE_DIR, 'static'),
+                )
+
+
+        3、middleware
+            csrfViewMiddleware注释掉
+12 模板语言特殊标记
+    return render(request, 'login.html', {...})
+    return redirect('/index/')

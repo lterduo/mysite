@@ -1,0 +1,2 @@
+python rbac 搜索，有现成的权限管理
+https://www.cnblogs.com/pythonz/p/10508070.html

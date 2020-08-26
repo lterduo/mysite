@@ -1,0 +1,6 @@
+#停止控制节点的glance服务
+systemctl stop openstack-glance-api.service openstack-glance-registry.service
+systemctl disable openstack-glance-api.service openstack-glance-registry.service
+
+
+#在需要迁移到的主机上安装glance服务

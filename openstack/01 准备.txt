@@ -1,0 +1,128 @@
+https://docs.openstack.org/zh_CN/
+
+1、准备虚拟机
+    网络使用nat模式，在虚拟网络编辑器中设置好ip段等
+    cd /etc/sysconfig/network-scripts/
+    vi ifcfg-ens33
+    	IPADDR=10.0.0.11            31
+        NETMASK=255.255.255.0
+        GATEWAY=10.0.0.2
+        DNS1=101.198.199.200
+        DNS2=114.114.114.114
+        ZONE=public
+    systemctl restart network
+    ping news.sina.com.cn
+    ping 10.0.0.31
+
+    hostnamectl set-hostname controller/compute1
+    logout
+
+    vi /etc/hosts
+        10.0.0.11 controller
+        10.0.0.31 compute1
+    scp -rp /etc/hosts 10.0.0.31:/etc/hosts
+
+2、yum源
+    mount /dev/cdrom /mnt
+    上传OpenStack_rpm.tar.gz /opt
+    cd /opt
+    tar xf openstack_rpm.tar.gz 
+        (31:    scp -rp openstack_rpm.tar.gz 10.0.0.31:/opt 解压) 
+    生成repo配置文件
+    (vi /etc/yum.repos.d/local.repo)
+    不用vi，下面代码直接粘贴运行
+        echo '[local]
+        name=local
+        baseurl=file:///mnt
+        gpgcheck=0
+
+        [openstack]
+        name=openstack 
+        baseurl=file:///opt/repo
+        gpgcheck=0' >/etc/yum.repos.d/local.repo
+
+        echo 'mount /dev/cdrom /mnt' >>/etc/rc.local
+        chmod +x /etc/rc.d/rc.local 
+
+3、安装基础服务
+    3.1 所有节点安装chrony
+    rpm -qa chrony
+    控制节点：修改后，允许计算节点跟其同步
+        vi /etc/chrony.conf
+            #allow 192.168.0.0/16 
+            增加allow 10.0.0.0/24
+        systemctl restart chronyd
+    计算节点：修改后，跟控制节点同步而不是外网同步
+        vi /etc/chrony.conf
+            # Please consider joining the pool (http://www.pool.ntp.org/join.html).
+            server 10.0.0.11 iburst
+        systemctl restart chronyd
+
+**********************************
+base源就包含openstack
+要安装更高版本，需要改回阿里云
+1.先备份
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+Centos 7
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+或者
+curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+最后运行 yum makecache 生成缓存
+************************************
+
+    3.2 所有节点安装openstack客户端和openstack-selinux
+    yum install python-openstackclient openstack-selinux -y
+
+    3.3 控制节点执行：安装配置mariadb
+    yum install mariadb mariadb-server python2-PyMySQL -y
+    (python -V 看版本是2还是3，应该是2)
+     创建 vi /etc/my.cnf.d/openstack.cnf
+[mysqld]
+bind-address = 10.0.0.11
+default-storage-engine = innodb
+innodb_file_per_table
+max_connections = 4096
+collation-server = utf8_general_ci
+character-set-server = utf8
+
+    systemctl enable mariadb.service
+    systemctl start mariadb.service
+    mysql_secure_installation       数据库安全初始化
+    回车
+    n
+    y
+    y 
+    y 
+    y 
+
+    3.4 安装官网文档应该装nosql，私有云不计费不用装
+
+    3.5 控制节点：安装消息队列
+        yum install rabbitmq-server -y 
+        systemctl enable rabbitmq-server.service
+        systemctl start rabbitmq-server.service
+        rabbitmqctl add_user openstack RABBIT_PASS
+        rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+
+        rabbitmq-plugins enable rabbitmq_management
+        34:00处有说明，此工具很实用
+    
+    3.6 控制节点：memecached
+    ********  M版官方文档有bug ，不修改配置文件，无法访问！***********
+    vi /etc/sysconfig/memcached
+        OPTIONS="-l 127.0.0.1,::1,controller"
+
+    systemctl enable memcached.service
+    systemctl start memcached.service
+
+    netstat -lntup
+
+
+
+
+
+
+
+
+
+
