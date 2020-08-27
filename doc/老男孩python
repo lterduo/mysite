@@ -29,3 +29,21 @@
     注意短路： True or ...  后面的短路不执行了
     逻辑优先级： () > not > and > or
     isinstance(变量，类型)  isinstance(变量,(类型，类型...))
+
+27 
+    str.split(';',2)    分隔两次，后面的不再分隔，做一个list
+    rsplit()            从右向左
+    join    split的反操作
+
+39  *args **kwargs      *args, 得到的参数为列表， **kwargs，得到的参数为字典
+def test_var_args(f_arg, *argv):
+    print("first normal arg:", f_arg)
+    for arg in argv:
+        print("another arg through *argv:", arg)
+test_var_args('yasoob', 'python', 'eggs', 'test')
+
+def greet_me(**kwargs):
+    for key, value in kwargs.items():
+        print("{0} == {1}".format(key, value))
+>>> greet_me(name="yasoob")
+name == yasoob
