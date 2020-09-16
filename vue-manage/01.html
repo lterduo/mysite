@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <p>{{fun2()}}</p>
+        <p>{{age>=18?'成年':'未成年'}}</p>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'hei',
+                age:15,
+            },
+            methods: {
+                fun1: function(){
+                    console.log('fun1')
+                    this.msg = 'haha'
+                },
+                fun2(){
+                    console.log('fun2')
+                    this.msg = 'heihei'
+                },
+            },
+        })
+        vm.fun2()
+    </script>
+</body>
+</html>

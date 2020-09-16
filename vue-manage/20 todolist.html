@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="itemName" ref="focus">
+        <!-- <button @click="addItem()">add</button> -->
+        <input :disabled="itemName.length===0" @click="addItem()" type="button" value="add">
+        <div>
+            <input type="text" v-model="searchVal" placeholder="search">搜索
+        </div>    
+        <ul>
+            <li v-for="(v,i) in newList" :key="i">{{i+1}}--{{v}}<a href="#" @click.prevent="deleteItem(i)">删除</a></li>
+            <li v-if="list.length===0">列表为空</li>
+        </ul>
+    </div>
+    <script src="./vue.js"></script>
+
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                itemName:'',
+                list:['task1','task2',],
+                searchVal:'',
+            },
+            mounted() {
+                this.$refs.focus.focus()
+            },
+            computed: {
+                newList(){
+                    
+                        return this.list.filter(item => item.includes(this.searchVal))
+                    
+                },
+            },
+            methods:{
+                addItem(){
+                    this.list.push(this.itemName)
+                    this.itemName = ''
+                    console.log(this.list)
+                },
+                deleteItem(index){
+                    if(confirm('删除？')){
+                        this.list.splice(index,1)
+                    }
+                },
+            },
+        })
+    </script>
+    <script>
+        var vrr = [1,2,3].filter(item => item > 1)
+        console.log(vrr)
+    </script>
+</body>
+</html>

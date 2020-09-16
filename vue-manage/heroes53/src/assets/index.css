@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+}
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.pg-header{
+    height: 48px;
+    min-width: 1190px;
+    background-color: #204d74;
+    line-height: 48px;
+}
+.pg-header .logo{
+    color: white;
+    font-size: 18px;
+    width: 200px;
+    text-align: center;
+    border-right: 1px solid #ddd;
+}
+.menu{
+    width: 200px;
+    position: absolute;
+    left: 0;
+    top: 48px;
+    bottom: 0;
+    background-color: #269abc;
+}
+.content{
+    position: absolute;
+    left: 200px;
+    top: 48px;
+    right: 0;
+    bottom: 0;
+    min-width: 990px;
+    background-color: palevioletred;
+    overflow: scroll;
+}

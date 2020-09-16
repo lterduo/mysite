@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/a">A</router-link>
+        <router-link to="/b">B</router-link>
+        <p>----------{{msg}}----------</p>
+        
+        <router-view></router-view>
+    </div>
+
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+        var comA = { template: '<div>A</div>' }
+        var comB = {template:'<div>B</div>'}
+        
+        var routes = [
+            {path:'/a',component:comA},
+            {path:'/b',component:comB}]
+        
+        var router =  new VueRouter({
+            routes:routes
+        })
+
+        new Vue({
+            el:'#app',
+            router:router,
+            data:{
+                msg: 'haha'
+            }
+        })
+    </script>
+</body>
+</html>

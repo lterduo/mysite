@@ -4,6 +4,9 @@ from django.http import HttpResponse
 import json
 from .duanju import *
 
+def layout(request):
+    return render(request, 'layout.html')
+
 def get_user(request):
     user_id = request.GET['user_id']
     password = request.GET['password']

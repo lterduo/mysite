@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style>
+            body{
+                margin: 0;
+            }
+            .left{
+                float: left;
+            }
+            .right{
+                float: right;
+            }
+            .pg-header{
+                height: 48px;
+                min-width: 1190px;
+                background-color: #204d74;
+                line-height: 48px;
+            }
+            .pg-header .logo{
+                color: white;
+                font-size: 18px;
+                width: 200px;
+                text-align: center;
+                border-right: 1px solid #ddd;
+            }
+            .menu{
+                width: 200px;
+                position: absolute;
+                left: 0;
+                top: 48px;
+                bottom: 0;
+                background-color: #269abc;
+            }
+            .content{
+                position: absolute;
+                left: 200px;
+                top: 48px;
+                right: 0;
+                bottom: 0;
+                min-width: 990px;
+                background-color: palevioletred;
+                overflow: scroll;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="pg-header">
+            <div class="logo left">课题申报系统</div>
+            <div class="topmenu right">
+                <a>消息</a>
+                <a>头像</a>
+            </div>
+        </div>
+        <div class="pg-body">
+            <div class="menu">菜单</div>
+            <div class="content">内容</div>
+        </div>
+    </body>
+</html>
