@@ -1333,6 +1333,23 @@ addItem: function() {
 </script>
 ```
 
+# 跨域问题
+    django端解决
+pip install django-cors-headers
+INSTALLED_APPS = (
+...
+'corsheaders',   
+...
+)
+MIDDLEWARE_CLASSES
+= (
+...   
+'corsheaders.middleware.CorsMiddleware',
+'django.middleware.common.CommonMiddleware',   
+...
+)
+ 
+CORS_ORIGIN_ALLOW_ALL = True  
 
 
 ## 相关工具

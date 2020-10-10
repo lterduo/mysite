@@ -26,7 +26,7 @@
     v-bind:属性="值"
     常用简写    :
     <img :src="ooxx">
-
+    
     绑定class时,用对象传值：
     <p :class="{left:a, active:b}"></p>
     data:{
@@ -50,7 +50,7 @@
             },
     啰嗦，不用判断直接return this.list.filter(item => item.includes(this.searchVal)) ，
     因为''包含在任何字符串中
-    
+
 ### json-server     postman
 ### axios
     $ npm install axios
@@ -182,18 +182,7 @@ https://blog.csdn.net/qq_30763385/article/details/104802694
 ## linkExactActiveClass 全局设置激活 router-link 的类名
     linkExactActiveClass：'active'      active是一个存在的class名
 
-# 项目使用axios
-npm i axios
-使用
-    1、模板(list.vue) methods 
-        getData(){
-            axios.get().then(res=>{
-                this.list = res.data
-            })
-            }
-    2、data(){return{data:[]}}
-    3、mounted(){this.getData()}
-    4、使用数据
+
 
 # 模板methods使用数据
     1、如果有data，直接用
@@ -212,7 +201,7 @@ npm i axios
     {name:'edit',
     `path:'/edit/:id'`
     component:Edit}
-
+    
     接收（被跳转到）的组件B，用this.$route.params.id接收，注意是$route, 不是$router
     this.$router    获取路由对象(router.js中的router)
     this.$route     获取路由配置对象，进一步获得信息（name,path,params...)
@@ -241,3 +230,159 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(ElementUI);
+去官网找代码直接用
+
+## 跨域问题
+    django端解决
+pip install django-cors-headers
+INSTALLED_APPS = (
+...
+'corsheaders',   
+...
+)
+MIDDLEWARE_CLASSES
+= (
+...   
+'corsheaders.middleware.CorsMiddleware',
+'django.middleware.common.CommonMiddleware',   
+...
+)
+
+CORS_ORIGIN_ALLOW_ALL = True  
+
+## axios 用法
+
+- npm i axios
+
+- .then
+  使用
+      1、模板(list.vue) methods 
+          getData(){
+              axios.get().then(res=>{
+                  this.list = res.data
+              })
+              }
+      2、data(){return{data:[]}}
+      3、mounted(){this.getData()}
+      4、使用数据
+
+- async await
+
+  ```
+  const res = await this.axios.post("api/users/", data);
+  要在离await最近的函数前加上async
+  ```
+
+  ```
+  deleteUser(){
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          }).then(async () => {
+          
+            const res = await this.axios.delete("api/users/");
+            
+          }).catch(() => {
+          });
+  ```
+
+  注意：async是加载了箭头函数的前面
+
+## axios 在项目中的应用（写成插件）
+1. main.js 中
+    import axios from 'axios'
+    Vue.prototype.axios = axios
+项目中可以直接用this.axios.get...
+2. 不用1. 直接写成插件（麻烦，懒得写）
+3. 优化 Url 在绑定原型前设置baseURL
+    import axios from 'axios'
+    `axios.defaults.baseURL = 'http://127.0.0.1:8000/'`
+    Vue.prototype.axios = axios
+模板中的url
+    this.axios.post('api/book/',{name:'水浒传',price:88})
+
+## token 登录
+* 用localStorage.setItem('token',data.token)保存，其他页面要const token = localStorage.getItem("token")
+
+登录成功时，保存正确用户token
+localStorage.setItem('token',data.token)
+home.vue中
+    beforeCreate() {
+    //获取token
+    const token = localStorage.getItem("token");
+    //如果没有，跳转登录
+    if (!token) {
+      this.$router.push({ name: "login" });
+    }
+    //如果有，继续渲染
+  },
+  methods:{
+    logout(){
+      //清除token
+      localStorage.clear()
+      this.$message.success('退出成功')
+      this.$router.push({name:'login'})
+    }
+  }
+
+## home布局
+element中的container
+头部 layout布局
+## 侧边栏 导航 el-menu
+    index不能相同
+    :unique-opened="true"
+    icon 图标
+    :router="true"  相当于router-link
+        index 相当于 path
+        嵌套路由    home中的main里加<router-view>
+        配置路由    home中设置children
+
+## 用户列表
+el-card 小容器 卡片 
+<el-breadcrumb separator="/">
+<el-input class="user-search" placeholder="请输入内容" v-model="query">
+<el-table :data="users" style="width: 100%">
+    <el-table-column type="index" prop="date" label="序号" width="180"></el-table-column>
+绑定数据，类型为数组
+element中找Table-column Attributes， type="index" 自增加
+
+## token 授权
+    137 需要授权的 API（除了login） ，必须在请求头中使用 Authorization 字段提供 token 令牌
+    const AUTH_TOKEN = localStorage.getItem('token')
+    this.axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
+### 服务器端
+
+## 全局过滤器 处理时间格式 p145
+在main.js中，new Vue 前
+Vue.filter('fmtdate',(v)=>{
+    return moment(v).format('YYYY-MM-DD')
+})
+注意，先 npm i moment ，再在 main.js中 import momnet
+### 组件中使用组件，或者插值
+    <el-table-column>
+        <template>
+            <el-switch>
+        </template>
+### slot-scope
+
+组件中插入组件，用\<template>标签包裹，并写好绑定的数据\<template slot-scope="scope">
+
+此时父标签绑定的数据可以删除，如下例中的prop="create_time" 可删除，因为子组件中已经取到了create_time
+
+    在要显示的标签中：
+        <el-table-column prop="create_time" label="创建时间" width="120">
+            <template slot-scope="scope">
+                {{scope.row.create_time | fmtdate}}
+            </template>
+        </el-table-column>
+    用 slot-scope 属性指出数据源（名字随便起，会自动找到上层绑定的数据，也就是<el-table :data="users" ）， 用差值表达式使用数据 | 使用过滤器。此时prop="create_time"可以删除
+## 字符串 拼接 变量
+methods: {
+  showMsg() {
+    alert(`获取了${a}`);
+  }
+}
+不是单引号，而是两个 ` 号
+
+## axios post 返回 bad request
+
+要检查是否字段错误。drf没有返回具体错误
+
