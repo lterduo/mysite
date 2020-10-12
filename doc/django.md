@@ -68,6 +68,7 @@ class Student(models.Model):
     s_name = models.CharField(max_length=16)
     s_grade = models.ForeignKey(Grade,on_delete=models.CASCADE)
     
+
 ### 查询
     objects.filter  exclude all
     book = Book.objects.filter(price__gt=50).filter.filter.exclude.exclude.....
@@ -504,7 +505,9 @@ http://localhost:8000/api/book/?page=2&size=5
 
 
 
-# ***
+
+
+***
 
 
 

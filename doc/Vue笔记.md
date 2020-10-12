@@ -60,10 +60,10 @@
 ## 组件
 建议: 在实际开发中,尽可能使用各种第三方组件
 命名规范，p-h, 用减号报错概率最小
-    父子传值： 类似于变量的使用过程1、声明 2、赋值  3、使用
-    1、声明：c-c子组件中 props:['a']  
-    2、赋值：<c-c :a="msg"></c-c>   也就是绑定父组件的msg
-    3、使用：c-c的template中像data一样使用
+### 父子传值： 类似于变量的使用过程1、声明 2、赋值  3、使用
+​    1、声明：c-c子组件中 props:['a']  
+​    2、赋值：<c-c :a="msg"></c-c>   也就是绑定父组件的msg
+​    3、使用：c-c的template中像data一样使用
 
 ## vue-router
     1、<router-link to="/a">A</router-link> 
@@ -214,6 +214,8 @@ import axios from 'axios';
 // 配置所有Vue的实例都具有axios这个成员
 Vue.prototype.axios = axios
 任意地方都可以用this.axios来使用
+
+
 
 
 # 后台管理项目
