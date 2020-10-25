@@ -17,7 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from api import views
 
+from django.conf.urls import url
+
+# from api.views import AuthView
+
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('hello/', views.hello),
+    url(r'^api/login/$', views.AuthView.as_view()),
 ]

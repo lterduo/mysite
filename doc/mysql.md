@@ -52,13 +52,13 @@ https://www.zhihu.com/tardis/sogou/art/44977117
   mysqld --initialize-insecure --user=mysql
 
 6. 启动服务
-  net start mysql
+    net start mysql
 
 7. 登录
-  mysql -u root -p //默认为 root，mysql -u <用户名> -p <密码>
+    mysql -u root -p //默认为 root，mysql -u <用户名> -p <密码>
 
 8. 设置密码
-  ALTER USER 'root'@'localhost' IDENTIFIED BY '112358jqk'; 
+    ALTER USER 'root'@'localhost' IDENTIFIED BY '112358jqk'; 
 
 9. 操作数据库
 
@@ -75,3 +75,6 @@ https://www.heidisql.com/download.php
 # vscode mysql
 安装【vscode-database】插件
 安装完成后按：【CTRL+SHILF+P】快捷键后点击【SQL:Connect to MySQL/PostgreSQL Server】选项。
+
+
+

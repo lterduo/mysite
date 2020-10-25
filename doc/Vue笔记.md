@@ -136,7 +136,7 @@ ttf无法处理，需要修改webpack.config.js
             }
 }
 
-# 一键vue模板
+# 快捷键	一键vue模板	
 https://blog.csdn.net/qq_30763385/article/details/104802694
 首选项》用户片段》vue，拷入代码段
 新建vue，sca
@@ -225,6 +225,7 @@ vue init webpack mallmanager53
 ## npm有时报错，清一下缓存
 npm cache clean
 报错就按照路径手动删除
+
 ## element ui
 npm i element-ui -S
 在main.js中
@@ -233,6 +234,14 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(ElementUI);
 去官网找代码直接用
+
+
+
+## css less 报错问题
+
+https://blog.csdn.net/maidu_xbd/article/details/105779377
+
+
 
 ## 跨域问题
     django端解决
@@ -388,3 +397,19 @@ methods: {
 
 要检查是否字段错误。drf没有返回具体错误
 
+
+
+## 动态导航	根据角色生成菜单
+
+* p232
+* p233
+
+## 路由卫士
+
+* p234
+
+
+
+## 富文本编辑器
+
+* p250

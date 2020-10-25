@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>北京市哲学社会科学优秀成果评奖管理系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css?v=k2_8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk" rel="stylesheet" />
+    <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css?v=S2gae3pUpfaSAo4lVt_Cmg5DxuCPPnc_Pa9-PwJ0K8M" rel="stylesheet" />
+    <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css?v=8dIVStAZIk6vZrc_wFsxGNFs0LViP4EawASDRdc-vCw" rel="stylesheet" />
+    <link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css?v=4e0eiRTk64tQnM9hmntNxCg5nuKU5MQG_uuCZ7WgfXc" rel="stylesheet" />
+    <link href="/assets/global/plugins/bootstrap-table/bootstrap-table.min.css?v=Fy52Qzcx1FMSIlfuv0fP1nrzmk78Z24LZIAZk8LTalU" rel="stylesheet" />
+    <link href="/assets/global/plugins/icheck/skins/all.css?v=KS_KA6l6_TgimcBRobFX07zO4LAjYASrXfF79TFBk1Q" rel="stylesheet" />
+    <link href="/assets/global/plugins/select2/css/select2.min.css?v=xJOZHfpxLR_uhh1BwYFS5fhmOAdIRQaiOul5F_b7v3s" rel="stylesheet" />
+    <link href="/assets/global/plugins/select2/css/select2-bootstrap.min.css?v=5UJZnBVc-j3b6oK_PRshw8zupOZ6f8QzcOKut62EP74" rel="stylesheet" />
+    <link href="/assets/global/css/components.min.css?v=mBMkoJFsjn2WWEbK42XKNv0zsktIthVCb1cv9Jo-btc" rel="stylesheet" id="style_components" />
+    <link href="/assets/global/css/plugins.min.css?v=v3WNa_Nh4nj904wWzrGjT_RKc0xw61a-vW-h2Ir6rJs" rel="stylesheet" />
+    <link href="/lib/toastr/toastr.css?v=W8a9WvLyUO7CXtOC4f9LoUMwkywM7JSq-Xm5kNsYW08" rel="stylesheet" />
+    <link href="/assets/layouts/layout4/css/layout.min.css?v=wPfzAoNuaH1x2rPvm6EItypfOvCvbB2SyVvtdzItRgM" rel="stylesheet" />
+    <link href="/assets/layouts/layout4/css/themes/light.min.css?v=zMXXotXI8rrbxWSh5cdkWTrIvXPEyMn-YdZOg5oSzyo" rel="stylesheet" id="style_color" />
+    <link href="/assets/layouts/layout4/css/custom.min.css?v=JmeIQ4YtCSB-PTbeb1AJ_J-RctrvQK4SNbs9M9Xlrbs" rel="stylesheet" />
+    <link href="/css/right.css" rel="stylesheet" />
+    <link href="/assets/pages/css/login-soft.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <style type="text/css">
+        .feeds li .col2 {
+            float: left;
+            width: 100px !important;
+            margin-left: -100px !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var abp = abp || {};
+        abp.appPath = '/';
+    </script>
+</head>
+<body class="login">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light" style="background-image:url(../assets/pages/img/image2.jpg);height:120px;margin-bottom: 10px;">
+                    <div>
+                        <h2 style="color:aliceblue;"><strong>北京市哲学社会科学优秀成果评奖管理系统</strong></h2>
+                    </div>
+                </div>
+            </div>
+            <!--头部结束-->
+<!--登录开始-->
+<div class="col-md-12">
+    <div class="portlet light" style="margin-bottom: 10px;">
+        <div class="container-fluid">
+            <div class="col-md-6" id="﻿LoginArea">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font-color hide"></i>
+                            <span id="form-title" class="caption-subject theme-font-color bold uppercase">用户登录</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form class="login-form" id="LoginForm" name="LoginForm" method="post" action="/Account/Login">
+                            <input type="hidden" name="returnUrl" value="/" />
+                            <input type="hidden" name="returnUrlHash" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                                    <label class="control-label visible-ie8 visible-ie9">帐号</label>
+                                    <div class="input-icon">
+                                        <i class="fa fa-user"></i>
+                                        <input class="form-control placeholder-no-fix" type="text" placeholder="账号、手机号或者邮箱" name="usernameOrEmailAddress"
+                                               required autofocus maxlength="256" autocomplete="off" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label visible-ie8 visible-ie9">密码</label>
+                                    <div class="input-icon">
+                                        <i class="fa fa-lock password-icon"></i>
+                                        <input class="form-control placeholder-no-fix" type="password" placeholder="密码" name="Password"
+                                               required maxlength="32" autocomplete="off" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label visible-ie8 visible-ie9">验证码</label>
+                                    <div class="input-icon">
+                                        <i class="fa  fa-circle-o-notch"></i>
+                                        <input class="form-control placeholder-no-fix inline" style="width:60%;" required type="text" autocomplete="off" placeholder="验证码,不区分大小写" name="VerifyCode" />
+                                        <img id="verifyCode" class="inline" title="看不清？点击更换下一张" src="/VerifyCode/LoginVerifyCode" onclick="this.src=this.src+'?'" style="margin-left:10px; cursor:pointer;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <label class="checkbox hidden">
+                                    <input type="checkbox" name="remember" value="1" /> 记住我
+                                </label>
+                                <a href="/Account/ForgetPwd" id="forget-password">
+                                    忘记密码？
+                                </a>
+                                <a href="/Account/Register" class="btn blue pull-right">
+                                    <i class="fa  fa-pencil-square-o"></i> 注册
+                                </a>
+                                <button type="submit" LoginButton class="btn blue pull-right margin-right-10">
+                                    <i class="fa fa-unlock"></i> 登录
+                                </button>
+                                <a href="/Account/Flow" class="btn red pull-right margin-right-10" target="_blank">
+                                    <i class="fa fa-share-alt"></i> 申报流程
+                                </a>
+                            </div>
+                        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LhMBDDUaClNlhBDzkcm1uUxgw_tZUELAuxPS4RlSmqXK5NHV_YGZrF8jrQrfdsn_sSk567fCNPhYW2Er4VGvO5RgWrip4uTTFz9CmP0DNrZ1SKckg3TxVllTxrvlbZv9XtTIyx4c6YXem4NPnN1CmI" /></form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="tips">
+                <div class="portlet light">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-globe theme-font-color hide"></i>
+                            <span class="caption-subject theme-font-color bold uppercase">系统提示</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body" id="LoginNotice">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--登录结束-->
+<!--通知开始-->
+<div class="col-md-12">
+    <div class="portlet light" style="margin-bottom: 10px;">
+        <div class="portlet-title tabbable-line">
+            <div class="caption caption-md">
+                <i class="icon-globe theme-font-color hide"></i>
+                <span class="caption-subject theme-font-color bold uppercase">系统通知</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <!--BEGIN TABS-->
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div class="scroller" style="height:!important auto;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
+                        <ul class="feeds" id="sysNotices">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--END TABS-->
+        </div>
+    </div>
+</div>
+<!--通知结束-->
+<!--文档开始-->
+<div class="col-md-12">
+    <div class="portlet light " style="margin-bottom: 10px;">
+        <div class="portlet-title tabbable-line">
+            <div class="caption caption-md">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li>
+                            <a href="#tab_jobguide" data-toggle="tab">
+                                工作指南
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="#tab_document" data-toggle="tab">
+                                文档资料
+                            </a>
+                        </li>
+                        <!--<li>
+                            <a href="#tab_winners" data-toggle="tab">
+                                获奖名单
+                            </a>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="tab-content">
+                <div class="tab-pane fade" id="tab_jobguide">
+                    <div class="scroller" style="height: !important auto;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
+                        <ul class="feeds" id="sysGuide">
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane fade active in" id="tab_document">
+                    <table class="table table-hover table-condensed table-light">
+                        <thead>
+                            <tr>
+                                <th>文档名称</th>
+                                <th>上传日期</th>
+                                <th>下载地址</th>
+                            </tr>
+                        </thead>
+                        <tbody id="loginDoc">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="tab_winners">
+                    <p>
+                        获奖名单
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--文档结束-->
+        </div>
+    </div>
+
+    <div class="cndns-right">
+        <div class="cndns-right-meau meau-contact">
+            <a href="https://www.kancloud.cn/marsman/sklprize_mannual/1699676" target="_blank" class="cndns-right-btn">
+                <span class="demo-icon"><i class="icon-notebook"></i></span>
+                <p>
+                    使用<br />
+                    手册
+                </p>
+            </a>
+        </div>
+        <div class="cndns-right-meau meau-contact">
+            <a href="http://award.bjsk.org.cn/video/video.html" target="_blank" class="cndns-right-btn">
+                <span class="demo-icon"><i class="icon-camcorder"></i></span>
+                <p>
+                    视频<br />
+                    教程
+                </p>
+            </a>
+        </div>
+        <div class="cndns-right-meau meau-code">
+            <a href="https://www.kancloud.cn/marsman/sklprize_qa/1700572" target="_blank" class="cndns-right-btn">
+                <span class="demo-icon"><i class="icon-graduation"></i></span>
+                <p>
+                    常见<br />
+                    问题
+                </p>
+            </a>
+        </div>
+        <div class="cndns-right-meau meau-top" id="top-back">
+            <a href="javascript:" class="cndns-right-btn" onclick="topBack()">
+                <span class="demo-icon"><i class="icon-rocket"></i></span>
+                <i>顶部</i>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- 尾部开始 -->
+    <div class="footer">
+        <div class="copyright">
+            北京市社会科学界联合会，联系地址：<span id="address">北京市东城区安外西滨河路19号</span> ，邮政编码：<span id="postcode">100011</span>
+            <br>
+            邮箱：<span id="email">info@bjskl.gov.cn</span>，联系电话：<span id="tel">010-64527100</span>，传真：<span id="fax">010-64527097</span>
+            <br>
+            ICP备案号：<span id="icp">京ICP备15004457号-2</span>，<img src="/images/beian.png" />京公网安备<span id="beian">11010102002594号</span>
+        </div>
+    </div>
+    <script src="/assets/global/plugins/jquery.min.js?v=jCgS3tZDZxUnn4_Y21jeMHqjmrApb-PPDoeQZ8Uemxg"></script>
+    <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js?v=KXn5puMvxCw-dAYznun-drMdG1IFl3agK0p_pqT9KAo"></script>
+    <script src="/assets/global/plugins/js.cookie.min.js?v=fZdJGj0pRimjU7rNiEQkmLX0YJrvAa--1id9qQa47X8"></script>
+    <script src="/assets/global/plugins/bootstrap-table/bootstrap-table.min.js?v=fF5oFqfDPsn2VQFqHq3yhqyblblODpLsVqsK0TM2bU0"></script>
+    <script src="/assets/global/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js?v=j0zo8zi4RYOsSBEUAmShWRV3QY14oHuxRircou07HAo"></script>
+    <script src="/assets/global/plugins/icheck/icheck.min.js?v=8HGN1EdmKWVH4hU3Zr3FbTHoqsUcfteLZJnVmqD_rC8"></script>
+    <script src="/assets/global/plugins/select2/js/select2.full.min.js?v=FJuLxhiJiX-5Qgs0c2JYLIyJ5i0o4ccg6DQ6zgitCYY"></script>
+    <script src="/assets/layouts/global/scripts/quick-nav.min.js?v=pnVi-Ivv2puW_58NmMcWKDm4xaCTTTMubgw2YOvc7E8"></script>
+    <script src="/js/bootstrapTableExt.min.js?v=rUWs8LTa1SMLS4OSP7dTxoGxz3LNRnnI7MHLBva0t0E"></script>
+    <script src="/js/trikiSysBase.js?v=BsR4Xu4aT0KZhR2HtcJc4V0I6gSs7bQ2WeKwl-c5EBg"></script>
+    <script src="/lib/json2/json2.js?v=EZJ68U7eUi8uSP0MRRUalYten2eOlhREE9kJOIbIeYg"></script>
+    <script src="/lib/moment/min/moment-with-locales.js?v=7CN4bWPV0U57HDA4YjdCBKCAynhqdWErjNn-5rrsW_I"></script>
+    <script src="/lib/jquery-validation/dist/jquery.validate.js?v=KuzD50lDGNI5jq_ipt4hwDpSJk3fhseTR1jdvaBoZLs"></script>
+    <script src="/lib/blockUI/jquery.blockUI.js?v=oQaw-JJuUcJQ9QVYMcFnPxICDT-hv8-kuxT2FNzTGhc"></script>
+    <script src="/lib/toastr/toastr.js?v=C7DJ6LzTt1Hvj9fd-yRnySs3I4T2B8XmQ3TqXQjc00g"></script>
+    <script src="/lib/sweetalert/dist/sweetalert.min.js?v=Y62iisAELlYlJc0_rdRY8iaI7Zciw0m3w24wHUe2Y-0"></script>
+    <script src="/lib/spin.js/spin.js?v=GySbz3oZXNlwoawo5PpYy0iM38B-q3jyi_HLw00uxy0"></script>
+    <script src="/lib/spin.js/jquery.spin.js?v=EG38bUU5b2M64hy9cNAzu_cQBEsiBYsDifOcoHqNd2k"></script>
+    <script src="/lib/bootstrap-select/dist/js/bootstrap-select.js?v=_KDPX2Vvqq8sySMxlLNJxt9j6Cmb8i_xp602ozhYxzI"></script>
+    <script src="/lib/jquery-slimscroll/jquery.slimscroll.js?v=4K6ZHzwMYR5_eU2SeDIaByus_qki9IFY8hmxl5U6D1Y"></script>
+    <script src="/lib/Waves/dist/waves.js?v=Lar7zQhqgdoUsaqhuwkgnWgsC-eRWIxHhJPV-QtrDog"></script>
+    <script src="/lib/push.js/push.js?v=HDxbpm8oBKwe1bmX9Z1SahYYA7zEbc1dk7LfopvOvoE"></script>
+    <script src="/lib/abp-web-resources/Abp/Framework/scripts/abp.js?v=FGfi3RfHf06ftjVdq2JaO16cF9CPZNPvujmuYBacXxg"></script>
+    <script src="/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js?v=lMgLZMlGsipWDxpvEPxfKVREzRedV_ygRnTj2kvADpw"></script>
+    <script src="/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js?v=ImopdkB8alCil1HigOwW3CDqWKsLZXyplf7TXBbjRnE"></script>
+    <script src="/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js?v=Y3zoG-hSFKmbS3BHKo_wFWRPbyzJXKoNrnF73uFdtqU"></script>
+    <script src="/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js?v=RJuGDX616JN_UziXsmKnth0alpECKCx0gtxKZVrZWxY"></script>
+    <script src="/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js?v=dYSl7WgND_apXPVysCgXPh0ENDtjBg0sfDOSztsJdKs"></script>
+    <script src="/js/admin.js?v=b57KsMvjkYouie9L5L2NPm3gvsOMXrrj79U21PEzpOU"></script>
+    <script src="/js/main.js?v=Lln0BmooES0UTbxeYPJdX9EyXsURmg-dkjI2khYBCl0"></script>
+    <script src="/lib/jquery-validation/src/localization/messages_zh.js?v=8bVnnY6MOvDHRerhcyLOeN15gNPKlU-jb33Bi0Nb6F0"></script>
+    <script>
+    // Localizing momentjs
+    moment.locale('zh');
+    </script>
+    <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
+    <script src="/AbpServiceProxies/GetAll?v=637370179706201039" type="text/javascript"></script>
+    <script src="/AbpScripts/GetScripts?v=637370179706201039" type="text/javascript"></script>
+    <script src="../assets/global/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+    <script src="/view-resources/Views/Shared/Layout.min.js"></script>
+    <script src="/view-resources/Views/Account/_Layout.js"></script>
+    
+    
+    <script src="/view-resources/Common/lookPassword.min.js"></script>
+    <script src="/view-resources/Views/Account/Login.min.js?v=P61hsj-V2xI4RJp1ApXJTTuayYSmhCBqeV2Aun4SaRY"></script>
+
+</body>
+</html>
