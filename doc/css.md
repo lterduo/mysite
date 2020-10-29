@@ -108,6 +108,30 @@ Webkit 内核的浏览器，必须加上`-webkit`前缀。
 
 
 
+## 水平垂直居中
+
+~~~css
+ .box {
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            align-items: center;     /* 垂直居中 */
+            width: 1000px;
+            height: 600px;
+            border: 1px solid red;
+        }
+        .inner {
+            width: 300px;
+            height: 200px;
+            background-color: red;
+        }
+~~~
+
+
+
+
+
+
+
 # box-shadow
 
 # border-radius

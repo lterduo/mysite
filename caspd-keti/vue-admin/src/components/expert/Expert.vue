@@ -5,9 +5,9 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>
-          <a>申报人管理</a>
+          <a>专家管理</a>
         </el-breadcrumb-item>
-        <el-breadcrumb-item>申报人管理</el-breadcrumb-item>
+        <el-breadcrumb-item>专家管理</el-breadcrumb-item>
       </el-breadcrumb>
       <!-- 2.搜索框 -->
       <el-row class="row-search">
@@ -15,11 +15,20 @@
           <el-input class="user-search" clearable placeholder="请输用户信息，支持模糊搜索" v-model="query">
             <el-button slot="append" icon="el-icon-search" @click.prevent="queryUser()"></el-button>
           </el-input>
-          <el-button class="bt-user-add" type="success" plain @click.prevent="showAddUserForm()">新增申报人</el-button>
+          <el-button class="bt-user-add" type="success" plain @click.prevent="showAddUserForm()">新增专家</el-button>
         </el-col>
       </el-row>
       <!-- 3.表格 -->
       <el-table :data="users" style="width: 100%">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="专家的地址是：">
+                <span>{{ props.row.addr }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="userid" label="id" width="80"></el-table-column>
         <el-table-column prop="username" label="姓名" width="80"></el-table-column>
@@ -53,13 +62,12 @@
         :total="total"></el-pagination>
       <!-- 对话框 -->
       <!-- 5.添加用户对话框 -->
-      <el-dialog title="新增申报人" :visible.sync="addUserFormVisible">
-        <el-form label-position="left" label-width="80px" :model="addUserForm" ref="ruleForm" :rules="addUserFormRules"
-          class="demo-ruleForm">
-          <el-form-item label="用户id" prop="userid">
+      <el-dialog title="新增专家" :visible.sync="addUserFormVisible">
+        <el-form label-position="left" label-width="80px" :model="addUserForm" :rules="addUserFormRules">
+          <el-form-item label="用户id" prop="userid" :label-width="formLabelWidth">
             <el-input v-model="addUserForm.userid" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="用户密码" prop="password" :label-width="formLabelWidth">
+          <el-form-item label="用户密码" prop="password">
             <el-input v-model="addUserForm.password" show-password autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="用户姓名" prop="username" :label-width="formLabelWidth">
@@ -87,7 +95,7 @@
         </div>
       </el-dialog>
       <!-- 修改用户对话框 -->
-      <el-dialog title="修改申报人信息" :visible.sync="editUserFormVisible">
+      <el-dialog title="修改专家信息" :visible.sync="editUserFormVisible">
         <el-form label-position="left" label-width="80px" :model="editUserForm" :rules="addUserFormRules">
           <el-form-item label="用户id" prop="userid" :label-width="formLabelWidth">
             <el-input v-model="editUserForm.userid" autocomplete="off" disabled></el-input>
@@ -139,7 +147,7 @@ export default {
       editUserFormVisible: false,
       formLabelWidth: "",
       addUserForm: {
-        role_id: 2,
+        role_id: 3,
       },
       // 添加用户对话框校验规则
       addUserFormRules: {
@@ -170,7 +178,7 @@ export default {
     //获取用户列表
     async getUsers (page, page_size) {
       const res = await this.axios.get(
-        `/user/?role_id=2&page=${page}&page_size=${page_size}`
+        `/user/?role_id=3&page=${page}&page_size=${page_size}`
       )
       if (res.status === 200) {
         this.users = res.data.results

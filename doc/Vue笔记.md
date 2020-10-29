@@ -33,7 +33,7 @@
         a:true,
         b:true
     }
-    啰嗦，直接传数组
+    啰嗦，直接传数组。
     <input type="text" v-model="msg">
     <input :disabled="msg.length===0" type="button" value="add">
     只有输入框不为空时，add才可以点击

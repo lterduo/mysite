@@ -195,6 +195,14 @@ class Student(models.Model):
 
 
 
+django.db.utils.OperationalError: (1050, "Table '表名' already exists）解决方法
+
+python manage.py migrate myapp --fake
+
+
+
+
+
 ## sql 转 model
 
 ~~~
@@ -449,9 +457,9 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    filter_backends = [rest_framework.DjangoFilterBackend,SearchFilter]
+    filter_backends = [DjangoFilterBackend,SearchFilter]
     filter_fields = ['name','price']
-    search_fields = ('price',)
+    search_fields = ('price',)	#一定要有逗号
     pagination_class = MyPageNumberPagination
 ~~~
 
@@ -505,6 +513,25 @@ http://localhost:8000/api/book/?page=2&size=5
 
 
 
+## 排序
+
+~~~
+from rest_framework.filters import OrderingFilter
+class FreeCourseListViewSet(ListModelMixin, GenericViewSet):
+    queryset = models.Course.objects.filter(is_delete=False, is_show=True).all()
+    serializer_class = serializers.CourseModelSerializer
+    
+    # 配置排序组件,调用[ ]中的类进行排序
+    filter_backends = [OrderingFilter]
+    # 配置参与排序字段
+    ordering_fields = ['price', 'id', 'students']
+    # 规则：
+    #       ?ordering=price 按价格升序
+    #       ?ordering=-price 按价格降序
+    #       ?ordering=id 按主键升序
+    #       ?ordering=-price,id 按价格降序，价格相同时按主键升序
+~~~
+
 
 
 ***
@@ -554,8 +581,9 @@ class MusicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Music
         # fields = '__all__'
-        fields = ('id', 'song', 'singer', 'last_modify_date', 'created')
-        
+​        fields = ('id', 'song', 'singer', 'last_modify_date', 'created')
+​        
+
 ## views.py 
 from musics.models import Music
 from musics.serializers import MusicSerializer
