@@ -6,6 +6,7 @@ import HomeMain from '../components/home/HomeMain.vue'
 import Applicant from '../components/applicant/Applicant.vue'
 import Expert from '../components/expert/Expert.vue'
 import ProjectCategory from '../components/projectCategory/ProjectCategory.vue'
+import ProjectAdd from '../components/project/ProjectAdd.vue'
 
 Vue.use(Router)
 
@@ -36,7 +37,16 @@ export default new Router({
           name: 'expert',
           component: Expert
         },
-        {path:'/projectCategory', name: 'projectCategory', component: ProjectCategory}
+        {
+          path:'/projectCategory', 
+          name: 'projectCategory', 
+          component: ProjectCategory
+        },
+        {
+          path: '/projectAdd',
+          name: 'projectAdd',
+          component: ProjectAdd
+        },
       ]
     },
     

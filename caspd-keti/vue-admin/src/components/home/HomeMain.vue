@@ -1,14 +1,7 @@
 <template>
 
   <div>
-    <el-button @click="test()"></el-button>
-
-    <el-form :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="活动名称" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
-      </el-form-item>
-    </el-form>
-
+    <button @click="bt1()">11111</button>
   </div>
 
 </template>
@@ -17,28 +10,33 @@
 export default {
   data () {
     return {
-      ruleForm: {
-        name: '',
-      },
-      addUserForm: {},
-      rules: {
-        name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
-      }
+      status: [{ id: 1, name: '11' }, { id: 2, name: '22' }]
     };
   },
   methods: {
-    async test () {
-      var data = JSON.stringify({ userid: 'lisi10', email: 'test@qq.com' })
-      const res = await this.axios.put('/user/lisi10/', data)
-      if (res.status !== 200) {
-        return this.$message.error('查询用户信息失败！')
-      }
+    name (id) {
+      // var name = ''
+      // this.status.forEach((s) => {
+      //   console.log(s.id)
+      //   console.log(s.name)
+      //   if (s.id == id) {
+      //     console.log(s.id, '   ', s.name)
+      //     name = s.name
+      //   }
+      // })
+      // return name
+      const item = this.status.find(item => item.id == id)
+      return item ? item.id : null
     },
-  }
-};
+    bt1 () {
+      var t = this.name(4)
+      console.log('return:  ', t)
+    }
+  },
+
+
+}
+
 </script>
 
 <style>

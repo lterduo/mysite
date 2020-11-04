@@ -1,18 +1,18 @@
 <template>
   <div>
+    <!-- 1.面包屑 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>
+        <a>课题类别管理</a>
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>课题类别管理</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card>
-      <!-- 1.面包屑 -->
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <a>课题类别管理</a>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>课题类别管理</el-breadcrumb-item>
-      </el-breadcrumb>
       <!-- 2.搜索框 -->
       <el-row class="row-search">
         <el-col class="el-col-user-add">
-          <el-input class="user-search" clearable placeholder="请输课题类别信息，支持模糊搜索" v-model="query">
+          <el-input class="user-search" clearable placeholder="请输课题类别信息（用空格分隔），支持模糊搜索" v-model="query">
             <el-button slot="append" icon="el-icon-search" @click.prevent="queryUser()"></el-button>
           </el-input>
           <el-button class="bt-user-add" type="success" plain @click.prevent="showAddUserForm()">新增课题类别</el-button>
@@ -216,12 +216,16 @@ export default {
 <style>
 .el-card {
   height: 100%;
+  margin-top: 15px;
 }
 .row-search {
   margin-top: 20px;
 }
 .user-search {
-  width: 300px;
+  width: 420px;
+}
+.el-pagination {
+  margin-top: 15px;
 }
 .el-col-user-add {
   display: flex;

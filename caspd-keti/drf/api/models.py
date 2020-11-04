@@ -61,9 +61,45 @@ class ProjectCategory(models.Model):
         verbose_name = verbose_name_plural = '课题类别表'
 
 
-class Project(models.Model):
-    name = models.CharField(max_length=64)
-    leader = models.CharField(max_length=32)
-    organization = models.CharField(max_length=32)
-    category = models.CharField(max_length=32)
+class ProjectStatus(models.Model):
+    s_id = models.IntegerField()
     status = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = 'project_status'
+        verbose_name = verbose_name_plural = '课题状态表'
+
+
+class ProjectInfo(models.Model):
+    name = models.CharField(max_length=64)
+    category = models.CharField(max_length=32)
+    leader = models.CharField(max_length=32)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+    audit_time = models.DateTimeField(auto_now=True)
+    status = models.IntegerField()
+    detail = models.TextField()
+
+    class Meta:
+        db_table = 'project_info'
+        verbose_name = verbose_name_plural = '课题信息表'
+
+
+class ProjectLeader(models.Model):
+    p_id = models.IntegerField()
+    name = models.CharField(max_length=32)
+    organization = models.CharField(max_length=32)
+
+    class Meta:
+        db_table = 'project_leader'
+        verbose_name = verbose_name_plural = '课题主持人表'
+
+
+class ProjectMember(models.Model):
+    p_id = models.IntegerField()
+    name = models.CharField(max_length=32)
+    organization = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = 'project_member'
+        verbose_name = verbose_name_plural = '课题参加者表'

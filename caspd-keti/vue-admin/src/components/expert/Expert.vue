@@ -1,18 +1,18 @@
 <template>
   <div>
+    <!-- 1.面包屑 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>
+        <a>专家管理</a>
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>专家管理</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card>
-      <!-- 1.面包屑 -->
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <a>专家管理</a>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>专家管理</el-breadcrumb-item>
-      </el-breadcrumb>
       <!-- 2.搜索框 -->
       <el-row class="row-search">
         <el-col class="el-col-user-add">
-          <el-input class="user-search" clearable placeholder="请输用户信息，支持模糊搜索" v-model="query">
+          <el-input class="user-search" clearable placeholder="请输用户信息（用空格分隔），支持模糊搜索" v-model="query">
             <el-button slot="append" icon="el-icon-search" @click.prevent="queryUser()"></el-button>
           </el-input>
           <el-button class="bt-user-add" type="success" plain @click.prevent="showAddUserForm()">新增专家</el-button>
@@ -41,13 +41,13 @@
             scope.row.create_time | fmtdate
           }}</template>
         </el-table-column>
-        <el-table-column prop="is_active" label="用户状态" width="100">
+        <el-table-column prop="is_active" label="用户状态" width="90">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.is_active" active-color="#13ce66" inactive-color="#ff4949"
               @change="userIsActive(scope.row)"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-edit" circle
               @click="showEditUserForm(scope.row.userid)"></el-button>
@@ -305,12 +305,16 @@ export default {
 <style>
 .el-card {
   height: 100%;
+  margin-top: 15px;
 }
 .row-search {
   margin-top: 20px;
 }
 .user-search {
-  width: 300px;
+  width: 420px;
+}
+.el-pagination {
+  margin-top: 15px;
 }
 .el-col-user-add {
   display: flex;

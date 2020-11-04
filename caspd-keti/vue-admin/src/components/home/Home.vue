@@ -50,7 +50,8 @@
               <i class="el-icon-location"></i>
               <span>申报书管理</span>
             </template>
-            <el-menu-item class="el-icon-s-unfold" index="1-2">选项2</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" index="projectAdd">申报书填写</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" index="1-2">申报书审核</el-menu-item>
           </el-submenu>
           <!-- 5 -->
           <el-submenu index="5">

@@ -2,6 +2,11 @@ from rest_framework import serializers
 from api.models import User
 from api.models import Role
 from api.models import ProjectCategory
+from api.models import ProjectStatus
+from api.models import ProjectInfo
+from api.models import ProjectLeader
+from api.models import ProjectMember
+
 
 # class ApplicantSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -24,4 +29,28 @@ class RoleSerializer(serializers.ModelSerializer):
 class ProjectCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectCategory
+        fields = '__all__'
+
+
+class ProjectStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectStatus
+        fields = '__all__'
+
+
+class ProjectInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectInfo
+        fields = '__all__'
+
+
+class ProjectLeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectLeader
+        fields = '__all__'
+
+
+class ProjectMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectMember
         fields = '__all__'

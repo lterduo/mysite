@@ -20,6 +20,14 @@ from api.models import Role
 from api.serializers import RoleSerializer
 from api.models import ProjectCategory
 from api.serializers import ProjectCategorySerializer
+from api.models import ProjectStatus
+from api.serializers import ProjectStatusSerializer
+from api.models import ProjectInfo
+from api.serializers import ProjectInfoSerializer
+from api.models import ProjectLeader
+from api.serializers import ProjectLeaderSerializer
+from api.models import ProjectMember
+from api.serializers import ProjectMemberSerializer
 
 
 # 测试
@@ -43,17 +51,16 @@ def hello(request):
 # 分页器
 class MyPageNumberPagination(PageNumberPagination):
     # 默认每页显示的数据条数
-    page_size = 50
+    page_size = 10000
     # 获取URL参数中设置的每页显示数据条数
     page_size_query_param = 'page_size'
     # 获取URL参数中传入的页码key
     page_query_param = 'page'
     # 最大支持的每页显示的数据条数（这个是用来限制page_size的）
-    max_page_size = 50
+    max_page_size = 10000
+
 
 # 用户管理
-
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -68,6 +75,7 @@ class UserViewSet(viewsets.ModelViewSet):
     # print('*************************888888888888888888888')
 
 
+# 角色管理
 class RoleViewSet(viewsets.ModelViewSet):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
@@ -76,6 +84,7 @@ class RoleViewSet(viewsets.ModelViewSet):
     ordering_fields = ['role_id']
 
 
+# 课题分类
 class ProjectCategoryViewSet(viewsets.ModelViewSet):
     queryset = ProjectCategory.objects.all()
     serializer_class = ProjectCategorySerializer
@@ -84,6 +93,24 @@ class ProjectCategoryViewSet(viewsets.ModelViewSet):
     filter_fields = ['name', 'desc']
     search_fields = ('name', 'desc')
     ordering_fields = ['name', 'desc']
+
+
+# 课题状态
+class ProjectStatusViewSet(viewsets.ModelViewSet):
+    queryset = ProjectStatus.objects.all()
+    serializer_class = ProjectStatusSerializer
+
+
+# 课题信息
+class ProjectInfoViewSet(viewsets.ModelViewSet):
+    queryset = ProjectInfo.objects.all()
+    serializer_class = ProjectInfoSerializer
+    pagination_class = MyPageNumberPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['name', 'leader', 'status']
+    search_fields = ('name', 'leader', 'status', 'create_time')
+    ordering_fields = ['create_time', 'name', 'leader', 'status']
+
 
 # 申报人
 # class ApplicantViewSet(viewsets.ModelViewSet):
@@ -132,7 +159,8 @@ class AuthView(APIView):
             UserToken.objects.update_or_create(
                 username=obj, defaults={'token': token})
             ret['msg'] = '登录成功'
-            #ret['token'] = token
+            ret['token'] = token
+            ret['userid'] = obj.userid
         except Exception as e:
             ret['code'] = 1002
             ret['msg'] = '请求异常'
