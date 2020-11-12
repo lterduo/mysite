@@ -112,6 +112,25 @@ class ProjectInfoViewSet(viewsets.ModelViewSet):
     ordering_fields = ['create_time', 'name', 'leader', 'status']
 
 
+# 项目主持人信息
+class ProjectLeaderViewSet(viewsets.ModelViewSet):
+    queryset = ProjectLeader.objects.all()
+    serializer_class = ProjectLeaderSerializer
+    pagination_class = MyPageNumberPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['pid', 'userid', 'name', 'organization']
+    search_fields = ('pid', 'userid', 'name', 'organization')
+
+
+# 项目参加者信息
+class ProjectMemberViewSet(viewsets.ModelViewSet):
+    queryset = ProjectMember.objects.all()
+    serializer_class = ProjectMemberSerializer
+    pagination_class = MyPageNumberPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['pid',  'name', 'organization']
+    search_fields = ('pid', 'name', 'organization')
+
 # 申报人
 # class ApplicantViewSet(viewsets.ModelViewSet):
 #     queryset = Applicant.objects.all()

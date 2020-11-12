@@ -1,8 +1,10 @@
+# Array 对象
+
+* https://www.runoob.com/jsref/jsref-obj-array.html
+
 ## forEach()返回值问题
 
 * 使用forEach，你查询到以后的return，只是结束对status的遍历，forEach本身是不具备返回值的。所以你只能在forEach内部找到这个值，再交由name，然后再返回
-
-
 
 ## find()方法
 
@@ -22,8 +24,6 @@ function test1(id){
 
 console.log('name: ', test1(2))
 ~~~
-
-
 
 ## map()
 

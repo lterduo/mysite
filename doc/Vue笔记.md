@@ -1,4 +1,9 @@
+
+
+
+
 # 基础
+
 ## 指令
 ### [v-on](https://vuefe.cn/v2/guide/events.html)
 
@@ -413,3 +418,46 @@ methods: {
 ## 富文本编辑器
 
 * p250
+
+* 安装：
+
+  ```
+  npm install vue-quill-editor --save
+  ```
+
+* 挂载
+
+  * 全局
+
+  * 局部
+
+    ```
+    import 'quill/dist/quill.core.css'
+    import 'quill/dist/quill.snow.css'
+    import 'quill/dist/quill.bubble.css'
+    
+    import { quillEditor } from 'vue-quill-editor'
+    
+    export default {
+      components: {
+        quillEditor
+      }
+    }
+    ```
+
+* 使用
+
+  * ~~~
+    <quill-editor></quill-editor>
+    ~~~
+
+  * 修改样式，通过查看器找到class="quill-editor"，复写
+
+    ~~~
+    .quill-editor {
+      min-height: 300px;
+    }
+    ~~~
+
+    
+

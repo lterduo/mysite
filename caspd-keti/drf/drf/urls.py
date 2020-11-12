@@ -13,6 +13,8 @@ router.register(r'role', views.RoleViewSet)
 router.register(r'projectCategory', views.ProjectCategoryViewSet)
 router.register(r'projectInfo', views.ProjectInfoViewSet)
 router.register(r'projectStatus', views.ProjectStatusViewSet)
+router.register(r'projectLeader', views.ProjectLeaderViewSet)
+router.register(r'projectMember', views.ProjectMemberViewSet)
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
