@@ -51,7 +51,15 @@
               <span>申报书管理</span>
             </template>
             <el-menu-item class="el-icon-s-unfold" index="projectAdd">申报书填写</el-menu-item>
-            <el-menu-item class="el-icon-s-unfold" index="1-2">申报书审核</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" index="projectAudit">申报书审核</el-menu-item>
+          </el-submenu>
+          <!-- 5 -->
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>申报书分配</span>
+            </template>
+            <el-menu-item class="el-icon-s-unfold" index="projectDistribute">申报书分配</el-menu-item>
           </el-submenu>
           <!-- 5 -->
           <el-submenu index="5">
@@ -59,13 +67,13 @@
               <i class="el-icon-location"></i>
               <span>立项评审</span>
             </template>
-            <el-menu-item class="el-icon-s-unfold" index="1-2">选项2</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" index="projectAssess">申报书评审</el-menu-item>
           </el-submenu>
           <!-- 6 -->
           <el-submenu index="6">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>权限管理</span>
+              <span>系统管理</span>
             </template>
             <el-menu-item class="el-icon-s-unfold" index="1-2">选项2</el-menu-item>
           </el-submenu>

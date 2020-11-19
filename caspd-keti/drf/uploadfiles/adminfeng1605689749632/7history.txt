@@ -1,0 +1,407 @@
+    1  vi /etc/selinux/config 
+    2  chkconfig iptables off
+    3  vim /etc/sysconfig/network-scripts/
+    4  vi /etc/sysconfig/network-scripts/ifcfg-eth0
+    5  find / -name uvp
+    6  mount
+    7  cd /media
+    8  ls
+    9  cd /dev/
+   10  ls
+   11  cd cdrom 
+   12  mount /dev/cdrom /media
+   13  cd /media
+   14  ls
+   15  tar jxvf pvdriver-dopra-ump-64bit-1.3.0.33-59.tar.bz2
+   16  ls
+   17  tar xjvf uvp-tools-linux-1.3.0.33-59.tar.bz2
+   18  ls
+   19  cp uvp-tools-linux-1.3.0.33-59.tar.bz2 /root
+   20  cd /root
+   21  ls
+   22  tar xjvf uvp-tools-linux-1.3.0.33-59.tar.bz2
+   23  ls
+   24  cd uvp-tools-linux-1.3.0.33-59
+   25  ls
+   26  ./install 
+   27  reboot
+   28  setenforce 0
+   29  service iptables status
+   30  halt
+   31  ls
+   32  cd /etc/sysconfig/network-scripts/
+   33  ls
+   34  vim ifcfg-eth1 
+   35  vi ifcfg-eth1 
+   36  ping www.baidu.com
+   37  yum -y install vim
+   38  vim ifcfg-eth1 
+   39  cp ifcfg-eth1 ifcfg-eth0
+   40  cp ifcfg-eth1 ifcfg-eth2
+   41  cp ifcfg-eth1 ifcfg-eth3
+   42  cp ifcfg-eth1 ifcfg-eth4
+   43  cp ifcfg-eth1 ifcfg-eth5
+   44  cp ifcfg-eth1 ifcfg-eth6
+   45  cp ifcfg-eth1 ifcfg-eth7
+   46  vim ifcfg-eth0 
+   47  vim ifcfg-eth2 
+   48  vim ifcfg-eth3
+   49  vim ifcfg-eth4
+   50  vim ifcfg-eth5
+   51  vim ifcfg-eth6
+   52  vim ifcfg-eth7
+   53  ls
+   54  cd
+   55  ls
+   56  rm -rf uvp-tools-linux-1.3.0.33-59*
+   57  ls
+   58  vim /etc/passwd
+   59  vim auto.sh 
+   60  sh auto.sh 
+   61  sshd -v
+   62  ls
+   63  rm -rf auto*
+   64  uname -r
+   65  uname -a
+   66  cat /proc/version 
+   67  cat /etc/passwd
+   68  chattr -i /etc/passwd;chattr -i /etc/shadow;chattr -i /etc/group;chattr -i /etc/gshadow
+   69  userdel -r monitor
+   70  chattr +i /etc/passwd;chattr +i /etc/shadow;chattr +i /etc/group;chattr +i /etc/gshadow
+   71  cat /etc/passwd
+   72  cd /opt/
+   73  mkdir agent
+   74  cd agent/
+   75  file /sbin/init
+   76  tar -xf Broadview_BCC_UniAgent_LinuxUnix_V6.0.R2.1.20130620.tar 
+   77  tar -xvf jre16_45\(linux64_2.6.18\).tar 
+   78  cat conf/Application.properties
+   79  cd bin/
+   80  ./uniagent.sh start
+   81  ./uniagent.sh status
+   82  cat /opt/agent/log/agent.log
+   83  vi /etc/rc.d/rc.local
+   84  cat /opt/agent/log/agent.log
+   85  vi /etc/rc.d/rc.local
+   86  ls
+   87  lsattr /etc/passwd
+   88  ps -ef
+   89  cd /opt/agent/
+   90  ls
+   91  cd conf/
+   92  ls
+   93  vim Application.properties 
+   94  ls
+   95  cd ../
+   96  cd /root/
+   97  ls
+   98  tar xf nagios-plugins-1.4.14.tar.gz 
+   99  cd nagios-plugins-1.4.14
+  100  ls
+  101  ./configure ;make ;make install
+  102  ls
+  103  cd ../
+  104  ls
+  105  tar xf nrpe-2.12.tar.gz 
+  106  cd nrpe-2.12
+  107  ls
+  108  ./configure ;make all ;make install-plugin ;make install-daemon ;make install-daemon-config
+  109  userad -s /sbin/nologin nagios
+  110  useradd -s /sbin/nologin nagios
+  111  ./configure ;make all ;make install-plugin ;make install-daemon ;make install-daemon-config
+  112  cd ../
+  113  ls
+  114  cd nagios-plugins-1.4.14
+  115  cat /etc/passwd
+  116  chattr -i /etc/passwd
+  117  chattr -i /etc/shadow
+  118  chattr -i /etc/gshadow
+  119  chattr -i /etc/group
+  120  useradd -s /sbin/nologin nagios
+  121  ./configure ;make ;make install
+  122  cd ..
+  123  ls
+  124  cd nrpe-2.12
+  125  ls
+  126  cd /etc/sysconfig/network-scripts/
+  127  ls
+  128  vim ifcfg-eth0 
+  129  vi ifcfg-eth0 
+  130  vim ifcfg-eth0 
+  131  vi ifcfg-eth0 
+  132  mv ifcfg-eth0 ifcfg-eth1
+  133  service  network restart
+  134  ifconfig 
+  135  ping 8.8.8.8
+  136  ping www.baidu.com
+  137  vim /etc/resolv.conf 
+  138  vi /etc/resolv.conf 
+  139  ping www.baidu.com
+  140  cd op
+  141  cd /opt/
+  142  ls
+  143  cd /usr/local/
+  144  ls
+  145  cd nagios/
+  146  cd ..
+  147  cd
+  148  ls
+  149  yum -y install gcc-*
+  150  yum -y install openssl-devel
+  151  chattr +i /etc/passwd /etc/shadow /etc/group /etc/gshadow
+  152  cd ../nrpe-2.12
+  153  ./configure ;make all ;make install-plugin ;make install-daemon ;make install-daemon-config
+  154  sed -i 's/allowed_hosts=127.0.0.1/allowed_hosts=127.0.0.1,10.22.3.2/g' /usr/local/nagios/etc/nrpe.cfg
+  155  echo 'command[check_swap]=/usr/local/nagios/libexec/check_swap -w 20% -c 10%
+  156  command[check_data]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /data
+  157  command[check_/]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p / 
+  158  command[check_memory]=/usr/local/nagios/libexec/check_memory.sh -w 80 -c 90
+  159  command[check_cpu]=/usr/local/nagios/libexec/check_cpu.sh -w 80 -c 90' >> /usr/local/nagios/etc/nrpe.cfg
+  160  echo "/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d" >> /etc/rc.local
+  161  mv /opt/check_* /usr/local/nagios/libexec/
+  162  chmod 777 /usr/local/nagios/libexec/check_memory.sh
+  163  chmod 777 /usr/local/nagios/libexec/check_cpu.sh
+  164  /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d
+  165  cd /opt/
+  166  ls
+  167  cd /opt
+  168  tar zxf nagios-plugins-1.4.14.tar.gz 
+  169  tar zxf nrpe-2.12.tar.gz
+  170  cd nagios-plugins-1.4.14
+  171  ./configure ;make ;make install
+  172  cd ../nrpe-2.12
+  173  ./configure ;make all ;make install-plugin ;make install-daemon ;make install-daemon-config
+  174  sed -i 's/allowed_hosts=127.0.0.1/allowed_hosts=127.0.0.1,10.22.3.2/g' /usr/local/nagios/etc/nrpe.cfg
+  175  echo 'command[check_swap]=/usr/local/nagios/libexec/check_swap -w 20% -c 10%
+  176  command[check_data]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /data
+  177  command[check_/]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p / 
+  178  command[check_memory]=/usr/local/nagios/libexec/check_memory.sh -w 80 -c 90
+  179  command[check_cpu]=/usr/local/nagios/libexec/check_cpu.sh -w 80 -c 90' >> /usr/local/nagios/etc/nrpe.cfg
+  180  echo "/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d" >> /etc/rc.local
+  181  mv /opt/check_* /usr/local/nagios/libexec/
+  182  chmod 777 /usr/local/nagios/libexec/check_memory.sh
+  183  chmod 777 /usr/local/nagios/libexec/check_cpu.sh
+  184  /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d
+  185  netstat -an|grep 5666
+  186  ps -ef
+  187  sshd -v
+  188  cat /etc/redhat-release 
+  189  uname -r
+  190  bc
+  191  ping www.baidu.com
+  192  sshd -v
+  193  yum -y install bs
+  194  yum -y install bc
+  195  bc
+  196  hostname 
+  197  ip a
+  198  vim /etc/udev/rules.d/70-persistent-cd.rules 
+  199  vim /etc/udev/rules.d/70-persistent-net.rules 
+  200  vim /etc/sysconfig/network-scripts/ifcfg-eth0
+  201  ifconfig -a
+  202  ifconfig 
+  203  vim /etc/sysconfig/network-scripts/ifcfg-eth3
+  204  vim /etc/sysconfig/network-scripts/ifcfg-eth3 
+  205  vim /etc/udev/rules.d/70-persistent-net.rules 
+  206  ls /etc/sysconfig/network-scripts/
+  207  /etc/init.d/network restart
+  208  ip a
+  209  cd /etc/sysconfig/network-scripts/
+  210  ls
+  211  vim ifcfg-eth1 
+  212  vim ifcfg-eth2
+  213  vim ifcfg-eth3
+  214  vim ifcfg-eth4
+  215  rm -f ifcfg-eth1 ifcfg-eth2 ifcfg-eth3 ifcfg-eth4 ifcfg-eth5 ifcfg-eth6 ifcfg-eth7
+  216  ls
+  217  ip a
+  218  /etc/init.d/network restart
+  219  vim ifcfg-eth0 
+  220  /etc/init.d/network restart
+  221  reboot
+  222  ip a
+  223  /etc/init.d/network restart
+  224  ip a
+  225  ifcfg 
+  226  ifconfig 
+  227  ls /etc/sysconfig/network-scripts/
+  228  cd
+  229  ls
+  230  netstat -tnlp
+  231  export TMOUT=0
+  232  ls /etc/rc.local 
+  233  vim /etc/rc.local 
+  234  vim /etc/sysconfig/network
+  235  hostname zgcjrtygwdlfwq_vm1
+  236  hostname 
+  237  ls
+  238  vim linux6.x_sh 
+  239  lsattr /etc/passwd
+  240  chattr -i /etc/passwd
+  241  chattr -i /etc/shadow
+  242  chattr -i /etc/group
+  243  chattr -i /etc/gshadow
+  244  passwd
+  245  exit
+  246  netstat -tnlp
+  247  exit
+  248  history 
+  249  chattr +i /etc/passwd
+  250  chattr +i /etc/shadow
+  251  chattr +i /etc/group
+  252  chattr +i /etc/gshadow
+  253  lsattr /etc/passwd
+  254  exit
+  255  chattr -i /etc/passwd
+  256  chattr -i /etc/shadow
+  257  chattr -i /etc/group
+  258  chattr -i /etc/gshadow
+  259  passwd
+  260  chattr +i /etc/passwd
+  261  chattr +i /etc/shadow
+  262  chattr +i /etc/group
+  263  chattr +i /etc/gshadow
+  264  ssh -V
+  265  cd /opt/
+  266  l
+  267  sls
+  268  ls
+  269  mkdir ssh 
+  270   cd ssh/
+  271  sh ssh.sh 
+  272  yum -y install pam-devel
+  273  sh ssh.sh 
+  274  ssh -V
+  275  cd /
+  276  clear
+  277  service snmpd status
+  278  clear
+  279  ping www.baidu.com
+  280  clear
+  281  rpm -qa|grep snmp
+  282  rpm -qa|grep snmpd
+  283  clear
+  284  service iptables status
+  285  clear
+  286  yum -y install net-snmp*
+  287  clear
+  288  yum list installed snmp
+  289  yum list installed snmp*
+  290  yum list installed net-snmp*
+  291  clear
+  292  updatedb
+  293  yum provides */ updatedb
+  294  clear
+  295  yum -y install slocate
+  296  locate snmp.conf
+  297  yum provides */ locate
+  298  clear
+  299  yum -y install mlocate
+  300  clear
+  301  updatedb
+  302  locate snmp.conf
+  303  rpm -qa|grep mlocate
+  304  updatedb
+  305  find ./ -name snmp.conf
+  306  cd /etc
+  307  ll
+  308  cd snmp/
+  309  ll
+  310  clear
+  311  cat snmpd.conf 
+  312  clear
+  313  cat snmpd.conf -n
+  314  grep "systemview" snmpd.conf -n
+  315  grep "syslocation" snmpd.conf -n
+  316  grep "com2sec" snmpd.conf -n
+  317  clear
+  318  grep "notConfigGroup" snmpd.conf 
+  319  grep "notConfigGroup" snmpd.conf -n
+  320  clear
+  321  grep "included" snmpd.conf -n
+  322  clear
+  323  vi snmpd.conf 
+  324  clear
+  325  cd /etc/init.d
+  326  ll
+  327  vi snmpd
+  328  clear
+  329  grep "OPTIONS" snmpd -n
+  330  vi snmpd
+  331  clear
+  332  service snmpd start
+  333  clear
+  334  lsof -i:161
+  335  netstat -anp|grep 161
+  336  history | grep yum
+  337  yum list installed net-snmp*
+  338  service snmpd status
+  339  clear
+  340  chkconfig --list | grep snmpd
+  341  chkconfig snmpd on
+  342  chkconfig --list | grep snmpd
+  343  clear
+  344  cd /
+  345  cd etc/ssh/
+  346  ll
+  347  cat sshd_config 
+  348  yum -y install unzip lrzsz&&rz&&sh 360linuxc\(10.22.3.4_8080_8090\).sh&&ps  -ef|grep 360
+  349  ping 10.24.69.2
+  350  ping 10.10.1.11
+  351  ping 10.19.29.2
+  352  quit
+  353  cat /etc/redhat-release 
+  354  netstat -ntlup
+  355  netstat -ntup
+  356  netstat -tup
+  357  netstat -ntltup
+  358  netstat -ntlup
+  359  PS1='NSFOCUS->}';export PS1;unalias -a;export PROMPT_COMMAND=""
+  360  uname
+  361  exit
+  362  PS1='NSFOCUS->}';export PS1;unalias -a;export PROMPT_COMMAND=""
+  363  uname
+  364  uname -a
+  365  uname -srn 2>/dev/null
+  366  cat /etc/passwd 2>/dev/null
+  367  netstat -an 2>/dev/null
+  368  exit
+  369  get hostname
+  370  exit
+  371  export PS1=;export COLUMNS=1024;
+  372  uname
+  373  export PS1=;export COLUMNS=1024;
+  374  uname
+  375  export PS1=;export COLUMNS=1024;
+  376  uname
+  377  export PS1=;export COLUMNS=1024;
+  378  uname
+  379  export PS1=;export COLUMNS=1024;
+  380  uname
+  381  export PS1=;export COLUMNS=1024;
+  382  uname
+  383  export PS1=;export COLUMNS=1024;
+  384  uname
+  385  export PS1=;export COLUMNS=1024;
+  386  uname
+  387  export PS1=;export COLUMNS=1024;
+  388  uname
+  389  export PS1=;export COLUMNS=1024;
+  390  uname
+  391  export PS1=;export COLUMNS=1024;
+  392  uname
+  393  export PS1=;export COLUMNS=1024;
+  394  uname
+  395  export PS1=;export COLUMNS=1024;
+  396  uname
+  397  export PS1=;export COLUMNS=1024;
+  398  uname
+  399  export PS1=;export COLUMNS=1024;
+  400  uname
+  401  export PS1=;export COLUMNS=1024;
+  402  uname
+  403  ping 10.22.3.4
+  404  ping 10.22.3.1
+  405  exit
+  406  history
+  407  history > history.txt

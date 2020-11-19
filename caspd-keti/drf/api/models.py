@@ -14,6 +14,17 @@ class User(models.Model):
     update_time = models.DateTimeField(auto_now=True)
     role_id = models.IntegerField()
 
+    gender = models.CharField(max_length=2, null=True)
+    national = models.CharField(max_length=2, null=True)
+    birth = models.CharField(max_length=16, null=True)
+    duty = models.CharField(max_length=16, null=True)
+    title = models.CharField(max_length=16, null=True)
+    major = models.CharField(max_length=16, null=True)
+    education = models.CharField(max_length=16, null=True)
+    degree = models.CharField(max_length=16, null=True)
+    province = models.CharField(max_length=16, null=True)
+    zipcode = models.CharField(max_length=6, null=True)
+
     class Meta:
         db_table = 'user'
         verbose_name = verbose_name_plural = '用户信息表'
@@ -72,9 +83,9 @@ class ProjectStatus(models.Model):
 
 class ProjectInfo(models.Model):
     pid = models.CharField(max_length=64, null=True)
-    name = models.CharField(max_length=64)
-    category = models.CharField(max_length=32)
-    leader = models.CharField(max_length=32)
+    name = models.CharField(max_length=64, null=True)
+    category = models.CharField(max_length=32, null=True)
+    leader = models.CharField(max_length=32, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     audit_time = models.DateTimeField(auto_now=True)
@@ -82,13 +93,14 @@ class ProjectInfo(models.Model):
     result_type = models.CharField(max_length=16, null=True)
     total_words = models.CharField(max_length=8, null=True)
     complete_time = models.CharField(max_length=16, null=True)
-    content = models.TextField()
+    content = models.TextField(null=True)
 
     class Meta:
         db_table = 'project_info'
         verbose_name = verbose_name_plural = '课题信息表'
 
 
+# 废弃，改用user
 class ProjectLeader(models.Model):
     pid = models.CharField(max_length=64, null=True)
     userid = models.CharField(max_length=32, null=True)
@@ -125,3 +137,42 @@ class ProjectMember(models.Model):
     class Meta:
         db_table = 'project_member'
         verbose_name = verbose_name_plural = '课题参加者表'
+
+
+# 附件
+class FileList(models.Model):
+    pid = models.CharField(max_length=64, null=True)
+    name = models.CharField(max_length=64, null=True)
+    path = models.CharField(max_length=256, null=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'file_list'
+        verbose_name = verbose_name_plural = '申报书附件'
+
+
+# 审核信息
+class AuditInfo(models.Model):
+    pid = models.CharField(max_length=64, null=True)
+    auditor = models.CharField(max_length=64, null=True)
+    info = models.TextField(null=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'audit_info'
+        verbose_name = verbose_name_plural = '审核信息表'
+
+
+# 课题分配表
+class ProjectDstribute(models.Model):
+    pid = models.CharField(max_length=64, null=True)
+    pname = models.CharField(max_length=64, null=True)  # 项目名称
+    assessor = models.CharField(max_length=32, null=True)  # 专家userid
+    aname = models.CharField(max_length=32, null=True)  # 专家姓名
+    is_active = models.BooleanField(default=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'project_distribute'
+        verbose_name = verbose_name_plural = '课题分配表'

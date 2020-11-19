@@ -620,3 +620,21 @@ https://www.cnblogs.com/BlueSkyyj/p/11193982.html
 python .\manage.py inspectdb
 检查无误后，手动复制，后者
 python manage.py inspectdb > models.py
+
+
+
+
+
+# 下载文件中文名问题
+
+* Content-Disposition
+
+* 写下载歌词接口的时候遇到了一个问题，`中文.lrc`的文件下载之后的文件名的编码始终有问题，找了很久也没解决 过程暂且不表 最后靠自己解决了问题(靠!)
+
+```
+from urllib import parse
+    self.set_header('Content-Type', 'application/octet-stream;')
+    self.set_header('Content-Disposition', "attachment; filename*=UTF-8''{}".format(parse.quote(file_name)))
+```
+
+* 源码见 class DownloadFile(APIView):

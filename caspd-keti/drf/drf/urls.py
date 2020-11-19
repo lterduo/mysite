@@ -15,10 +15,16 @@ router.register(r'projectInfo', views.ProjectInfoViewSet)
 router.register(r'projectStatus', views.ProjectStatusViewSet)
 router.register(r'projectLeader', views.ProjectLeaderViewSet)
 router.register(r'projectMember', views.ProjectMemberViewSet)
+router.register(r'fileList', views.FileListViewSet)
+router.register(r'auditInfo', views.AuditInfoViewSet)
+router.register(r'projectDstribute', views.ProjectDstributeViewSet)
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('hello/', views.hello),
     url(r'^api/login/$', views.AuthView.as_view()),
     url(r'^api/', include(router.urls)),
+    url(r'^api/uploadFile/', views.UploadFile.as_view()),
+    url(r'^api/deleteFile/', views.DeleteFile.as_view()),
+    url(r'^api/downloadFile/', views.DownloadFile.as_view()),
 ]

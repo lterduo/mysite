@@ -1,100 +1,79 @@
 <template>
 
   <div>
-    <button @click="bt1()">11111</button>
-    <el-card>
-      <el-col>
-        <div class="header-edit">新增申报书</div>
-      </el-col>
-      <el-col class="tab-col">
-        <div>类别：</div>
-        <el-input></el-input>
-        <div>名称：</div>
-        <el-input v-model="addForm.name"></el-input>
-      </el-col>
-    </el-card>
+    <button @click="bt1()">bt1</button>
+    <el-button @click="test">test</el-button>
+    <div>
+      <input type="file" value="" id="file" @change="uploadConfig">
+    </div>
 
-    <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="bookname" :label="recoveryOne" width="140px">
-        <template slot-scope="scope">
-          <el-input v-model="scope.row.bookname" type="number"></el-input>
-        </template>
-      </el-table-column>
+    <div>
+      <form method='post' enctype="multipart/form-data">
+        <input class="se2" id="f_file" type="file" name="image" />
 
-      <el-table-column prop="bookvolume" :label="recoveryTwo" width="140px">
-        <template slot-scope="scope">
-          <el-input v-model="scope.row.bookvolume" type="number"></el-input>
-        </template>
-      </el-table-column>
+        <!-- <input class="se1" type="button" value="更換頭像" /> -->
+        <el-button class="se1">上传文件</el-button>
 
-      <el-table-column prop="bookborrower" :label="recoveryThree" width="150px">
-        <template slot-scope="scope">
-          <el-input v-model="scope.row.bookborrower" type="number"></el-input>
-        </template>
-      </el-table-column>
-
-      <el-table-column>
-        <template slot-scope="scope">
-          <button @click="addLine" class="addBtn" v-if="scope.$index == tableData.length - 1">
-            <i class="el-icon-plus"></i>
-          </button>
-
-          <button v-if="tableData.length > 1" @click="handleDelete(scope.$index, scope.row)" class="del-btn">
-            <i class="el-icon-minus"></i>
-          </button>
-        </template>
-      </el-table-column>
-    </el-table>
+      </form>
+    </div>
+    <el-transfer v-model="value1" :data="data1"></el-transfer>
+    {{value1}}
   </div>
 
 </template>
 
 <script>
+
+
+
+
 export default {
+
   data () {
     return {
-      status: [{ id: 1, name: '11' }, { id: 2, name: '22' }],
-      addForm: {},
-      tableData: [{
-        bookname: '',
-        bookborrower: '',
-        bookvolume: ''
-      },],
-    };
+      data1: [
+        { key: 1, label: '11' },
+        { key: 2, label: '22' },
+        { key: 3, label: '33' }
+      ],
+      value1: []
+    }
   },
+
   methods: {
     name (id) {
-      // var name = ''
-      // this.status.forEach((s) => {
-      //   console.log(s.id)
-      //   console.log(s.name)
-      //   if (s.id == id) {
-      //     console.log(s.id, '   ', s.name)
-      //     name = s.name
-      //   }
-      // })
-      // return name
       const item = this.status.find(item => item.id == id)
       return item ? item.id : null
     },
     bt1 () {
-      var t = this.name(4)
-      console.log('return:  ', t)
+      document.getElementById('div2').scrollIntoView()
     },
 
-    addLine () { //添加行数
-      var newValue = {
-        bookname: '',
-        bookborrower: '',
-        bookvolume: ''
+    async test () {
+      let res = await this.axios.delete(`/projectMember/?pid=adminfeng1605502877993`)
+      console.log(res)
+    },
+
+    // 上传
+    uploadConfig (e) {
+      let formData = new FormData();
+      let data = JSON.stringify({
+        user: "username",
+        env: "dev"
+      })
+      formData.append('file', e.target.files[0]);
+      formData.append('data', data);   // 上传文件的同时， 也可以上传其他数据
+      let url = `/uploadFile/`;
+      let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
       };
-      //添加新的行数
-      this.tableData.push(newValue);
-    },
-    handleDelete (index) { //删除行数
-      this.tableData.splice(index, 1)
-    },
+      this.axios.post(url, formData, config).then(function (response) {
+        console.log(response.data)
+      })
+    }
   },
+
+
 
 
 }
@@ -114,5 +93,29 @@ export default {
     margin-left: 5px;
     margin-right: 10px;
   }
+}
+.div1 {
+  background: blue;
+  height: 1000px;
+  width: 100px;
+}
+.div2 {
+  background: red;
+  height: 1000px;
+  width: 100px;
+}
+
+.se2 {
+  width: 100px;
+  height: 36px;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+}
+.se1 {
+  position: absolute;
+}
+.se1:hover {
+  cursor: pointer;
 }
 </style>

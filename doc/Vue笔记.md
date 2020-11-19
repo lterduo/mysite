@@ -459,5 +459,31 @@ methods: {
     }
     ~~~
 
-    
+* 图片放大缩小拖拽
 
+  * https://www.cnblogs.com/zr123/p/12206031.html
+  * https://segmentfault.com/a/1190000021610181
+
+## 上传下载文件
+
+* https://www.cnblogs.com/zhang-can/p/9116159.html
+
+* https://www.jb51.net/article/190562.htm
+
+* 下载用`js-file-download`
+
+* https://segmentfault.com/a/1190000020540788
+
+  
+
+## 页面滚动到指定位置
+
+* https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollIntoView
+
+* ```
+  setTimeout(() => {
+          document.getElementById("id-el-card-info").scrollIntoView({ behavior: "smooth" })
+        }, 500);
+  ```
+
+* 使用settimeout，否则加载慢的页面没有效果
