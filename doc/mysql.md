@@ -3,9 +3,9 @@ https://www.zhihu.com/tardis/sogou/art/44977117
 
 
 
-1. “环境变量”的”系统变量“内，新建一个 `MYSQL_HOME` 变量，输入 MySQL 解压缩后文件夹的目录
+1. “环境变量”的”系统变量“内，新建一个  MYSQL_HOME  变量，输入 MySQL 解压缩后文件夹的目录
 
-2. 在“系统变量内”找到其中的 “Path” 变量，双击打开，再最后加上
+2. 在“系统变量内”(系统变量，不是用户变量)找到其中的 “Path” 变量，双击打开，再最后加上
 
   %MYSQL_HOME%\bin
 
@@ -42,6 +42,10 @@ https://www.zhihu.com/tardis/sogou/art/44977117
   ~~~
 
   
+
+**以下命令最好用cmd执行，powershell不会提示错误**
+
+
 
 4. 添加服务
 

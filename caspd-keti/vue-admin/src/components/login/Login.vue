@@ -17,14 +17,13 @@
             <el-form-item>
               <el-input v-model="loginForm.password" placeholder="用户密码"></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-input v-model="loginForm.password" placeholder="验证码"></el-input>
-
-            </el-form-item>
-            <el-form-item class="login-btn">
-              <el-button type="primary" @click.prevent="handleLogin()">登录</el-button>
-            </el-form-item>
+            <div>
+              <Verify :type="3" @success="success"></Verify>
+            </div>
           </el-form>
+          <div class="button-login">
+            <el-button type="primary" @click.prevent="handleLogin()">登录</el-button>
+          </div>
         </div>
         <!-- 系统提示 -->
         <div class="notice">
@@ -47,15 +46,30 @@
 </template>
 
 <script>
+import Verify from 'vue2-verify'
+
 export default {
+  components: { Verify },
+
   data () {
     return {
       loginForm: { userid: "", password: "" },
       data: {},
+      verifyCode: false
     };
   },
+
   methods: {
+    success (e) {
+      //成功后的返回
+      this.verifyCode = true;
+    },
+
+
     async handleLogin () {
+      if (!this.verifyCode) {
+        return this.$message.error('验证码错误')
+      }
       // 判断账号密码不能为空
       if (!this.loginForm.userid || !this.loginForm.password) {
         return this.$message.error("账号和密码不能为空！")
@@ -92,7 +106,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style  lang='less'>
 .bg-container {
   background: #eee;
   background-image: url("../../assets/image/login-bg1.png");
@@ -101,7 +115,7 @@ h3 {
   padding-left: 20px;
   padding-bottom: 20px;
   margin-bottom: 30px;
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid black;
 }
 .login-container {
   width: 1200px;
@@ -111,10 +125,12 @@ h3 {
 .header {
   width: 100%;
   height: 130px;
-  background: #fff;
-  line-height: 130px;
+  // background: #fff;
   font-size: 24px;
-  text-align: center;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  // opacity: 0.3;
 }
 .main {
   margin: 5px 0;
@@ -124,20 +140,27 @@ h3 {
 }
 .login {
   flex: 1;
-  background: #fff;
+  // background: #fff;
   padding: 20px;
+  // 验证码按钮
+  .verify-btn {
+    visibility: hidden;
+  }
+  .button-login {
+    margin-top: 20px;
+  }
 }
 .notice {
   flex: 1;
   padding: 20px;
-  background: #fff;
+  // background: #fff;
 }
 .download {
   box-sizing: border-box;
   padding: 20px;
   width: 100%;
   height: 380px;
-  background: #fff;
+  // background: #fff;
 }
 .footer {
   font-size: 13px;

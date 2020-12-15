@@ -164,9 +164,10 @@ class AuditInfo(models.Model):
 
 
 # 课题分配表
-class ProjectDstribute(models.Model):
-    pid = models.CharField(max_length=64, null=True)
+class ProjectDistribute(models.Model):
+    pid = models.CharField(primary_key=True, max_length=64)
     pname = models.CharField(max_length=64, null=True)  # 项目名称
+    category = models.CharField(max_length=32, null=True)
     assessor = models.CharField(max_length=32, null=True)  # 专家userid
     aname = models.CharField(max_length=32, null=True)  # 专家姓名
     is_active = models.BooleanField(default=True)

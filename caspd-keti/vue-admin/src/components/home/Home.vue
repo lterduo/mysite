@@ -112,7 +112,7 @@ export default {
 } 
 </script >
 
-<style scoped lang="less">
+<style  lang="less">
 .container {
   height: 100%;
 
@@ -123,35 +123,38 @@ export default {
     font-size: 24px;
     border-bottom: 1px solid #e6e6e6;
 
-    .logo {
-      display: flex;
-      padding-left: 10px;
-      img {
-        height: 59px;
+    .el-row {
+      width: 100%;
+      .logo {
+        display: flex;
+        padding-left: 10px;
+        img {
+          height: 59px;
+        }
       }
-    }
-    .sys-name {
-      text-align: center;
-      line-height: 60px;
-    }
-    .logout {
-      display: flex;
-      justify-content: flex-end;
-      padding-right: 10px;
-      font-size: 14px;
-      align-items: center;
-      height: 60px;
-      a {
-        text-decoration: none;
-        font-size: 16px;
-        color: #000;
-        margin-right: 10px;
+      .sys-name {
+        text-align: center;
+        line-height: 60px;
       }
-      .el-icon-user {
-        font-size: 25px;
-      }
-      a:hover {
-        cursor: pointer;
+      .logout {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 10px;
+        font-size: 14px;
+        height: 60px;
+        a {
+          text-decoration: none;
+          font-size: 16px;
+          color: #000;
+          margin-right: 10px;
+        }
+        .el-icon-user {
+          font-size: 25px;
+        }
+        a:hover {
+          cursor: pointer;
+        }
       }
     }
   }

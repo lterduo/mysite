@@ -8,7 +8,7 @@ from api.models import ProjectLeader
 from api.models import ProjectMember
 from api.models import FileList
 from api.models import AuditInfo
-from api.models import ProjectDstribute
+from api.models import ProjectDistribute
 
 # class ApplicantSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -70,7 +70,7 @@ class AuditInfoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProjectDstributeSerializer(serializers.ModelSerializer):
+class ProjectDistributeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProjectDstribute
+        model = ProjectDistribute
         fields = '__all__'

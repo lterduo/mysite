@@ -1,0 +1,13 @@
+<!-- pages/img/img.wxml -->
+<text>pages/img/img.wxml</text>
+<view class="" hover-class="none" hover-stop-propagation="false">{{msg}}</view>
+<view>
+  <input class="input" bindinput="handleInput"></input>
+  <button bindtap="handleTap" data-operation="{{1}}">+</button>
+  <button bindtap="handleTap" data-operation="{{-1}}">-</button>
+</view>
+<view>{{num}}</view>
+<view class="rpx">rpx</view>
+<view hover-class="h-class">
+点击我试试
+</view>

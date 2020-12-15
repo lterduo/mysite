@@ -6,7 +6,7 @@
       <el-breadcrumb-item>
         <a>申报书管理</a>
       </el-breadcrumb-item>
-      <el-breadcrumb-item>申报书填写</el-breadcrumb-item>
+      <el-breadcrumb-item>申报书审核</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <!-- 搜索框 新增按钮-->
@@ -273,7 +273,6 @@ export default {
       } catch (err) {
         console.log(err)
       }
-      console.log(this.auditInfo)
       this.auditInfo.pid = this.editForm.pid
       this.auditInfo.auditor = localStorage.getItem("userid")
       let res = await this.axios.post(`/auditInfo/`, this.auditInfo)

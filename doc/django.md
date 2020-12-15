@@ -1,4 +1,36 @@
+# 版本
+
+~~~
+pip install -i https://pypi.mirrors.ustc.edu.cn/simple/ django==2.2
+
+pip install djangorestframework
+pip install django-cors-headers
+pip install django-filter
+pip install pymysql
+~~~
+
+
+
+# 国内源
+
+~~~
+# 清华源
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+# 或：
+# 阿里源
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+# 腾讯源
+pip config set global.index-url http://mirrors.cloud.tencent.com/pypi/simple
+# 豆瓣源
+pip config set global.index-url http://pypi.douban.com/simple/
+~~~
+
+
+
+
+
 # 运行
+
 django-admin startproject mysite
 django-admin startapp login
 或 python manage.py startapp login
@@ -24,7 +56,7 @@ DATABASES = {
     `create database django charset=utf8;`
 
 2.数据库迁移
-pip install pymysql。
+pip install pymysql
 在项目文件夹下的_init_.py添加如下代码(settings.py同级)
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -555,6 +587,8 @@ class FreeCourseListViewSet(ListModelMixin, GenericViewSet):
 
 https://github.com/twtrubiks/django-rest-framework-tutorial
 pip install djangorestframework
+
+ pip install -i https://pypi.mirrors.ustc.edu.cn/simple/ djangorestframework
 
 INSTALLED_APPS = (
     ...

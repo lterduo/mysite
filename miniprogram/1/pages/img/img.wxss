@@ -1,0 +1,9 @@
+/* pages/img/img.wxss */
+
+.rpx {
+  width: 375rpx;
+  background-color: red;
+}
+.h-class {
+  background-color: green;
+}

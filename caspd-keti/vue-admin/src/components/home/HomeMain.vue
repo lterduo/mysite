@@ -10,33 +10,32 @@
     <div>
       <form method='post' enctype="multipart/form-data">
         <input class="se2" id="f_file" type="file" name="image" />
-
         <!-- <input class="se1" type="button" value="更換頭像" /> -->
         <el-button class="se1">上传文件</el-button>
 
       </form>
     </div>
-    <el-transfer v-model="value1" :data="data1"></el-transfer>
-    {{value1}}
+    <el-transfer v-model="value1" :data="data1" @change="handleChange" :titles="['Source', 'Target']"
+      :button-texts="['到左边', '到右边']"></el-transfer>
+    <div>data1 :{{data1}}</div>
+    <div>value1 :{{value1}}</div>
   </div>
 
 </template>
 
 <script>
 
-
-
-
 export default {
 
   data () {
     return {
       data1: [
-        { key: 1, label: '11' },
+        { key: 1, label: '11', name: '111' },
         { key: 2, label: '22' },
         { key: 3, label: '33' }
       ],
-      value1: []
+      value1: [1]
+      //  [{ key: 4, lable: '44' }]
     }
   },
 
@@ -70,12 +69,12 @@ export default {
       this.axios.post(url, formData, config).then(function (response) {
         console.log(response.data)
       })
+    },
+
+    handleChange (value, direction, movedKeys) {
+      console.log(value, direction, movedKeys);
     }
   },
-
-
-
-
 }
 
 </script>

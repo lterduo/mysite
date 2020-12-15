@@ -487,3 +487,11 @@ methods: {
   ```
 
 * 使用settimeout，否则加载慢的页面没有效果
+
+* 
+
+## vue 图形验证vue2-verify
+
+* ```c
+  npm install vue2-verify
+  ```

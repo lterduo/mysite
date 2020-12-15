@@ -509,7 +509,6 @@
         <el-button type="primary" @click="editMemberButton()">确 定</el-button>
       </div>
     </el-dialog>
-    <el-button @click="test()">测试</el-button>
   </div>
 </template>
 

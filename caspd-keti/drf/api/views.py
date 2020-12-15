@@ -37,8 +37,8 @@ from api.models import FileList
 from api.serializers import FileListSerializer
 from api.models import AuditInfo
 from api.serializers import AuditInfoSerializer
-from api.models import ProjectDstribute
-from api.serializers import ProjectDstributeSerializer
+from api.models import ProjectDistribute
+from api.serializers import ProjectDistributeSerializer
 
 
 # 测试
@@ -176,9 +176,9 @@ class AuditInfoViewSet(viewsets.ModelViewSet):
 
 
 # 课题分配
-class ProjectDstributeViewSet(viewsets.ModelViewSet):
-    queryset = ProjectDstribute.objects.all()
-    serializer_class = ProjectDstributeSerializer
+class ProjectDistributeViewSet(viewsets.ModelViewSet):
+    queryset = ProjectDistribute.objects.all()
+    serializer_class = ProjectDistributeSerializer
     pagination_class = MyPageNumberPagination
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
