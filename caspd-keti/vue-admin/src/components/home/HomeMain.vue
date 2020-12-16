@@ -1,24 +1,7 @@
 <template>
 
   <div>
-    <button @click="bt1()">bt1</button>
-    <el-button @click="test">test</el-button>
-    <div>
-      <input type="file" value="" id="file" @change="uploadConfig">
-    </div>
-
-    <div>
-      <form method='post' enctype="multipart/form-data">
-        <input class="se2" id="f_file" type="file" name="image" />
-        <!-- <input class="se1" type="button" value="更換頭像" /> -->
-        <el-button class="se1">上传文件</el-button>
-
-      </form>
-    </div>
-    <el-transfer v-model="value1" :data="data1" @change="handleChange" :titles="['Source', 'Target']"
-      :button-texts="['到左边', '到右边']"></el-transfer>
-    <div>data1 :{{data1}}</div>
-    <div>value1 :{{value1}}</div>
+    主页面，显示内容待定
   </div>
 
 </template>

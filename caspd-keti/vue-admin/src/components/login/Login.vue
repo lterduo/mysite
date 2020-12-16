@@ -15,7 +15,7 @@
               <el-input v-model="loginForm.userid" placeholder="用户id"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-input v-model="loginForm.password" placeholder="用户密码"></el-input>
+              <el-input v-model="loginForm.password" placeholder="用户密码" show-password></el-input>
             </el-form-item>
             <div>
               <Verify :type="3" @success="success"></Verify>
