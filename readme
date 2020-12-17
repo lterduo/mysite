@@ -77,3 +77,11 @@ git switch master
 git merge dev
 * 可以 5、删除分支* 可以 
 git branch -d dev
+
+
+# git pull 出现There is no tracking information for the current branch 问题时
+因为本地分支和远程分支没有建立联系 (使用git branch -vv 可以查看本地分支和远程分支的关联关系)
+运行一次
+git pull origin master
+或者
+git branch --set-upstream-to=origin/master master
