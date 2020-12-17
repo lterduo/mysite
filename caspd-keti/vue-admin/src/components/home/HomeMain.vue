@@ -2,6 +2,9 @@
 
   <div>
     主页面，显示内容待定
+    <input type="text" @blur="testBlur">
+    <input type="text" id="input1">
+    <button @click="testClick()">test</button>
   </div>
 
 </template>
@@ -56,6 +59,12 @@ export default {
 
     handleChange (value, direction, movedKeys) {
       console.log(value, direction, movedKeys);
+    },
+
+    testBlur () {
+    },
+    testClick () {
+      document.getElementById('input1').focus()
     }
   },
 }

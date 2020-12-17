@@ -267,12 +267,6 @@ class AuthView(APIView):
             usr = request.data.get('userid')
             pas = request.data.get('password')
 
-            # usr = request._request.POST.get('username')
-            # pas = request._request.POST.get('password')
-
-            # usr = request.POST.get('username')
-            # pas = request.POST.get('password')
-
             print(usr)
             # obj = models.User.objects.filter(username='yang', password='123456').first()
             obj = User.objects.filter(

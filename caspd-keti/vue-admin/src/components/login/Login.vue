@@ -23,6 +23,7 @@
           </el-form>
           <div class="button-login">
             <el-button type="primary" @click.prevent="handleLogin()">登录</el-button>
+            <el-button type="primary" @click.prevent="handleReg()">注册</el-button>
           </div>
         </div>
         <!-- 系统提示 -->
@@ -42,6 +43,44 @@
         </p>
       </div>
     </div>
+    <!-- 注册对话框 -->
+    <el-dialog title="用户注册" :visible.sync="addUserFormVisible">
+      <el-form label-position="left" label-width="80px" :model="addUserForm" ref="ruleForm" :rules="addUserFormRules"
+        class="demo-ruleForm">
+        <el-form-item label="账号" prop="userid">
+          <el-input v-model="addUserForm.userid" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password" :label-width="formLabelWidth">
+          <el-input v-model="addUserForm.password" show-password autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="passwordConfirm" :label-width="formLabelWidth">
+          <el-input v-model="addUserForm.passwordConfirm" show-password autocomplete="off" @blur="confirmPass"
+            id="id-pass-confirm">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="姓名" prop="username" :label-width="formLabelWidth">
+          <el-input v-model="addUserForm.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="单位" prop="organization" :label-width="formLabelWidth">
+          <el-input v-model="addUserForm.organization" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" prop="tel" :label-width="formLabelWidth">
+          <el-input v-model="addUserForm.tel" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" :label-width="formLabelWidth">
+          <el-input v-model="addUserForm.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="地址" :label-width="formLabelWidth">
+          <el-input v-model="addUserForm.addr" autocomplete="off"></el-input>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addUserFormVisible=false">取 消</el-button>
+        <el-button type="primary" @click="addUserFormButton()">确 定</el-button>
+      </div>
+      <el-button @click="test()">focus</el-button>
+    </el-dialog>
   </div>
 </template>
 
@@ -55,14 +94,40 @@ export default {
     return {
       loginForm: { userid: "", password: "" },
       data: {},
-      verifyCode: false
+      verifyCode: false,
+      // 用户注册
+      addUserFormVisible: true,
+      formLabelWidth: '',
+      addUserForm: {},
+      // 添加用户对话框校验规则
+      addUserFormRules: {
+        userid: [
+          { required: true, message: '请输入id', trigger: 'blur' },
+          { min: 2, max: 32, message: '长度在 2 到 32 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+        ],
+        passwordConfirm: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        username: [
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+        ],
+        organization: [
+          { required: true, message: '请输入单位', trigger: 'blur' },
+        ],
+        tel: [
+          { required: true, message: '请输入电话', trigger: 'blur' },
+        ]
+      },
     };
   },
 
   methods: {
     success (e) {
       //成功后的返回
-      this.verifyCode = true;
+      this.verifyCode = true
     },
 
 
@@ -102,6 +167,26 @@ export default {
       //   }
       // });
     },
+    handleReg () {
+      this.addUserFormVisible = true
+    },
+    async addUserFormButton () {
+      const res = await this.axios.post("/user/", this.addUserForm)
+      console.log(res)
+      this.addUserFormVisible = false
+    },
+    confirmPass () {
+      console.log(this.addUserForm)
+      if (this.addUserForm.password != this.addUserForm.passwordConfirm) {
+        console.log(this.addUserForm.passwordConfirm)
+        this.$message.warning('密码不一致，请重新填写！')
+        this.addUserForm.passwordConfirm = ''
+        document.getElementById('id-pass-confirm').focus()
+      }
+    },
+    test () {
+      document.getElementById('id-pass-confirm').focus()
+    }
   },
 };
 </script>
