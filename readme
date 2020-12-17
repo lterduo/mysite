@@ -65,4 +65,15 @@ http://stackoverflow.com/questions/9661059/git-pull-rebase-upstream-git-push-ori
 然后再执行 git push --force origin master 替换原先的git push -u origin master
 
 
+
+# 分支
+1、创建并切换分支:
 git switch -c dev
+2、查看当前分支：
+git branch
+3、开发，commit
+4、切换到主分支，合并分支
+git switch master
+git merge dev
+* 可以 5、删除分支* 可以 
+git branch -d dev
