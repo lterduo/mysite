@@ -65,4 +65,4 @@ http://stackoverflow.com/questions/9661059/git-pull-rebase-upstream-git-push-ori
 然后再执行 git push --force origin master 替换原先的git push -u origin master
 
 
-test
+git switch -c dev
