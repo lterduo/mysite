@@ -495,3 +495,19 @@ methods: {
 * ```c
   npm install vue2-verify
   ```
+
+
+
+## 画廊 gallery
+
+### 
+
+* ```
+  blueimp-gallery
+  ```
+
+* https://gitee.com/TerryZ/v-gallery
+
+* ```
+  blueimp-gallery
+  ```
