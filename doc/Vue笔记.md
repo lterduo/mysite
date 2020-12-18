@@ -498,16 +498,10 @@ methods: {
 
 
 
-## 画廊 gallery
+## 报错 'webpack-dev-server' 不是内部或外部命令，也不是可运行的程序
 
-### 
+* 项目目录下： npm install;
 
-* ```
-  blueimp-gallery
-  ```
+* npm run build;
 
-* https://gitee.com/TerryZ/v-gallery
-
-* ```
-  blueimp-gallery
-  ```
+* npm run dev

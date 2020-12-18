@@ -672,3 +672,18 @@ from urllib import parse
 ```
 
 * 源码见 class DownloadFile(APIView):
+
+
+
+## 跨域
+
+* https://www.jianshu.com/p/16ce416555fe
+
+~~~
+# 跨域请求时，是否运行携带cookie，默认为False
+CORS_ALLOW_CREDENTIALS = True
+# 允许所有主机执行跨站点请求，默认为False
+# 如果没设置该参数，则必须设置白名单，运行部分白名单的主机才能执行跨站点请求
+CORS_ORIGIN_ALLOW_ALL = True
+~~~
+

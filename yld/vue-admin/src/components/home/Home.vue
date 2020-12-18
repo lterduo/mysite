@@ -4,7 +4,7 @@
     <el-header class="header">
       <el-row>
         <el-col :span="4" class="logo">
-          <img src="../../assets/image/logo.png" alt="" />
+          <img src="" alt="" />
         </el-col>
         <el-col :span="16" class="sys-name"> 郁陵岛内部系统 </el-col>
         <el-col class="logout" :span="4">
@@ -27,7 +27,7 @@
               <span>客户信息维护</span>
             </template>
             <el-menu-item class="el-icon-s-unfold" index="customerImg">客户头像筛选</el-menu-item>
-            <el-menu-item class="el-icon-s-unfold" index="customerEdit">客户信息录入</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" index="customerAdd">客户信息录入</el-menu-item>
             <el-menu-item class="el-icon-s-unfold" index="customerInfo">客户信息查询</el-menu-item>
           </el-submenu>
           <!-- 2 -->
@@ -85,6 +85,10 @@ export default {
   //   }
   //   //如果有，继续渲染
   // },
+  data () {
+    return {
+    }
+  },
   methods: {
     logout () {
       //清除token

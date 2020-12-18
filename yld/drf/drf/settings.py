@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'drf.urls'
@@ -85,7 +86,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
-        'NAME': 'django',  # 你要存储数据的库名，事先要创建之
+        'NAME': 'yld',  # 你要存储数据的库名，事先要创建之
         'USER': 'yld',  # 数据库用户名
         'PASSWORD': '1qaz!QAZ',  # 密码
         'HOST': '39.99.231.153',  # 主机

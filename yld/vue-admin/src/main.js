@@ -11,8 +11,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 import moment from 'moment'
 
+//baseURL
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
 Vue.prototype.axios = axios
+
+//图片路径后期配置
 
 Vue.config.productionTip = false
 

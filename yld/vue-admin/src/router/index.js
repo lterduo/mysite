@@ -5,7 +5,7 @@ import Home from '../components/home/Home.vue'
 import HomeMain from '../components/home/HomeMain.vue'
 
 
-import CustomerEdit from '../components/customer/CustomerEdit.vue'
+import CustomerAdd from '../components/customer/CustomerAdd.vue'
 import CustomerImg from '../components/customer/CustomerImg.vue'
 
 
@@ -30,9 +30,9 @@ export default new Router({
           component: HomeMain
         },
         {
-          path: '/customerEdit',
-          name: 'customerEdit',
-          component: CustomerEdit
+          path: '/customerAdd',
+          name: 'customerAdd',
+          component: CustomerAdd
         },
         {
           path: '/customerImg',
