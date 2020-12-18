@@ -19,7 +19,8 @@
     <el-container>
       <!-- 侧边栏导航 -->
       <el-aside class="aside" width="240px">
-        <el-menu :unique-opened="true" :router="true" background-color="#545c64" text-color="#fff">
+        <el-menu :unique-opened="true" :router="true" :default-active="$route.path.slice(1)" background-color="#545c64"
+          text-color="#fff">
           <!-- 1 -->
           <el-submenu index="1">
             <template slot="title">
@@ -98,7 +99,7 @@ export default {
     },
     userInfo () {
       alert('hei')
-    }
+    },
   },
 } 
 </script >

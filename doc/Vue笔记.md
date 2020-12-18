@@ -505,3 +505,13 @@ methods: {
 * npm run build;
 
 * npm run dev
+
+
+
+## elementUi 菜单激活的问题
+
+~~~
+:default-active="$route.path.slice(1)"
+因为$route.path返回值为"/customerAdd"，而 el-menu 的 index 不带"/" ,所以必须用slice处理
+~~~
+

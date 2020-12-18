@@ -46,7 +46,6 @@ export default {
     async getImgs () {
       const res = await this.axios.get(`/unprocessed/`);
       if (res.status === 200) {
-        console.log(res);
         this.imgs = res.data.list;
         // 分页器总条数
         this.total = res.data.list.length;

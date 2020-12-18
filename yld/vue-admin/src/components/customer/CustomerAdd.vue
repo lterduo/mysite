@@ -54,14 +54,13 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route.params)
     this.imgName = this.$route.params.filename
+    console.log(this.$route.path)
   },
   methods: {
     //添加用户
     async addUserButton () {
-      const res = await this.axios.post("/user/", this.addUserForm)
-      console.log(res)
+      // const res = await this.axios.post("/user/", this.addUserForm)
     },
   },
 } 
