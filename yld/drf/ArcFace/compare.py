@@ -37,6 +37,18 @@ else:
 # RGB图像
 img1 = cv2.imread("asserts/1.jpg")
 img2 = cv2.imread("asserts/2.jpg")
+
+dir_name = '../static/unprocessed'
+fullname_list, filename_list = [], []
+for root, dirs, files in os.walk(dir_name):
+    for filename in files:
+        # 文件名列表，包含完整路径
+        fullname_list.append(os.path.join(root, filename))
+        # # 文件名列表，只包含文件名
+        filename = 'http://127.0.0.1:8000/static/unprocessed/' + filename
+        filename_list.append({'filename': filename})
+print('file: ', filename_list)
+
 # IR活体检测图像
 img3 = cv2.imread("asserts/3.jpg")
 
