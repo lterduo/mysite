@@ -35,8 +35,8 @@ else:
     print("ASFInitEngine sucess: {}".format(res))
 
 # RGB图像
-img1 = cv2.imread("asserts/1.jpg")
-img2 = cv2.imread("asserts/2.jpg")
+# img1 = cv2.imread("asserts/1.jpg")
+# img2 = cv2.imread("asserts/2.jpg")
 
 dir_name = '../static/unprocessed'
 fullname_list, filename_list = [], []
