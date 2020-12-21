@@ -10,6 +10,17 @@ Ctrl+Shift+Enter：在当前行上方插入一行
 
 
 
+# 插件
+
+~~~
+Bracket Pair Colorizer
+ESLint
+Vetur
+mindmap
+~~~
+
+
+
 
 
 # 标签自动补全

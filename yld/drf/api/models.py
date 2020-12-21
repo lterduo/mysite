@@ -1,5 +1,27 @@
 from django.db import models
 
+class Customer(models.Model):    
+    name = models.CharField(max_length=32)
+    gender = models.CharField(max_length=2, null=True)
+    tel = models.CharField(max_length=32, null=True)
+    org = models.CharField(max_length=32, null=True)
+    birth = models.CharField(max_length=16, null=True)
+    addr = models.CharField(max_length=64, null=True)
+    img = models.CharField(max_length=256, null=True)
+    favour = models.TextField(null=True)
+    relation = models.CharField(max_length=256)
+    is_active = models.BooleanField(default=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'customer'
+        verbose_name = verbose_name_plural = '客户信息表'
+
+
+class CustomerImg(models.Model):
+    pass
+
 
 # class User(models.Model):
 #     userid = models.CharField(max_length=32, primary_key=True)

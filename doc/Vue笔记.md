@@ -500,10 +500,9 @@ methods: {
 
 ## 报错 'webpack-dev-server' 不是内部或外部命令，也不是可运行的程序
 
-* 项目目录下： npm install;
-
+* 项目目录下：
+*  npm install;
 * npm run build;
-
 * npm run dev
 
 

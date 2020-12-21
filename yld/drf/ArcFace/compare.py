@@ -54,6 +54,10 @@ if res == MOK:
 else:
     print("ASFDetectFaces 1 fail: {}".format(res))
 
+print('*********')
+print(detectedFaces1)
+print(type(face_feature1))
+
 # 检测第二张图中的人脸
 res, detectedFaces2 = face_engine.ASFDetectFaces(img2)
 if res == MOK:

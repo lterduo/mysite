@@ -1,0 +1,106 @@
+{
+    "root": {
+        "data": {
+            "id": "c7y4kibreuo0",
+            "created": 1608519485330,
+            "text": "yld",
+            "priority": null
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "c7y4kp3bwvk0",
+                    "created": 1608519500058,
+                    "text": "customer",
+                    "layout": null
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "c7y4l8axl0w0",
+                            "created": 1608519541876,
+                            "text": "id",
+                            "layout": null
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7y4n4gqh000",
+                            "created": 1608519690249,
+                            "text": "name",
+                            "layout": null
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "c7y4n96wuyo0",
+                                    "created": 1608519700538,
+                                    "text": "姓名",
+                                    "layout": null
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "c7y4n5hf74o0",
+                            "created": 1608519692467,
+                            "text": "gender",
+                            "layout": null
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7y4w6xr4ps0",
+                            "created": 1608520400908,
+                            "text": "birth",
+                            "expandState": "expand"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "c7y4yjif5400",
+                                    "created": 1608520585008,
+                                    "text": "生日"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "c7y4yl1bgds0",
+                                            "created": 1608520588327,
+                                            "text": "topic"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "c7y4wp9fhb40",
+                            "created": 1608520440797,
+                            "text": "img"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "c7y4xdz0sd40",
+                                    "created": 1608520494587,
+                                    "text": "CharField(max_length=256, null=True)"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "right",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}
