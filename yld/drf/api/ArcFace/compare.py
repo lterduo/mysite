@@ -37,7 +37,7 @@ else:
 
 # 初始化时读取图像，取得face_features，
 # 后续进来的图片直接比对
-dir_name = 'static/customer'
+dir_name = 'static/customer_face_features'
 fullname_list, filename_list = [], []
 
 face_features = []
@@ -45,44 +45,18 @@ face_features = []
 for root, dirs, files in os.walk(dir_name):
     for filename in files:
 
-        img1 = cv2.imread('static/customer/' + filename)
-        # cv2.imshow('', img1)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-
-        # 尺寸*4，不是4的倍数报错
-        x, y = img1.shape[0:2]
-        img1 = cv2.resize(img1, (y*4, x*4))
-        # cv2.imshow('', img1)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-
-        res, detectedFaces1 = face_engine.ASFDetectFaces(img1)
-
-        if res == MOK:
-            single_detected_face1 = ASF_SingleFaceInfo()
-            single_detected_face1.faceRect = detectedFaces1.faceRect[0]
-            single_detected_face1.faceOrient = detectedFaces1.faceOrient[0]
-            res, face_feature1 = face_engine.ASFFaceFeatureExtract(
-                img1, single_detected_face1)
-
-            # print(face_feature1)
+        # 读文件
+        filename = 'static/customer_face_features/'+filename
+        with open(filename, 'rb+') as f:
+            face_feature = ASF_FaceFeature()
+            face_feature.set_feature(f.read())
             print(filename)
-            face_features.append(face_feature1)
+
+            face_features.append(face_feature)
             filename_list.append(filename)
-            if (res != MOK):
-                print("ASFFaceFeatureExtract 1 fail: {}".format(res))
-        else:
-            print("ASFDetectFaces 1 fail: {}".format(res))
+            f.close()
 
-# 测试
-# 读写文件速度
-with open('static/customer_face_features', 'w+') as f:
-    f.write(face_features)
-    f.close()
-
-
-# 检测第一张图中的人脸
+# 待对比人脸
 img1 = cv2.imread("static/captured/1.jpg")
 # 尺寸*4，不是4的倍数报错
 x, y = img1.shape[0:2]
@@ -109,7 +83,7 @@ for face in face_features:
         break
 
     i = i + 1
-print(sys.getsizeof(face_features))
+# print(sys.getsizeof(face_features))
 
 # 反初始化
 face_engine.ASFUninitEngine()

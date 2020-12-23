@@ -79,3 +79,17 @@ https://blog.csdn.net/weixin_44821644/article/details/107574297
 
 例如要克隆github上仓库地址`https://github.com/killer-p/ctool.git`
  只需将地址改为`https://gitclone.com/github.com/killer-p/ctool.git`，在命令行中执行`git clone https://gitclone.com/github.com/killer-p/ctool.git`，速度直接起飞！芜湖！**
+
+
+
+## .gitignore规则不生效
+
+.gitignore只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。
+
+解决方法就是先把本地缓存删除（改变成未track状态），然后再提交:
+
+```text
+git rm -r --cached .
+git add .
+git commit -m 'update .gitignore'
+```

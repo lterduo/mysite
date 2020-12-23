@@ -2,7 +2,6 @@
 
 import cv2
 from arcface.engine import *
-import file_path
 
 APPID = b'Bxz9VZNGW8VRp1bu6A5wX12zVzYhRYfgQopvtdCjqvhq'
 SDKKey = b'C19n792c3rg7upRf12PK746teLwmbje52QwjnTCmSZcY'
@@ -38,14 +37,9 @@ else:
     print("ASFInitEngine sucess: {}".format(res))
 
 
-dir_name = file_path.customer  # 读取路径
-fullname_list, filename_list = [], []
-
-face_features = []
-
-
-def customer_add(file_name):
-    img1 = cv2.imread(file_name)
+# 生成face_feature，并写入文件
+def customer_add(filename):
+    img1 = cv2.imread('static/customer/' + filename)
     x, y = img1.shape[0:2]
     img1 = cv2.resize(img1, (y*4, x*4))
     res, detectedFaces1 = face_engine.ASFDetectFaces(img1)
@@ -58,20 +52,24 @@ def customer_add(file_name):
             img1, single_detected_face1)
         # print(face_feature1)
         print(filename)
-        face_features.append(face_feature1)
-        filename_list.append(filename)
-        # 测试
-        # 读写文件速度
-        file_feature = file_path.customer_face_features + \
-            '/' + filename[0:-4]
+        print(face_feature1.featureSize)
+        print(face_feature1.get_feature_bytes())
+        # 写文件
+        # 读取customer_face_features路径
+        # 文件名即客户id
+        file_feature = 'static/customer_face_features/' + filename[0:-4]
         with open(file_feature, 'wb+') as f:
-            f.write(face_feature1)
+            #
+            f.write(face_feature1.get_feature_bytes())
             f.close()
         if (res != MOK):
             print("ASFFaceFeatureExtract 1 fail: {}".format(res))
     else:
         print("ASFDetectFaces 1 fail: {}".format(res))
 
+
+# 测试
+# customer_add('0001-image20056.jpg')
 
 # 反初始化
 face_engine.ASFUninitEngine()
