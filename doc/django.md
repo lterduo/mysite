@@ -659,7 +659,7 @@ python manage.py inspectdb > models.py
 
 
 
-# 下载文件中文名问题
+## 下载文件中文名问题
 
 * Content-Disposition
 
@@ -687,3 +687,22 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 ~~~
 
+
+
+## 函数在django启动时执行
+
+*  https://blog.csdn.net/qq_36963372/article/details/84847581
+* 貌似好多问题
+
+
+
+## Django执行定时任务（使用django-apscheduler）
+
+* https://blog.csdn.net/weixin_43748870/article/details/102916168?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control
+
+
+
+## 如何在python中调用终端命令
+
+* os.system('python ./api/tests.py')
+* os.system('python xxx.exe')

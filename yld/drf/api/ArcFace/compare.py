@@ -34,15 +34,61 @@ if (res != MOK):
 else:
     print("ASFInitEngine sucess: {}".format(res))
 
-# RGB图像
-img1 = cv2.imread("asserts/1.jpg")
-img2 = cv2.imread("asserts/2.jpg")
-# IR活体检测图像
-img3 = cv2.imread("asserts/3.jpg")
+
+# 初始化时读取图像，取得face_features，
+# 后续进来的图片直接比对
+dir_name = 'static/customer'
+fullname_list, filename_list = [], []
+
+face_features = []
+
+for root, dirs, files in os.walk(dir_name):
+    for filename in files:
+
+        img1 = cv2.imread('static/customer/' + filename)
+        # cv2.imshow('', img1)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+        # 尺寸*4，不是4的倍数报错
+        x, y = img1.shape[0:2]
+        img1 = cv2.resize(img1, (y*4, x*4))
+        # cv2.imshow('', img1)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+        res, detectedFaces1 = face_engine.ASFDetectFaces(img1)
+
+        if res == MOK:
+            single_detected_face1 = ASF_SingleFaceInfo()
+            single_detected_face1.faceRect = detectedFaces1.faceRect[0]
+            single_detected_face1.faceOrient = detectedFaces1.faceOrient[0]
+            res, face_feature1 = face_engine.ASFFaceFeatureExtract(
+                img1, single_detected_face1)
+
+            # print(face_feature1)
+            print(filename)
+            face_features.append(face_feature1)
+            filename_list.append(filename)
+            if (res != MOK):
+                print("ASFFaceFeatureExtract 1 fail: {}".format(res))
+        else:
+            print("ASFDetectFaces 1 fail: {}".format(res))
+
+# 测试
+# 读写文件速度
+with open('static/customer_face_features', 'w+') as f:
+    f.write(face_features)
+    f.close()
+
 
 # 检测第一张图中的人脸
+img1 = cv2.imread("static/captured/1.jpg")
+# 尺寸*4，不是4的倍数报错
+x, y = img1.shape[0:2]
+img1 = cv2.resize(img1, (y*4, x*4))
 res, detectedFaces1 = face_engine.ASFDetectFaces(img1)
-print(detectedFaces1)
+
 if res == MOK:
     single_detected_face1 = ASF_SingleFaceInfo()
     single_detected_face1.faceRect = detectedFaces1.faceRect[0]
@@ -54,92 +100,16 @@ if res == MOK:
 else:
     print("ASFDetectFaces 1 fail: {}".format(res))
 
-# 检测第二张图中的人脸
-res, detectedFaces2 = face_engine.ASFDetectFaces(img2)
-if res == MOK:
-    single_detected_face2 = ASF_SingleFaceInfo()
-    single_detected_face2.faceRect = detectedFaces2.faceRect[0]
-    single_detected_face2.faceOrient = detectedFaces2.faceOrient[0]
-    res, face_feature2 = face_engine.ASFFaceFeatureExtract(
-        img2, single_detected_face2)
-    if (res == MOK):
-        pass
-    else:
-        print("ASFFaceFeatureExtract 2 fail: {}".format(res))
-else:
-    print("ASFDetectFaces 2 fail: {}".format(res))
+# 循环头像库
+i = 0
+for face in face_features:
+    res, score = face_engine.ASFFaceFeatureCompare(face_feature1, face)
+    if score > 0.99:
+        print(filename_list[i], ' 相似度：', score)
+        break
 
-# 比较两个人脸的相似度
-res, score = face_engine.ASFFaceFeatureCompare(face_feature1, face_feature2)
-print("相似度:", score)
-
-# 设置活体置信度 SDK内部默认值为 IR：0.7 RGB：0.75（无特殊需要，可以不设置）
-threshold = ASF_LivenessThreshold()
-threshold.thresholdmodel_BGR = 0.75
-threshold.thresholdmodel_IR = 0.7
-
-face_engine.ASFSetLivenessParam(threshold)
-
-# RGB图像属性检测 注意:processMask中的内容必须在初始化引擎 时指定的功能内
-processMask = ASF_AGE | ASF_GENDER | ASF_FACE3DANGLE | ASF_LIVENESS
-
-res = face_engine.ASFProcess(img1, detectedFaces1, processMask)
-
-if res == MOK:
-    # 获取年龄
-    res, ageInfo = face_engine.ASFGetAge()
-    if (res != MOK):
-        print("ASFGetAge fail: {}".format(res))
-    else:
-        print("Age: {}".format(ageInfo.ageArray[0]))
-
-    # 获取性别
-    res, genderInfo = face_engine.ASFGetGender()
-    if (res != MOK):
-        print("ASFGetGender fail: {}".format(res))
-    else:
-        print("Gender: {}".format(genderInfo.genderArray[0]))
-
-    # 获取3D角度
-    res, angleInfo = face_engine.ASFGetFace3DAngle()
-    if (res != MOK):
-        print("ASFGetFace3DAngle fail: {}".format(res))
-    else:
-        print("3DAngle roll: {} yaw: {} pitch: {}".format(angleInfo.roll[0],
-                                                          angleInfo.yaw[0], angleInfo.pitch[0]))
-
-    # 获取RGB活体信息
-    res, rgbLivenessInfo = face_engine.ASFGetLivenessScore()
-    if (res != MOK):
-        print("ASFGetLivenessScore fail: {}".format(res))
-    else:
-        print("RGB Liveness: {}".format(rgbLivenessInfo.isLive[0]))
-else:
-    print("ASFProcess fail: {}".format(res))
-
-# **************进行IR活体检测********************
-# opencv读图时会将灰度图读成RGB图，需要转换成GRAY图进行IR活体检测
-img3_gray = cv2.cvtColor(img3, cv2.COLOR_BGR2GRAY)
-
-res, detectedFaces3 = face_engine.ASFDetectFaces(img3)
-
-
-if (res != MOK):
-    print("ASFGetLivenessScore fail: {}".format(res))
-
-# IR 活体检测
-res = face_engine.ASFProcess_IR(img3_gray, detectedFaces3)
-
-if res == MOK:
-    # 获取IR识别结果
-    res, irLivenessInfo = face_engine.ASFGetLivenessScore_IR()
-    print(irLivenessInfo)
-    if (res != MOK):
-        print("ASFGetLivenessScore_IR fail: {}".format(res))
-    else:
-        print("IR Liveness: {}".format(irLivenessInfo.isLive[0]))
-else:
-    print("ASFProcess_IR fail: {}".format(res))
+    i = i + 1
+print(sys.getsizeof(face_features))
 
 # 反初始化
 face_engine.ASFUninitEngine()

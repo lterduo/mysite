@@ -42,18 +42,20 @@ from rest_framework.filters import OrderingFilter
 
 
 # 测试
+
 def unprocessed(request):
-    dir_name = 'static/unprocessed'
+    dir_name = 'static/temp'
     fullname_list, filename_list = [], []
     for root, dirs, files in os.walk(dir_name):
         for filename in files:
             # 文件名列表，包含完整路径
             fullname_list.append(os.path.join(root, filename))
             # # 文件名列表，只包含文件名
-            filename = 'http://127.0.0.1:8000/static/unprocessed/' + filename
+            filename = 'http://127.0.0.1:8000/static/temp/' + filename
             filename_list.append({'filename': filename})
     # print('file: ', filename_list)
     jlist = {'list': filename_list}
+    os.system('python ./api/ArcFace/compare.py')
     return JsonResponse(jlist)
 
 

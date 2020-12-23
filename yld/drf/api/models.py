@@ -1,6 +1,7 @@
 from django.db import models
 
-class Customer(models.Model):    
+
+class Customer(models.Model):
     name = models.CharField(max_length=32)
     gender = models.CharField(max_length=2, null=True)
     tel = models.CharField(max_length=32, null=True)
@@ -9,19 +10,23 @@ class Customer(models.Model):
     addr = models.CharField(max_length=64, null=True)
     img = models.CharField(max_length=256, null=True)
     favour = models.TextField(null=True)
-    relation = models.CharField(max_length=256)
+    relation = models.CharField(max_length=256, null=True)
     is_active = models.BooleanField(default=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         db_table = 'customer'
         verbose_name = verbose_name_plural = '客户信息表'
 
 
-class CustomerImg(models.Model):
-    pass
+class CustomerFace(models.Model):
+    c_id = models.CharField(max_length=32)
+    # face_feature = models.BinaryField()
 
+    class Meta:
+        db_table = 'customer_face'
+        verbose_name = verbose_name_plural = '客户头像表'
 
 # class User(models.Model):
 #     userid = models.CharField(max_length=32, primary_key=True)
