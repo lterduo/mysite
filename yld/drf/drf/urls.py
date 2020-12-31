@@ -22,6 +22,7 @@ router = DefaultRouter()
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('api/unprocessed/', views.unprocessed),
+    url(r'^api/customerMatched/$', views.CustomerMatched.as_view()),
     # url(r'^api/login/$', views.AuthView.as_view()),
     # url(r'^api/', include(router.urls)),
     # url(r'^api/uploadFile/', views.UploadFile.as_view()),

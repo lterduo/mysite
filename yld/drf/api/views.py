@@ -18,6 +18,7 @@ from rest_framework.filters import SearchFilter
 # 排序
 from rest_framework.filters import OrderingFilter
 
+from api import models
 # from api.models import UserToken
 # from api.models import User
 # from api.serializers import UserSerializer
@@ -58,6 +59,50 @@ def unprocessed(request):
     os.system('python ./api/ArcFace/compare.py')
     return JsonResponse(jlist)
 
+
+class CustomerMatched(APIView):
+    def get(self, request, *args, **kwargs):
+        ret = {}
+        # cus = models.CustomerMatched()
+        # cus.c_id = '2020-12-26 21_13_02.298318.jpg'
+        # cus.save()
+        customer = ['2020-12-26 21_13_02.298318.jpg',
+                    '2020-12-26 21_13_01.844599.jpg']
+        ret['customer'] = customer
+        return JsonResponse(ret)
+
+    def post(self, request, *args, **kwargs):
+
+        ret = {'code': 1000, 'msg': None}
+        try:
+            # 参数是datadict 形式
+            usr = request.data.get('userid')
+            pas = request.data.get('password')
+
+            print(usr)
+            # obj = models.User.objects.filter(username='yang', password='123456').first()
+            obj = User.objects.filter(
+                userid=usr, password=pas).first()
+            print(obj)
+            print(type(obj))
+            print(obj.userid)
+            print(obj.password)
+            if not obj:
+                ret['code'] = '1001'
+                ret['msg'] = '用户名或者密码错误'
+                return JsonResponse(ret)
+                # 里为了简单，应该是进行加密，再加上其他参数
+            token = str(time.time()) + usr
+            print(token)
+            UserToken.objects.update_or_create(
+                username=obj, defaults={'token': token})
+            ret['msg'] = '登录成功'
+            ret['token'] = token
+            ret['userid'] = obj.userid
+        except Exception as e:
+            ret['code'] = 1002
+            ret['msg'] = '请求异常'
+        return JsonResponse(ret)
 
 # # 分页器
 # class MyPageNumberPagination(PageNumberPagination):

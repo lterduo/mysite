@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 class Customer(models.Model):
@@ -20,13 +21,14 @@ class Customer(models.Model):
         verbose_name = verbose_name_plural = '客户信息表'
 
 
-class CustomerFace(models.Model):
-    c_id = models.CharField(max_length=32)
-    # face_feature = models.BinaryField()
+class CustomerMatched(models.Model):
+    c_id = models.CharField(max_length=64)
+    create_time = models.CharField(
+        max_length=16, default=datetime.now().strftime("%Y-%m-%d"))
 
     class Meta:
-        db_table = 'customer_face'
-        verbose_name = verbose_name_plural = '客户头像表'
+        db_table = 'customer_matched'
+        verbose_name = verbose_name_plural = '已匹配的头像表'
 
 # class User(models.Model):
 #     userid = models.CharField(max_length=32, primary_key=True)

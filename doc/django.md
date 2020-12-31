@@ -649,6 +649,10 @@ https://www.cnblogs.com/BlueSkyyj/p/11193982.html
 
 
 
+# 常见问题
+
+
+
 ## 从已存在的Mysql数据库表生成model
 
 python .\manage.py inspectdb
@@ -706,3 +710,86 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 * os.system('python ./api/tests.py')
 * os.system('python xxx.exe')
+
+
+
+#  websocket  channels
+
+* https://www.cnblogs.com/chuangming/p/9222794.html
+
+* pip install channels
+
+* 报错  Running setup.py install for twisted ... error
+
+  https://www.cnblogs.com/dajie/p/11223775.html
+
+  
+
+* 1、settings.py 同级目录创建routing.py
+
+  ~~~
+  from channels.routing import ProtocolTypeRouter
+  application = ProtocolTypeRouter({
+      # (http->django views is added by default)
+  })
+  ~~~
+
+* 2、settings.py  将 'channels' 添加到 INSTALLED_APPS 
+
+  ~~~
+  INSTALLED_APPS = [
+      'channels',
+      'django.contrib.admin',
+      'django.contrib.auth',
+      'django.contrib.contenttypes',
+      'django.contrib.sessions',
+      'django.contrib.messages',
+      'django.contrib.staticfiles',
+      'api'
+  ]
+  ~~~
+
+  ```
+  # Channels
+  ASGI_APPLICATION = 'mysite.routing.application'
+  ```
+
+* 3、runserver 
+
+  留意从 Starting ASGI/Channels development server at http://127.0.0.1:8000/ 开始的内容。这表明 Channels 开发服务器已接管了 Django 开发服务器。
+
+* 4、api/consumers.py
+
+  ~~~
+  from channels.generic.websocket import WebsocketConsumer
+  import json
+  
+  class ChatConsumer(WebsocketConsumer):
+      def connect(self):
+          self.accept()
+  
+      def disconnect(self, close_code):
+          pass
+  
+      def receive(self, text_data):
+          text_data_json = json.loads(text_data)
+          message = text_data_json['message']
+  
+          self.send(text_data=json.dumps({
+              'message': message
+          }))
+  ~~~
+
+* 5、routing.py 中输入以下代码：
+
+  ~~~
+  from django.conf.urls import url
+  
+  from . import consumers
+  
+  websocket_urlpatterns = [
+      url(r'^ws/chat/(?P<room_name>[^/]+)/$', consumers.ChatConsumer),
+  ]
+  ~~~
+
+  

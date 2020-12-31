@@ -16,7 +16,8 @@ Ctrl+Shift+Enter：在当前行上方插入一行
 Bracket Pair Colorizer
 ESLint
 Vetur
-mindmap
+mindmap	脑图，.km文件
+drawio	流程图，.drawio
 ~~~
 
 

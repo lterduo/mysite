@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    # 'channels',
     'api',
 ]
 
@@ -76,6 +77,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'drf.wsgi.application'
+# Channels
+# ASGI_APPLICATION = 'drf.routing.application'
 
 
 # Database
@@ -136,4 +139,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-
