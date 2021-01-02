@@ -40,7 +40,7 @@ else:
     print("ASFInitEngine sucess: {}".format(res))
 
 
-dir_name = 'static/customer'
+dir_name = '../../static/customer'
 fullname_list, filename_list = [], []
 
 face_features = []
@@ -48,7 +48,7 @@ face_features = []
 for root, dirs, files in os.walk(dir_name):
     for filename in files:
 
-        img1 = cv2.imread('static/customer/' + filename)
+        img1 = cv2.imread('../../static/customer/' + filename)
         # cv2.imshow('', img1)
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
@@ -71,7 +71,7 @@ for root, dirs, files in os.walk(dir_name):
 
             # print(face_feature1)
             print(filename)
-            with open('static/customer_face_features/' + filename[0:-4], 'bw+') as f:
+            with open('../../static/customer_face_features/' + filename[0:-4], 'bw+') as f:
                 f.write(face_feature1.get_feature_bytes())
                 f.close()
 
