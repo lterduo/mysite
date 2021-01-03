@@ -2,11 +2,37 @@
 
 https://uniapp.dcloud.io/collocation/frame/communication
 
-### [uni.$emit(eventName,OBJECT)](https://uniapp.dcloud.io/collocation/frame/communication?id=emit)
+* uni.$emit(eventName,OBJECT)
 
-### [uni.$on(eventName,callback)](https://uniapp.dcloud.io/collocation/frame/communication?id=on)
+  ~~~
+  uni.$emit('login', {  
+                  avatarUrl: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/nav_menu/10.jpg',  
+                  token: 'user123456',  
+                  userName: 'unier',  
+                  login: true  
+              });
+  ~~~
 
+  
 
+* uni.$on(eventName,callback)
+
+  如果页面没有打开，将不能 注册监听事件
+
+  ~~~
+  onLoad(){  
+      // 监听事件  
+      uni.$on('login',(usnerinfo)=>{  
+          this.usnerinfo = usnerinfo;  
+      })  
+  },  
+  onUnload() {  
+      // 移除监听事件  
+          uni.$off('login');  
+      },
+  ~~~
+
+  
 
 ## 页面导航
 

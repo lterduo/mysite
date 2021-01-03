@@ -28,14 +28,19 @@
 				}
 				console.log(this.clientid)
 				
-				plus.push.addEventListener('click', (message) => {
-					this.pushCallBack()
-					console.log(message)
+				plus.push.addEventListener('click', (message) => {					
+					console.log(message)					
+					// 跳转到客户匹配页面
+					uni.switchTab({
+					  url: '/pages/customerMatched/customerMatched'
+					})
+					// 如果页面没有打开，将不能 注册监听事件
+					uni.$emit('customerMatched',message) 
 				});
 			 
-				plus.push.addEventListener('receive', (message) => {
-			        this.pushCallBack()
+				plus.push.addEventListener('receive', (message) => {			        
 					console.log(message)
+					uni.$emit('customerMatched',message)
 				});
 			},
 			 

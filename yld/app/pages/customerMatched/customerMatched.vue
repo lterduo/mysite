@@ -9,22 +9,30 @@
 	export default {
 		data() {
 			return {
-				customer:[]
+				customer: {}
 			}
 		},
 		onLoad() {
-			this.getCustomer()
+			// this.getCustomer()
+			uni.$on('customerMatched',(cm)=>{
+				this.customer = cm
+				console.log(cm)
+			})
+		},
+		onUnload() {
+			// 移除监听事件  
+			uni.$off('customerMatched');
 		},
 		methods: {
-			getCustomer(){
+			getCustomer() {
 				console.log('getCustomer')
-				var url = 'http://192.168.1.101:8000/api/customerMatched/'
+				var url = 'http://39.99.231.153:8000/api/customerMatched/'
 				uni.request({
-				    url: url, 				
-				    success: (res) => {
-				        console.log(res);			
+					url: url,
+					success: (res) => {
+						console.log(res);
 						this.customer = res.data.customer
-				    }
+					}
 				});
 			}
 		}
