@@ -192,9 +192,9 @@ class AuthView(APIView):
             usr = request.data.get('userid')
             pas = request.data.get('password')
 
-            print(usr)
+            print(usr, '  ', pas)
             # obj = models.User.objects.filter(username='yang', password='123456').first()
-            obj = User.objects.filter(
+            obj = models.User.objects.filter(
                 userid=usr, password=pas).first()
             print(obj)
             print(type(obj))
@@ -207,7 +207,7 @@ class AuthView(APIView):
                 # 里为了简单，应该是进行加密，再加上其他参数
             token = str(time.time()) + usr
             print(token)
-            UserToken.objects.update_or_create(
+            models.UserToken.objects.update_or_create(
                 username=obj, defaults={'token': token})
             ret['msg'] = '登录成功'
             ret['token'] = token
@@ -215,4 +215,5 @@ class AuthView(APIView):
         except Exception as e:
             ret['code'] = 1002
             ret['msg'] = '请求异常'
+            print(e)
         return JsonResponse(ret)
