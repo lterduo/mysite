@@ -47,7 +47,6 @@ face_features = []
 
 for root, dirs, files in os.walk(dir_name):
     for filename in files:
-
         # 读文件
         filename = '../../static/customer_face_features/'+filename
         with open(filename, 'rb+') as f:
@@ -59,9 +58,8 @@ for root, dirs, files in os.walk(dir_name):
             filename_list.append(filename)
             f.close()
 
+
 # filename:图片名称 face_features：特征库   filename_list：文件名列表，取c_id
-
-
 def compare(filename, face_features, filename_list):
     # 待对比人脸
     print('2: ', filename)
@@ -111,8 +109,12 @@ while True:
                 else:
                     shutil.move('../../static/captured/' + filename,
                                 '../../static/processed/'+filename)
+            # 异常写入日志
             except Exception as e:
-                print(e)
+                with open('errlog.txt', 'a+') as f:
+                    f.writelines(str(datetime.now()) + '  compare.py')
+                    f.writelines(str(e))
+                    f.close()
 
 
 # 反初始化
