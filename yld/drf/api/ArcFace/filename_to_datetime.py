@@ -12,6 +12,7 @@ for root, dirs, files in os.walk(dir_name):
         print(filename)
         s_time = str(datetime.now())
         s_time = s_time.replace(':', '_')
+        s_time = s_time.replace(' ', '_')
         try:
             os.rename('../../static/customer/' + filename,
                       '../../static/customer/' + s_time + '.jpg')

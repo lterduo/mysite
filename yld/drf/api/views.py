@@ -20,27 +20,6 @@ from rest_framework.filters import OrderingFilter
 
 from api import models
 from api import serializers
-# from api.models import UserToken
-# from api.models import User
-# from api.serializers import UserSerializer
-# from api.models import Role
-# from api.serializers import RoleSerializer
-# from api.models import ProjectCategory
-# from api.serializers import ProjectCategorySerializer
-# from api.models import ProjectStatus
-# from api.serializers import ProjectStatusSerializer
-# from api.models import ProjectInfo
-# from api.serializers import ProjectInfoSerializer
-# from api.models import ProjectLeader
-# from api.serializers import ProjectLeaderSerializer
-# from api.models import ProjectMember
-# from api.serializers import ProjectMemberSerializer
-# from api.models import FileList
-# from api.serializers import FileListSerializer
-# from api.models import AuditInfo
-# from api.serializers import AuditInfoSerializer
-# from api.models import ProjectDistribute
-# from api.serializers import ProjectDistributeSerializer
 
 
 # 测试
@@ -67,15 +46,37 @@ class CustomerMatched(APIView):
         # cus = models.CustomerMatched()
         # cus.c_id = '2020-12-26 21_13_02.298318.jpg'
         # cus.save()
-        customer = ['2020-12-26 21_13_02.298318.jpg',
-                    '2020-12-26 21_13_01.844599.jpg']
+        customer = ['2021-01-02 15_55_58.310257',
+                    '2021-01-02 15_55_58.314163',
+                    '2021-01-02 15_55_58.320752']
         ret['customer'] = customer
+
+        dir_name = 'static/customer/'
+        i = 0
+        for root, dirs, files in os.walk(dir_name):
+            for filename in files:
+                print(filename)
+
+                try:
+                    cus = models.Customer()
+                    cus.c_id = filename[:-4]
+                    i = i + 1
+                    j = str(i).zfill(5)
+                    cus.name = '贵宾' + j
+                    cus.gender = '男'
+                    cus.img = filename
+                    cus.save()
+                except Exception as e:
+                    with open('errlog.txt', 'a+') as f:
+                        f.writelines(str(datetime.now()) +
+                                     '  filename_to_datetime.py' + '\n')
+                        # f.write(str(datetime.now()) + '  filename_to_datetime.py')
+                        f.writelines(str(e) + '\n')
+                        f.close()
         return JsonResponse(ret)
 
     def post(self, request, *args, **kwargs):
-
         ret = {'code': 1000, 'msg': None}
-
         return JsonResponse(ret)
 
 
@@ -112,6 +113,16 @@ class RoleViewSet(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     filter_backends = [OrderingFilter]
     ordering_fields = ['role_id']
+
+
+# 客户管理
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = models.Customer.objects.all()
+    serializer_class = serializers.CustomerSerializer
+    pagination_class = MyPageNumberPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    # ordering_fields = ['role_id']
+    filter_fields = ['c_id', 'name', 'waiter']
 
 
 # # 上传文件
