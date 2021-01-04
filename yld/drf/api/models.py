@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 class Customer(models.Model):
+    c_id = models.CharField(max_length=64)
     name = models.CharField(max_length=32)
     gender = models.CharField(max_length=2, null=True)
     tel = models.CharField(max_length=32, null=True)
@@ -13,6 +14,7 @@ class Customer(models.Model):
     favour = models.TextField(null=True)
     relation = models.CharField(max_length=256, null=True)
     is_active = models.BooleanField(default=True)
+    waiter = models.CharField(max_length=32, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
@@ -25,56 +27,54 @@ class CustomerMatched(models.Model):
     c_id = models.CharField(max_length=64)
     create_time = models.CharField(
         max_length=16, default=datetime.now().strftime("%Y-%m-%d"))
+    treated = models.BooleanField(default=False)
+    waiter = models.CharField(max_length=32, null=True)
 
     class Meta:
         db_table = 'customer_matched'
         verbose_name = verbose_name_plural = '已匹配的头像表'
 
-# class User(models.Model):
-#     userid = models.CharField(max_length=32, primary_key=True)
-#     username = models.CharField(max_length=32)
-#     password = models.CharField(max_length=32)
-#     organization = models.CharField(max_length=32, null=True)
-#     tel = models.CharField(max_length=32, null=True)
-#     email = models.CharField(max_length=32, null=True)
-#     addr = models.CharField(max_length=64, null=True)
-#     is_active = models.BooleanField(default=False)
-#     create_time = models.DateTimeField(auto_now_add=True)
-#     update_time = models.DateTimeField(auto_now=True)
-#     role_id = models.IntegerField()
 
-#     gender = models.CharField(max_length=2, null=True)
-#     national = models.CharField(max_length=2, null=True)
-#     birth = models.CharField(max_length=16, null=True)
-#     duty = models.CharField(max_length=16, null=True)
-#     title = models.CharField(max_length=16, null=True)
-#     major = models.CharField(max_length=16, null=True)
-#     education = models.CharField(max_length=16, null=True)
-#     degree = models.CharField(max_length=16, null=True)
-#     province = models.CharField(max_length=16, null=True)
-#     zipcode = models.CharField(max_length=6, null=True)
+class User(models.Model):
+    userid = models.CharField(max_length=32, primary_key=True)
+    username = models.CharField(max_length=32)
+    password = models.CharField(max_length=32)
+    tel = models.CharField(max_length=32, null=True)
+    email = models.CharField(max_length=32, null=True)
+    addr = models.CharField(max_length=64, null=True)
+    is_active = models.BooleanField(default=False)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+    role_id = models.IntegerField()
 
-#     class Meta:
-#         db_table = 'user'
-#         verbose_name = verbose_name_plural = '用户信息表'
+    gender = models.CharField(max_length=2, null=True)
+    national = models.CharField(max_length=2, null=True)
+    birth = models.CharField(max_length=16, null=True)
+    duty = models.CharField(max_length=16, null=True)
+    education = models.CharField(max_length=16, null=True)
+    origin = models.CharField(max_length=16, null=True)
+
+    class Meta:
+        db_table = 'user'
+        verbose_name = verbose_name_plural = '用户信息表'
 
 
-# class UserToken(models.Model):
-#     username = models.OneToOneField(to='User', on_delete=models.DO_NOTHING)
-#     token = models.CharField(max_length=60)
+class UserToken(models.Model):
+    username = models.OneToOneField(to='User', on_delete=models.DO_NOTHING)
+    token = models.CharField(max_length=60)
 
-#     class Meta:
-#         db_table = 'user_token'
-#         verbose_name = verbose_name_plural = '用户token表'
+    class Meta:
+        db_table = 'user_token'
+        verbose_name = verbose_name_plural = '用户token表'
 
 
-# class Role(models.Model):
-#     role_id = models.IntegerField()
-#     role_name = models.CharField(max_length=16)
+class Role(models.Model):
+    role_id = models.IntegerField()
+    role_name = models.CharField(max_length=16)
 
-#     class Meta:
-#         db_table = 'role'
-#         verbose_name = verbose_name_plural = '角色表'
+    class Meta:
+        db_table = 'role'
+        verbose_name = verbose_name_plural = '角色表'
 
 
 # class Applicant(models.Model):

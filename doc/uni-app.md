@@ -36,7 +36,11 @@ https://uniapp.dcloud.io/collocation/frame/communication
 
 ## 页面导航
 
-跳转到 tabBar 页面，只能用 uni.switchTab
+* https://uniapp.dcloud.io/api/router?id=navigateto
+
+* 跳转到 tabBar 页面，只能用 uni.switchTab
+
+  
 
 ## p31 
 
