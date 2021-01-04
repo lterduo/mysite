@@ -53,3 +53,10 @@
 * customer_add_batch.py
 
 * compare.py
+
+
+
+## 注意事项
+
+* 登录验证时，后台没有加user表的is_active限制
+

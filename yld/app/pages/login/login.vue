@@ -14,7 +14,7 @@
         <view class="img">
           <image style="width:27px;height: 27px;" :src="imgInfo.icon_user" />
         </view>
-        <input type="text" v-model="username" placeholder="请输入用户账号">
+        <input type="text" v-model="userid" placeholder="请输入用户账号">
         <view class="img">
           <image @tap="delUser" class="img_del" :src="imgInfo.icon_del" />
         </view>
@@ -46,29 +46,28 @@ export default {
     const isUni = typeof (uni) !== 'undefined'
     return {
       token: '',
-      username: '',
+      userid: '',
       userpwd: '',
       pwdType: 'password',
       imgInfo: {
-        head: isUni ? '/static/head.png' : require('./images/head.png'),
-        icon_user: isUni ? '/static/icon_user.png' : require('./images/icon_user.png'),
-        icon_del: isUni ? '/static/icon_del.png' : require('./images/icon_del.png'),
-        icon_pwd: isUni ? '/static/icon_pwd.png' : require('./images/icon_pwd.png'),
-        icon_pwd_switch: isUni ? '/static/icon_pwd_switch.png' : require('./images/icon_pwd_switch.png'),
-        qq: isUni ? '/static/qq.png' : require('./images/qq.png'),
-        wechat: isUni ? '/static/wechat.png' : require('./images/wechat.png'),
-        weibo: isUni ? '/static/weibo.png' : require('./images/weibo.png')
+        head: '/static/head.png',
+        icon_user: '/static/icon_user.png',
+        icon_del: '/static/icon_del.png',
+        icon_pwd: '/static/icon_pwd.png',
+        icon_pwd_switch: '/static/icon_pwd_switch.png',
+        qq: '/static/qq.png',
+        wechat: '/static/wechat.png',
+        weibo: '/static/weibo.png',
       }
     }
   },
   onLoad () {
     // 获取缓存token、userid
     try {
-      // uni.setStorageSync('token', '1111')
       let t = uni.getStorageSync('token')
       if (t) {
         uni.switchTab({
-          url: '/pages/index/index'
+          url: '/pages/customerMatched/customerMatched'
         })
       }
     } catch (e) {
@@ -76,37 +75,52 @@ export default {
     }
   },
   methods: {
-    inputUsername (e) {
-      this.username = e.target.value
+    inputuserid (e) {
+      this.userid = e.target.value
     },
     inputPwd (e) {
       this.userpwd = e.target.value
     },
     delUser () {
-      this.username = ''
+      this.userid = ''
     },
     switchPwd () {
       this.pwdType = this.pwdType === 'text' ? 'password' : 'text'
     },
-    login () {
-      console.log('username:' + this.username + ',pwd:' + this.userpwd)
 
-      let url = 'http://39.99.231.153:8000/api/login/'
+    login () {
+
+      let url = this.$baseUrl + '/api/login/'
       uni.request({
         method: 'POST',
         url: url,
         data: {
-          userid: this.username,
+          userid: this.userid,
           password: this.userpwd,
         },
         success: (res) => {
           console.log('login res: ', res);
-          uni.setStorageSync('token', res.data.token)
+          if (res.statusCode === 200 && res.data.code === 1000) {
+            try {
+              uni.setStorageSync('token', res.data.token)
+              uni.setStorageSync('userid', this.userid)
+            } catch (error) {
+
+            }
+            uni.switchTab({
+              url: '/pages/customerMatched/customerMatched'
+            })
+          } else {
+            uni.showToast({
+              title: '登录失败',
+              duration: 2000,
+              image: '/static/icon_del.png'
+            })
+          }
+
         }
       })
-      uni.switchTab({
-        url: '/pages/index/index'
-      })
+
     },
     findPwd () {
       uni.navigateTo({
