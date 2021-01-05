@@ -20,7 +20,16 @@
         "enablePullDownRefresh": false
       }
     }
-  ],
+      ,{
+            "path" : "pages/customerInfo/customerInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
@@ -35,16 +44,16 @@
     "color": "#ccc",
     "list": [
       {
-        "text": "首页",
-        "pagePath": "pages/index/index",
-        "iconPath": "static/icon/home.png",
-        "selectedIconPath": "static/icon/home-active.png"
-      },
-      {
         "text": "匹配到的客户",
         "pagePath": "pages/customerMatched/customerMatched",
         "iconPath": "static/icon/member.png",
         "selectedIconPath": "static/icon/member-active.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/index/index",
+        "iconPath": "static/icon/home.png",
+        "selectedIconPath": "static/icon/home-active.png"
       }
     ]
   }

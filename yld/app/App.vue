@@ -27,7 +27,7 @@
 					console.log(this.clientid)
 				}
 				console.log(this.clientid)
-				
+				// 点击通知消息
 				plus.push.addEventListener('click', (message) => {					
 					console.log(message)					
 					// 跳转到客户匹配页面
@@ -37,7 +37,7 @@
 					// 如果页面没有打开，将不能 注册监听事件
 					uni.$emit('customerMatched',message) 
 				});
-			 
+				// 透传消息
 				plus.push.addEventListener('receive', (message) => {			        
 					console.log(message)
 					uni.$emit('customerMatched',message)
