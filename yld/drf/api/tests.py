@@ -1,11 +1,11 @@
 from django.test import TestCase
 
 # Create your tests here.
-print('************************')
-msg = "输入q退出:"
+import time
+i = 0
 while True:
-
-    try:
-        print(1)
-    except expression as identifier:
-        pass
+    time.sleep(1)
+    with open('1.txt', 'a+') as f:
+        f.writelines(i)
+        f.close()
+    i += i

@@ -10,6 +10,7 @@ from django.conf.urls import url, include
 router = DefaultRouter()
 router.register(r'user', views.UserViewSet)
 router.register(r'role', views.RoleViewSet)
+router.register(r'customer', views.CustomerViewSet)
 # router.register(r'projectCategory', views.ProjectCategoryViewSet)
 # router.register(r'projectInfo', views.ProjectInfoViewSet)
 # router.register(r'projectStatus', views.ProjectStatusViewSet)
