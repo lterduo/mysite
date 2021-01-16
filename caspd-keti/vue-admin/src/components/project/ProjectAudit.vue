@@ -305,11 +305,21 @@ export default {
     },
 
     //获取课题类别
+    // async getProjectCategorys () {
+    //   const res = await this.axios.get(`/projectCategory/`)
+    //   if (res.status === 200) {
+    //     this.projectCategorys = res.data.results
+    //     // console.log(this.projectCategorys)
+    //   } else {
+    //     this.$message.warning("错误")
+    //   }
+    // },
+
+    // 获取课题类别方向
     async getProjectCategorys () {
-      const res = await this.axios.get(`/projectCategory/`)
+      const res = await this.axios.get(`/projectCategorySon/`)
       if (res.status === 200) {
         this.projectCategorys = res.data.results
-        // console.log(this.projectCategorys)
       } else {
         this.$message.warning("错误")
       }

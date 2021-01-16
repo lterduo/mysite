@@ -18,11 +18,24 @@
           <el-button class="bt-user-add" type="success" plain @click.prevent="showAddUserForm()">新增课题类别</el-button>
         </el-col>
       </el-row>
+      <h3>注意：只能存在一个激活的课题类别！</h3>
       <!-- 3.表格 -->
       <el-table :data="users" style="width: 100%">
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="name" label="名称" width="280"></el-table-column>
         <el-table-column prop="desc" label="描述" width="520"></el-table-column>
+        <el-table-column label="编辑课题类别方向" width="140">
+          <template slot-scope="scope">
+            <el-button size="mini" :plain="true" type="primary" icon="el-icon-tickets" circle
+              @click="showEditSonForm(scope.row)"></el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="is_active" label="状态" width="60">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.is_active" active-color="#13ce66" inactive-color="#ff4949"
+              @change="categoryIsActive(scope.row)"></el-switch>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-edit" circle
@@ -37,7 +50,7 @@
         :page-sizes="[10, 20, 50]" :page-size="page_size" layout="total, sizes, prev, pager, next, jumper"
         :total="total"></el-pagination>
       <!-- 对话框 -->
-      <!-- 5.添加用户对话框 -->
+      <!-- 5.添加对话框 -->
       <el-dialog title="新增课题类别" :visible.sync="addUserFormVisible">
         <el-form label-position="left" label-width="80px" :model="addUserForm" :rules="addUserFormRules">
           <el-form-item label="名称" prop="name">
@@ -52,8 +65,8 @@
           <el-button type="primary" @click="addUserFormButton()">确 定</el-button>
         </div>
       </el-dialog>
-      <!-- 修改用户对话框 -->
-      <el-dialog title="修改申报人信息" :visible.sync="editUserFormVisible">
+      <!-- 修改对话框 -->
+      <el-dialog title="修改课题类别信息" :visible.sync="editUserFormVisible">
         <el-form label-position="left" label-width="80px" :model="editUserForm" :rules="addUserFormRules">
           <el-form-item label="名称" prop="name">
             <el-input v-model="editUserForm.name" autocomplete="off"></el-input>
@@ -65,6 +78,25 @@
         <div slot="footer" class="dialog-footer">
           <el-button @click="editUserFormVisible=false">取 消</el-button>
           <el-button type="primary" @click="editUserFormButton()">确 定</el-button>
+        </div>
+      </el-dialog>
+      <!-- 编辑子类对话框 -->
+      <el-dialog :title="'父类名称： '+ father_name" :visible.sync="editSonFormVisible">
+
+        <el-form :inline="true" class="demo-form-inline" v-for="item in sonFormArr" :key="item.index">
+          <el-form-item label="名称">
+            <el-input v-model="item.name"></el-input>
+          </el-form-item>
+          <el-form-item label="描述">
+            <el-input v-model="item.desc"></el-input>
+          </el-form-item>
+          <el-button type="primary" @click="DeleteSon(item.index)">删除</el-button>
+        </el-form>
+        <el-button type="primary" @click="AddSonForm">增加</el-button>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editUserFormVisible=false">取 消</el-button>
+          <el-button type="primary" @click="editSonFormButton()">确 定</el-button>
         </div>
       </el-dialog>
     </el-card>
@@ -95,6 +127,10 @@ export default {
         ],
       },
       editUserForm: {},
+      // 子类列表
+      editSonFormVisible: false,
+      father_name: '',
+      sonFormArr: []
     }
   },
   created () {
@@ -109,19 +145,19 @@ export default {
       if (res.status === 200) {
         this.users = res.data.results
         this.total = res.data.count
-        console.log(res)
+        // console.log(res)
       } else {
         this.$message.warning("错误")
       }
     },
     //分页
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.page_size = val
       this.getUsers(this.currentPage, this.page_size)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.currentPage = val
       this.getUsers(this.currentPage, this.page_size)
     },
@@ -134,7 +170,7 @@ export default {
       if (res.status === 200) {
         this.users = res.data.results
         this.total = res.data.count
-        console.log(res)
+        // console.log(res)
       } else {
         this.$message.warning("错误")
       }
@@ -169,7 +205,7 @@ export default {
       })
         .then(async () => {
           var url = '/projectCategory/' + this.editUserForm.id + '/'
-          console.log(url)
+          // console.log(url)
           const res = await this.axios.put(url, this.editUserForm)
           if (res.status !== 200) {
             return this.$message.error('更新失败')
@@ -195,7 +231,7 @@ export default {
       })
         .then(async () => {
           const res = await this.axios.delete(`/projectCategory/${id}`)
-          console.log(res)
+          // console.log(res)
           this.$message({
             type: "success",
             message: "删除成功!",
@@ -209,6 +245,78 @@ export default {
           })
         })
     },
+
+    //切换用户是否激活状态
+    async categoryIsActive (row) {
+      // console.log('row: ', row)
+      var url = '/projectCategory/' + row.id + '/'
+      var data = { name: row.name, is_active: row.is_active }
+      const res = await this.axios.put(url, data)
+      // const res = await this.axios.get(url)
+      // console.log(res)
+      if (res.status !== 200) {
+        row.is_active = !row.is_active
+        return this.$message.error('更新状态失败')
+      }
+      this.$message.success('更新状态成功！')
+    },
+
+    // 子类编辑
+    async showEditSonForm (row) {
+      this.editSonFormVisible = true
+      this.sonFormArr = []
+      this.father_name = row.name
+      let url = '/projectCategorySon/?father_name=' + this.father_name
+      let res = await this.axios.get(url)
+      if (res.status === 200) {
+        for (let i = 0; i < res.data.results.length; i++) {
+          this.sonFormArr.push({
+            index: i,
+            name: res.data.results[i].name,
+            desc: res.data.results[i].desc,
+            father_name: this.father_name
+          })
+        }
+      }
+    },
+    AddSonForm () {
+      this.sonFormArr.push({
+        index: this.sonFormArr.length,
+        father_name: this.father_name,
+        name: '',
+        desc: ''
+      })
+      // console.log(this.sonFormArr)
+    },
+    DeleteSon (index) {
+      this.sonFormArr.splice(index, 1)
+      for (let i in this.sonFormArr) {
+        this.sonFormArr[i].index = i
+      }
+    },
+    // 确定按钮，先删除，再添加
+    async editSonFormButton () {
+
+      // 删除
+      let resDelete = await this.axios.get(`/projectCategorySon/?father_name=${this.father_name}`)
+      let memberTemp = resDelete.data.results
+      for (var i = 0; i < memberTemp.length; i++) {
+        let res = await this.axios.delete(`/projectCategorySon/${memberTemp[i].id}/`)
+      }
+
+      // 增加      
+      for (var i = 0; i < this.sonFormArr.length; i++) {
+        let res = await this.axios.post(`/projectCategorySon/`, this.sonFormArr[i])
+        if (res.status !== 201) {
+          return this.$message.error('新增子类失败，请稍后再试')
+        }
+      }
+      this.$message.success('保存成功')
+      setTimeout(() => {
+        this.editSonFormVisible = false
+      }, 100);
+    }
+
   },
 } 
 </script>

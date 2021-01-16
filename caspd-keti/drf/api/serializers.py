@@ -1,14 +1,6 @@
 from rest_framework import serializers
-from api.models import User
-from api.models import Role
-from api.models import ProjectCategory
-from api.models import ProjectStatus
-from api.models import ProjectInfo
-from api.models import ProjectLeader
-from api.models import ProjectMember
-from api.models import FileList
-from api.models import AuditInfo
-from api.models import ProjectDistribute
+from api.models import *
+
 
 # class ApplicantSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -31,6 +23,12 @@ class RoleSerializer(serializers.ModelSerializer):
 class ProjectCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectCategory
+        fields = '__all__'
+
+
+class ProjectCategorySonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectCategorySon
         fields = '__all__'
 
 

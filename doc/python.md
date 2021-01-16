@@ -1,3 +1,5 @@
+## pip 
+
 MongoDb:
 pip install pymongo
 
@@ -98,3 +100,16 @@ channels:
 ## 后端主动向前段推送消息的几种方式
 
 https://blog.csdn.net/justyou_and_me/article/details/88218199
+
+
+
+## 输出word
+
+https://www.cnblogs.com/wumingxiaoyao/p/8315814.html
+
+### html转换成word
+
+https://pypi.org/project/html2docx/
+
+
+

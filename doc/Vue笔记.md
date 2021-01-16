@@ -415,7 +415,7 @@ methods: {
 
 
 
-## 富文本编辑器
+## 富文本编辑器 quill
 
 * p250
 
@@ -464,6 +464,34 @@ methods: {
   * https://www.cnblogs.com/zr123/p/12206031.html
   * https://segmentfault.com/a/1190000021610181
 
+
+
+## 富文本 wangEditor
+
+* https://zhuanlan.zhihu.com/p/43416702
+
+* https://www.wangeditor.com/index.html
+
+* 组件用法（不好用）
+
+  * 新建wangEditor.vue
+    https://github.com/wangeditor-team/wangEdior-with-vue/blob/master/src/views/Home.vue
+
+  * 需要保存本地图片为base64：
+    	通过文档 https://doc.wangeditor.com/pages/07-%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/12-base64%E4%BF%9D%E5%AD%98%E5%9B%BE%E7%89%87.html 得知，设置：
+    	editor.config.uploadImgShowBase64 = true
+
+  * 使用：
+    	import vueWangeditor from '../wangEditor/WangEditor'
+
+    ​	components: { vueWangeditor },
+
+     	<vue-wangeditor id="editor" v-model="text"></vue-wangeditor>
+
+* npm插件 vue-wangeditor
+
+  * https://www.npmjs.com/package/vue-wangeditor
+
 ## 上传下载文件
 
 * https://www.cnblogs.com/zhang-can/p/9116159.html
@@ -492,7 +520,7 @@ methods: {
 
 ## vue 图形验证vue2-verify
 
-* ```c
+* ```
   npm install vue2-verify
   ```
 

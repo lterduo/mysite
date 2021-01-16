@@ -39,6 +39,7 @@
         </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
+            <!-- 申报书查看 -->
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-search" circle
               @click="showInfoForm(scope.row)">
             </el-button>
@@ -64,10 +65,16 @@
       <el-card>
         <el-col class="el-col-addForm">
           <span> 课题类别：</span>
-          <el-select v-model="addForm.category" filterable allow-create default-first-option placeholder="请选择课题类别">
-            <el-option v-for="item in projectCategorys" :key="item.id" :label="item.name" :value="item.id">
+          <span>{{projectCategory}}</span>
+          <span style="margin-left: 30px;"> 课题类别方向：</span>
+          <el-select v-model="addForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向">
+            <el-option v-for="item in projectCategorySon" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
+        </el-col>
+      </el-card>
+      <el-card>
+        <el-col class="el-col-addForm">
           <span> 课题名称：</span>
           <el-input v-model="addForm.name"></el-input>
         </el-col>
@@ -140,6 +147,9 @@
       <el-card>
         <div>课题研究计划</div>
         <quill-editor v-model="addForm.content" :options="editorOption" class="editor"></quill-editor>
+        <div>
+          <h3>注意：课题审核通过后，需点击导出按钮，生成标准文档，打印盖章后上传！</h3>
+        </div>
         <div class="div-file">
           <!-- 上传附件 -->
           <div class="div-upload">
@@ -191,11 +201,16 @@
       <el-card>
         <el-col class="el-col-addForm">
           <span> 课题类别：</span>
-          <el-select v-model="selectValue" @change="changeCategory" filterable allow-create default-first-option
-            placeholder="请选择课题类别">
-            <el-option v-for="item in projectCategorys" :key="item.id" :label="item.name" :value="item.id">
+          <span>{{projectCategory}}</span>
+          <span style="margin-left: 30px;"> 课题类别方向：</span>
+          <el-select v-model="editForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向">
+            <el-option v-for="item in projectCategorySon" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
+        </el-col>
+      </el-card>
+      <el-card>
+        <el-col class="el-col-addForm">
           <span> 课题名称：</span>
           <el-input v-model="editForm.name"></el-input>
         </el-col>
@@ -312,7 +327,7 @@
       </el-row>
       <el-card>
         <el-col class="el-col-addForm">
-          <span> 课题类别：</span>
+          <span> 课题类别方向：</span>
           <el-select :disabled="true" v-model="selectValue" @change="changeCategory" filterable allow-create
             default-first-option placeholder="请选择课题类别">
             <el-option v-for="item in projectCategorys" :key="item.id" :label="item.name" :value="item.id">
@@ -525,12 +540,14 @@ import ImageResize from 'quill-image-resize-module'
 Quill.register('modules/imageDrop', ImageDrop);
 Quill.register('modules/imageResize', ImageResize);
 
+
 //下载
 import fileDownload from 'js-file-download'
 
+
 export default {
   components: {
-    quillEditor
+    quillEditor,
   },
   data () {
     return {
@@ -540,6 +557,8 @@ export default {
       query: '',  //查询条件
       projectInfo: [],
       projectCategorys: [],
+      projectCategory: '',
+      projectCategorySon: [],
       selectValue: '', //课题类型下拉框显示的值
       projectStatus: [],
       status: '',
@@ -571,14 +590,22 @@ export default {
             [{ list: "ordered" }, { list: "bullet" }], // 有序、无序列表
             [{ script: "sub" }, { script: "super" }], // 上标/下标
             [{ indent: "-1" }, { indent: "+1" }], // 缩进
-            // [{'direction': 'rtl'}],                         // 文本方向
+            [{ 'direction': 'rtl' }],                         // 文本方向
             [{ size: ["small", false, "large", "huge"] }], // 字体大小
             [{ header: [1, 2, 3, 4, 5, 6, false] }], // 标题
             [{ color: [] }, { background: [] }], // 字体颜色、字体背景颜色
             [{ font: [] }], // 字体种类
             [{ align: [] }], // 对齐方式
             ["clean"], // 清除文本格式
-            ["link", "image", "video"] // 链接、图片、视频
+            ["link", "image", "video"], // 链接、图片、视频
+            // 表格
+            [
+              { table: 'TD' },
+              { 'table-insert-row': 'TIR' },
+              { 'table-insert-column': 'TIC' },
+              { 'table-delete-row': 'TDR' },
+              { 'table-delete-column': 'TDC' }
+            ]
           ], //工具菜单栏配置
         },
         placeholder: '请在这里填写内容', //提示
@@ -646,10 +673,25 @@ export default {
 
     //获取课题类别
     async getProjectCategorys () {
-      const res = await this.axios.get(`/projectCategory/`)
+      const res1 = await this.axios.get(`/projectCategory/?is_active=True`)
+      if (res1.status === 200) {
+        if (res1.data.results.length === 1) {
+          this.projectCategory = res1.data.results[0].name
+          //获取课题类别方向
+          this.getProjectCategorySon()
+        } else {
+          this.$message.warning(`存在${res1.data.results.length}个激活类型，请联系管理员修改！`)
+        }
+      } else {
+        this.$message.warning("获取类型错误")
+      }
+    },
+
+    // 获取课题类别方向
+    async getProjectCategorySon () {
+      const res = await this.axios.get(`/projectCategorySon/?father_name=${this.projectCategory}`)
       if (res.status === 200) {
-        this.projectCategorys = res.data.results
-        // console.log(this.projectCategorys)
+        this.projectCategorySon = res.data.results
       } else {
         this.$message.warning("错误")
       }
@@ -791,7 +833,7 @@ export default {
 
     // 获取类别名称
     categoryName (id) {
-      const item = this.projectCategorys.find(item => item.id == id)
+      const item = this.projectCategorySon.find(item => item.id == id)
       return item ? item.name : null
     },
 
