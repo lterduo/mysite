@@ -38,8 +38,10 @@
               @change="userIsActive(scope.row)"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
+            <el-button size="mini" :plain="true" type="primary" icon="el-icon-search" circle
+              @click="userInfoForm(scope.row.userid)"></el-button>
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-edit" circle
               @click="showEditUserForm(scope.row.userid)"></el-button>
             <el-button size="mini" :plain="true" type="danger" icon="el-icon-delete" circle
@@ -86,6 +88,29 @@
           <el-button type="primary" @click="addUserFormButton()">确 定</el-button>
         </div>
       </el-dialog>
+      <!-- 查看用户对话框 -->
+      <el-dialog title="查看申报人信息" :visible.sync="userInfoFormVisible">
+        <!-- 职称文件 -->
+        <div class="div-file">
+          <el-table :data="fileList" border style="width:551px;" :header-cell-style="{background:'#fafafa'}">
+            <el-table-column prop="name" label="文件名" width="300"></el-table-column>
+            <el-table-column prop="create_time" label="创建时间" width="150">
+              <template slot-scope="scope">
+                {{scope.row.create_time | fmtdate}}
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100">
+              <template slot-scope="scope">
+                <el-button size="mini" :plain="true" type="primary" icon="el-icon-download" circle
+                  @click="downloadFile(scope.row)"></el-button>
+                <!-- <el-button size="mini" :plain="true" type="danger" icon="el-icon-delete" circle
+                  @click="deleteFile(scope.row)">
+                </el-button> -->
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-dialog>
       <!-- 修改用户对话框 -->
       <el-dialog title="修改申报人信息" :visible.sync="editUserFormVisible">
         <el-form label-position="left" label-width="80px" :model="editUserForm" :rules="addUserFormRules">
@@ -124,6 +149,8 @@
 </template>
 
 <script>
+import fileDownload from 'js-file-download'
+
 export default {
   data () {
     return {
@@ -137,6 +164,10 @@ export default {
       addUserFormVisible: false,
       // 修改用户 对话框属性
       editUserFormVisible: false,
+      // 查看用户 对话框熟悉
+      userInfoFormVisible: false,
+      // 职称文件列表
+      fileList: [],
       formLabelWidth: "",
       addUserForm: {
         role_id: 2,
@@ -290,6 +321,45 @@ export default {
           })
         })
     },
+
+    // 查看用户，主要是职称文件下载
+    userInfoForm (userid) {
+      this.userInfoFormVisible = true
+      let pid = '职称证明/' + userid
+      this.getFileList(pid)
+    },
+    // 获取附件列表
+    async getFileList (pid) {
+      const res = await this.axios.get(`/fileList/?pid=${pid}`)
+      if (res.status === 200) {
+        this.fileList = res.data.results
+      } else {
+        this.$message.warning("获取文件列表错误")
+      }
+    },
+
+    // 删除文件
+    async deleteFile (item) {
+      let res = await this.axios.delete('/fileList/' + item.id + '/')
+      if (res.status === 204) {
+        this.getFileList(item.pid)
+      }
+      let data = { path: item.path }
+      let resDelete = await this.axios.post('/deleteFile/', data)
+      console.log(resDelete)
+    },
+
+    // 下载文件
+    downloadFile (item) {
+      let url = `/downloadFile/?path=${item.path}&name=${item.name}`
+      let params = {
+        path: item.path,
+        name: item.name
+      }
+      this.axios.post(url, params, { responseType: 'arraybuffer' }).then(res => {
+        fileDownload(res.data, item.name)
+      })
+    },
   },
 } 
 </script>
@@ -313,5 +383,24 @@ export default {
 }
 .bt-user-add {
   margin-left: 10px;
+}
+.div-file {
+  margin-top: 15px;
+  .div-upload {
+    height: 47px;
+    .input-upload {
+      width: 73px;
+      height: 33px;
+      position: absolute;
+      z-index: 1;
+      opacity: 0;
+    }
+    .button-upload {
+      position: absolute;
+    }
+    .button-upload:hover {
+      cursor: pointer;
+    }
+  }
 }
 </style>

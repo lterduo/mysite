@@ -25,6 +25,8 @@ from api.models import Role
 from api.serializers import RoleSerializer
 from api.models import ProjectCategory
 from api.serializers import ProjectCategorySerializer
+from api.models import ProjectCategorySon
+from api.serializers import ProjectCategorySonSerializer
 from api.models import ProjectStatus
 from api.serializers import ProjectStatusSerializer
 from api.models import ProjectInfo
@@ -97,16 +99,28 @@ class RoleViewSet(viewsets.ModelViewSet):
 
 # 课题分类
 class ProjectCategoryViewSet(viewsets.ModelViewSet):
-    queryset = ProjectCategory.objects.all()
+    queryset = ProjectCategory.objects.all().order_by('-id')
     serializer_class = ProjectCategorySerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filter_fields = ['name', 'desc']
+    filter_fields = ['name', 'desc', 'is_active']
     search_fields = ('name', 'desc')
     ordering_fields = ['name', 'desc']
 
 
+# 课题分类子类
+class ProjectCategorySonViewSet(viewsets.ModelViewSet):
+    queryset = ProjectCategorySon.objects.all()
+    serializer_class = ProjectCategorySonSerializer
+    pagination_class = MyPageNumberPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['father_name', 'name', 'desc']
+    search_fields = ('father_name', 'name', 'desc')
+    ordering_fields = ['father_name', 'name', 'desc']
+
 # 课题状态
+
+
 class ProjectStatusViewSet(viewsets.ModelViewSet):
     queryset = ProjectStatus.objects.all()
     serializer_class = ProjectStatusSerializer
@@ -159,7 +173,7 @@ class FileListViewSet(viewsets.ModelViewSet):
     serializer_class = FileListSerializer
     pagination_class = MyPageNumberPagination
 
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['pid', 'path', 'name', 'create_time']
     search_fields = ('pid', 'path', 'name', 'create_time')
 
@@ -170,7 +184,7 @@ class AuditInfoViewSet(viewsets.ModelViewSet):
     serializer_class = AuditInfoSerializer
     pagination_class = MyPageNumberPagination
 
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['pid', 'auditor', 'info', 'create_time']
     search_fields = ('pid', 'auditor', 'info', 'create_time')
 
@@ -186,9 +200,8 @@ class ProjectDistributeViewSet(viewsets.ModelViewSet):
     search_fields = ('pid', 'pname', 'assessor', 'aname', 'is_active')
     ordering_fields = ['pname']
 
+
 # 上传文件
-
-
 class UploadFile(APIView):
     def post(self, request):
         file_obj = request.FILES.get("file")    # 获取文件要用request.FILES
@@ -287,6 +300,7 @@ class AuthView(APIView):
             ret['msg'] = '登录成功'
             ret['token'] = token
             ret['userid'] = obj.userid
+            ret['is_active'] = obj.is_active
         except Exception as e:
             ret['code'] = 1002
             ret['msg'] = '请求异常'

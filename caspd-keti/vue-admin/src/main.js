@@ -11,6 +11,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 import moment from 'moment'
 
+
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
 Vue.prototype.axios = axios
 

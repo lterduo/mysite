@@ -14,14 +14,15 @@ class User(models.Model):
     update_time = models.DateTimeField(auto_now=True)
     role_id = models.IntegerField()
 
-    gender = models.CharField(max_length=2, null=True)
-    national = models.CharField(max_length=2, null=True)
+    gender = models.CharField(max_length=4, null=True)
+    national = models.CharField(max_length=8, null=True)
     birth = models.CharField(max_length=16, null=True)
+    duty_level = duty = models.CharField(max_length=16, null=True)
     duty = models.CharField(max_length=16, null=True)
     title = models.CharField(max_length=16, null=True)
-    major = models.CharField(max_length=16, null=True)
-    education = models.CharField(max_length=16, null=True)
-    degree = models.CharField(max_length=16, null=True)
+    major = models.CharField(max_length=16, null=True, help_text='研究专长')
+    education = models.CharField(max_length=16, null=True, help_text='最后学历')
+    degree = models.CharField(max_length=16, null=True, help_text='最后学位')
     province = models.CharField(max_length=16, null=True)
     zipcode = models.CharField(max_length=6, null=True)
 
@@ -65,11 +66,22 @@ class Role(models.Model):
 
 class ProjectCategory(models.Model):
     name = models.CharField(max_length=32)
-    desc = models.CharField(max_length=64)
+    desc = models.CharField(max_length=64, null=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'project_category'
         verbose_name = verbose_name_plural = '课题类别表'
+
+
+class ProjectCategorySon(models.Model):
+    father_name = models.CharField(max_length=32, help_text='类别名，对应父类')
+    name = models.CharField(max_length=32, help_text='子类名')
+    desc = models.CharField(max_length=64, null=True)
+
+    class Meta:
+        db_table = 'project_category_son'
+        verbose_name = verbose_name_plural = '课题类别子类表'
 
 
 class ProjectStatus(models.Model):
@@ -84,7 +96,7 @@ class ProjectStatus(models.Model):
 class ProjectInfo(models.Model):
     pid = models.CharField(max_length=64, null=True)
     name = models.CharField(max_length=64, null=True)
-    category = models.CharField(max_length=32, null=True)
+    category = models.IntegerField(null=True)
     leader = models.CharField(max_length=32, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)

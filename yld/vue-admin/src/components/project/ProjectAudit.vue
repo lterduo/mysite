@@ -55,7 +55,7 @@
       </el-row>
       <el-card>
         <el-col class="el-col-addForm">
-          <span> 课题类别：</span>
+          <span> 课题类别方向：</span>
           <el-select :disabled="true" v-model="selectValue" filterable allow-create default-first-option
             placeholder="请选择课题类别">
             <el-option v-for="item in projectCategorys" :key="item.id" :label="item.name" :value="item.id">

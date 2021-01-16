@@ -1,3 +1,10 @@
-from django.test import TestCase
+from docxtpl import DocxTemplate
 
-# Create your tests here.
+tpl = DocxTemplate('./template.docx')
+
+context = {
+    'title': 'aaa'
+}
+
+tpl.render(context)
+tpl.save('./template.docx')
