@@ -13,13 +13,12 @@ class User(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     role_id = models.IntegerField()
-
     gender = models.CharField(max_length=4, null=True)
     national = models.CharField(max_length=8, null=True)
     birth = models.CharField(max_length=16, null=True)
-    duty_level = duty = models.CharField(max_length=16, null=True)
-    duty = models.CharField(max_length=16, null=True)
-    title = models.CharField(max_length=16, null=True)
+    duty = models.CharField(max_length=16, null=True, help_text='职务')
+    title_level = models.CharField(max_length=16, null=True, help_text='职称级别')
+    title = models.CharField(max_length=16, null=True, help_text='职称')
     major = models.CharField(max_length=16, null=True, help_text='研究专长')
     education = models.CharField(max_length=16, null=True, help_text='最后学历')
     degree = models.CharField(max_length=16, null=True, help_text='最后学位')
@@ -64,6 +63,29 @@ class Role(models.Model):
 #         verbose_name = verbose_name_plural = '申报人信息表'
 
 
+# 暂时用user
+# 专家信息表
+class Assessor(models.Model):
+    userid = models.CharField(max_length=32,  help_text='对应user表')
+    name = models.CharField(max_length=32)
+    major = models.CharField(max_length=16, null=True, help_text='研究方向')
+    title = models.CharField(max_length=16, null=True, help_text='职称')
+
+    class Meta:
+        db_table = 'assessor'
+        verbose_name = verbose_name_plural = '专家信息表'
+
+
+# 专家方向表
+class AssessorMajor(models.Model):
+    name = models.CharField(max_length=16, null=True, help_text='研究方向')
+
+    class Meta:
+        db_table = 'assessor_major'
+        verbose_name = verbose_name_plural = '专家研究方向表'
+
+
+# 课题类型
 class ProjectCategory(models.Model):
     name = models.CharField(max_length=32)
     desc = models.CharField(max_length=64, null=True)
@@ -74,6 +96,7 @@ class ProjectCategory(models.Model):
         verbose_name = verbose_name_plural = '课题类别表'
 
 
+# 课题类型方向
 class ProjectCategorySon(models.Model):
     father_name = models.CharField(max_length=32, help_text='类别名，对应父类')
     name = models.CharField(max_length=32, help_text='子类名')
@@ -84,6 +107,7 @@ class ProjectCategorySon(models.Model):
         verbose_name = verbose_name_plural = '课题类别子类表'
 
 
+# 课题状态
 class ProjectStatus(models.Model):
     s_id = models.IntegerField()
     status = models.CharField(max_length=10)
@@ -93,6 +117,7 @@ class ProjectStatus(models.Model):
         verbose_name = verbose_name_plural = '课题状态表'
 
 
+# 课题详细信息
 class ProjectInfo(models.Model):
     pid = models.CharField(max_length=64, null=True)
     name = models.CharField(max_length=64, null=True)
@@ -137,6 +162,7 @@ class ProjectLeader(models.Model):
         verbose_name = verbose_name_plural = '课题主持人表'
 
 
+# 课题主持人
 class ProjectMember(models.Model):
     pid = models.CharField(max_length=64, null=True)
     name = models.CharField(max_length=32, null=True)
@@ -177,12 +203,10 @@ class AuditInfo(models.Model):
 
 # 课题分配表
 class ProjectDistribute(models.Model):
-    pid = models.CharField(primary_key=True, max_length=64)
+    pid = models.CharField(max_length=64, null=True)
     pname = models.CharField(max_length=64, null=True)  # 项目名称
-    category = models.CharField(max_length=32, null=True)
     assessor = models.CharField(max_length=32, null=True)  # 专家userid
     aname = models.CharField(max_length=32, null=True)  # 专家姓名
-    is_active = models.BooleanField(default=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 

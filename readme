@@ -69,6 +69,9 @@ http://stackoverflow.com/questions/9661059/git-pull-rebase-upstream-git-push-ori
 # 分支
 1、创建并切换分支:
 git switch -c dev
+或者
+git branch dev
+git checkout dev
 2、查看当前分支：
 git branch
 3、开发，commit

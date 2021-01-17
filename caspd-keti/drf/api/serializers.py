@@ -72,3 +72,15 @@ class ProjectDistributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectDistribute
         fields = '__all__'
+
+
+class AssessorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assessor
+        fields = '__all__'
+
+
+class AssessorMajorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssessorMajor
+        fields = '__all__'

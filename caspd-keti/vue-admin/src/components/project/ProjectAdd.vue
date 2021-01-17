@@ -32,11 +32,12 @@
             scope.row.create_time | fmtdate
           }}</template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="90">
+        <!-- 0116 隐藏状态信息 -->
+        <!-- <el-table-column prop="status" label="状态" width="90">
           <template slot-scope="scope">
             <div>{{statusName(scope.row.status)}}</div>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <!-- 申报书查看 -->

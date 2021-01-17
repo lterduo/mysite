@@ -79,8 +79,8 @@
         <el-form-item label="单位" prop="organization" :label-width="formLabelWidth">
           <el-input v-model="addUserForm.organization" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="职称级别" prop="duty_level" :label-width="formLabelWidth">
-          <el-select v-model="addUserForm.duty_level" placeholder="请选择职称级别" style="width:100%;">
+        <el-form-item label="职称级别" prop="title_level" :label-width="formLabelWidth">
+          <el-select v-model="addUserForm.title_level" placeholder="请选择职称级别" style="width:100%;">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -183,9 +183,9 @@ export default {
         national: [{ required: true, message: '请输入民族', trigger: 'blur' },],
         birth: [{ required: true, message: '请输入出生年月', trigger: 'blur' },],
         organization: [{ required: true, message: '请输入单位', trigger: 'blur' },],
-        duty_level: [{ required: true, message: '请选择职称级别', trigger: 'blur' },],
-        duty: [{ required: true, message: '请输入专业职称', trigger: 'blur' },],
-        title: [{ required: true, message: '请输入行政职务', trigger: 'blur' },],
+        title_level: [{ required: true, message: '请选择职称级别', trigger: 'blur' },],
+        title: [{ required: true, message: '请输入专业职称', trigger: 'blur' },],
+        duty: [{ required: true, message: '请输入行政职务', trigger: 'blur' },],
         major: [{ required: true, message: '请输入研究专长', trigger: 'blur' },],
         education: [{ required: true, message: '请输入最后学历', trigger: 'blur' },],
         degree: [{ required: true, message: '请输入最后学位', trigger: 'blur' },],

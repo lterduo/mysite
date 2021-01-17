@@ -220,7 +220,7 @@ class Student(models.Model):
 
 
 
-## 数据迁移
+## migrate 问题
 
 * 项目migrations目录的py文件，对应数据库的django_migrations表里的记录
   * 先删除相应的py文件，再删除表中对应的数据，再做迁移
@@ -230,6 +230,18 @@ class Student(models.Model):
 django.db.utils.OperationalError: (1050, "Table '表名' already exists）解决方法
 
 python manage.py migrate myapp --fake
+
+~~~
+django在迁移django.db.utils.InternalError: (1051, "Unknown table 'xxx'")
+解决办法：
+先运行
+python manage.py migrate --fake
+在迁移
+python manage.py migrate
+
+~~~
+
+
 
 
 

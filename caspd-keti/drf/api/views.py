@@ -18,35 +18,36 @@ from rest_framework.filters import SearchFilter
 # 排序
 from rest_framework.filters import OrderingFilter
 
-from api.models import UserToken
-from api.models import User
-from api.serializers import UserSerializer
-from api.models import Role
-from api.serializers import RoleSerializer
-from api.models import ProjectCategory
-from api.serializers import ProjectCategorySerializer
-from api.models import ProjectCategorySon
-from api.serializers import ProjectCategorySonSerializer
-from api.models import ProjectStatus
-from api.serializers import ProjectStatusSerializer
-from api.models import ProjectInfo
-from api.serializers import ProjectInfoSerializer
-from api.models import ProjectLeader
-from api.serializers import ProjectLeaderSerializer
-from api.models import ProjectMember
-from api.serializers import ProjectMemberSerializer
-from api.models import FileList
-from api.serializers import FileListSerializer
-from api.models import AuditInfo
-from api.serializers import AuditInfoSerializer
-from api.models import ProjectDistribute
-from api.serializers import ProjectDistributeSerializer
+from api import models
+from api import serializers
+
+# from api.models import UserToken
+# from api.models import User
+# from api.serializers import UserSerializer
+# from api.models import Role
+# from api.serializers import RoleSerializer
+# from api.models import ProjectCategory
+# from api.serializers import ProjectCategorySerializer
+# from api.models import ProjectCategorySon
+# from api.serializers import ProjectCategorySonSerializer
+# from api.models import ProjectStatus
+# from api.serializers import ProjectStatusSerializer
+# from api.models import ProjectInfo
+# from api.serializers import ProjectInfoSerializer
+# from api.models import ProjectLeader
+# from api.serializers import ProjectLeaderSerializer
+# from api.models import ProjectMember
+# from api.serializers import ProjectMemberSerializer
+# from api.models import FileList
+# from api.serializers import FileListSerializer
+# from api.models import AuditInfo
+# from api.serializers import AuditInfoSerializer
 
 
 # 测试
 def hello(request):
     for i in range(20):
-        u = ProjectCategory()
+        u = models.ProjectCategory()
         u.name = '课题类别' + str(i)
         u.desc = '类别描述巴拉巴拉' + str(i)
         # u.userid = 'lisi' + str(i)
@@ -75,12 +76,13 @@ class MyPageNumberPagination(PageNumberPagination):
 
 # 用户管理
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
     pagination_class = MyPageNumberPagination
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filter_fields = ['userid', 'username', 'username', 'tel', 'role_id']
+    filter_fields = ['userid', 'username',
+                     'username', 'tel', 'role_id', 'major']
     search_fields = ('userid', 'username', 'organization',
                      'tel', 'email', 'addr')
     # 配置参与排序字段
@@ -90,8 +92,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
 # 角色管理
 class RoleViewSet(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
-    serializer_class = RoleSerializer
+    queryset = models.Role.objects.all()
+    serializer_class = serializers.RoleSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [OrderingFilter]
     ordering_fields = ['role_id']
@@ -99,8 +101,8 @@ class RoleViewSet(viewsets.ModelViewSet):
 
 # 课题分类
 class ProjectCategoryViewSet(viewsets.ModelViewSet):
-    queryset = ProjectCategory.objects.all().order_by('-id')
-    serializer_class = ProjectCategorySerializer
+    queryset = models.ProjectCategory.objects.all().order_by('-id')
+    serializer_class = serializers.ProjectCategorySerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['name', 'desc', 'is_active']
@@ -110,26 +112,25 @@ class ProjectCategoryViewSet(viewsets.ModelViewSet):
 
 # 课题分类子类
 class ProjectCategorySonViewSet(viewsets.ModelViewSet):
-    queryset = ProjectCategorySon.objects.all()
-    serializer_class = ProjectCategorySonSerializer
+    queryset = models.ProjectCategorySon.objects.all()
+    serializer_class = serializers.ProjectCategorySonSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['father_name', 'name', 'desc']
     search_fields = ('father_name', 'name', 'desc')
     ordering_fields = ['father_name', 'name', 'desc']
 
+
 # 课题状态
-
-
 class ProjectStatusViewSet(viewsets.ModelViewSet):
-    queryset = ProjectStatus.objects.all()
-    serializer_class = ProjectStatusSerializer
+    queryset = models.ProjectStatus.objects.all()
+    serializer_class = serializers.ProjectStatusSerializer
 
 
 # 课题信息
 class ProjectInfoViewSet(viewsets.ModelViewSet):
-    queryset = ProjectInfo.objects.all()
-    serializer_class = ProjectInfoSerializer
+    queryset = models.ProjectInfo.objects.all()
+    serializer_class = serializers.ProjectInfoSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['name', 'leader', 'status', 'category']
@@ -139,8 +140,8 @@ class ProjectInfoViewSet(viewsets.ModelViewSet):
 
 # 项目主持人信息
 class ProjectLeaderViewSet(viewsets.ModelViewSet):
-    queryset = ProjectLeader.objects.all()
-    serializer_class = ProjectLeaderSerializer
+    queryset = models.ProjectLeader.objects.all()
+    serializer_class = serializers.ProjectLeaderSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['pid', 'userid', 'name', 'organization']
@@ -149,8 +150,8 @@ class ProjectLeaderViewSet(viewsets.ModelViewSet):
 
 # 项目参加者信息
 class ProjectMemberViewSet(viewsets.ModelViewSet):
-    queryset = ProjectMember.objects.all()
-    serializer_class = ProjectMemberSerializer
+    queryset = models.ProjectMember.objects.all()
+    serializer_class = serializers.ProjectMemberSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['pid',  'name', 'organization']
@@ -169,8 +170,8 @@ class ProjectMemberViewSet(viewsets.ModelViewSet):
 
 # 附件列表
 class FileListViewSet(viewsets.ModelViewSet):
-    queryset = FileList.objects.all()
-    serializer_class = FileListSerializer
+    queryset = models.FileList.objects.all()
+    serializer_class = serializers.FileListSerializer
     pagination_class = MyPageNumberPagination
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -180,8 +181,8 @@ class FileListViewSet(viewsets.ModelViewSet):
 
 # 审核信息
 class AuditInfoViewSet(viewsets.ModelViewSet):
-    queryset = AuditInfo.objects.all()
-    serializer_class = AuditInfoSerializer
+    queryset = models.AuditInfo.objects.all()
+    serializer_class = serializers.AuditInfoSerializer
     pagination_class = MyPageNumberPagination
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -191,14 +192,38 @@ class AuditInfoViewSet(viewsets.ModelViewSet):
 
 # 课题分配
 class ProjectDistributeViewSet(viewsets.ModelViewSet):
-    queryset = ProjectDistribute.objects.all()
-    serializer_class = ProjectDistributeSerializer
+    queryset = models.ProjectDistribute.objects.all()
+    serializer_class = serializers.ProjectDistributeSerializer
     pagination_class = MyPageNumberPagination
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filter_fields = ['pid', 'pname', 'assessor', 'aname', 'is_active']
-    search_fields = ('pid', 'pname', 'assessor', 'aname', 'is_active')
+    filter_fields = ['pid', 'pname', 'assessor', 'aname']
+    search_fields = ('pid', 'pname', 'assessor', 'aname')
     ordering_fields = ['pname']
+
+
+# 专家信息表
+class AssessorViewSet(viewsets.ModelViewSet):
+    queryset = models.Assessor.objects.all()
+    serializer_class = serializers.AssessorSerializer
+    pagination_class = MyPageNumberPagination
+
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['userid', 'name', 'major', 'title']
+    search_fields = ('userid', 'name', 'major', 'title')
+    ordering_fields = ['name']
+
+
+# 专家研究方向
+class AssessorMajorViewSet(viewsets.ModelViewSet):
+    queryset = models.AssessorMajor.objects.all()
+    serializer_class = serializers.AssessorMajorSerializer
+    pagination_class = MyPageNumberPagination
+
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['name']
+    search_fields = ('name')
+    ordering_fields = ['name']
 
 
 # 上传文件
@@ -222,9 +247,9 @@ class UploadFile(APIView):
             for chunk in file_obj.chunks():
                 f.write(chunk)
         # 写FileList表
-        file_list = FileList.objects.filter(path=file_path).first()
+        file_list = models.FileList.objects.filter(path=file_path).first()
         if not file_list:
-            file_list = FileList()
+            file_list = models.FileList()
             file_list.pid = pid
             file_list.name = file_obj.name
             file_list.path = file_path
@@ -282,12 +307,9 @@ class AuthView(APIView):
 
             print(usr)
             # obj = models.User.objects.filter(username='yang', password='123456').first()
-            obj = User.objects.filter(
+            obj = models.User.objects.filter(
                 userid=usr, password=pas).first()
-            print(obj)
-            print(type(obj))
-            print(obj.userid)
-            print(obj.password)
+
             if not obj:
                 ret['code'] = '1001'
                 ret['msg'] = '用户名或者密码错误'
@@ -295,7 +317,7 @@ class AuthView(APIView):
                 # 里为了简单，应该是进行加密，再加上其他参数
             token = str(time.time()) + usr
             print(token)
-            UserToken.objects.update_or_create(
+            models.UserToken.objects.update_or_create(
                 username=obj, defaults={'token': token})
             ret['msg'] = '登录成功'
             ret['token'] = token

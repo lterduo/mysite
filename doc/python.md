@@ -107,7 +107,29 @@ https://blog.csdn.net/justyou_and_me/article/details/88218199
 
 https://www.cnblogs.com/wumingxiaoyao/p/8315814.html
 
-### html转换成word
+
+
+## 直接用 python-docx-template 输出
+
+https://www.jianshu.com/p/7f17896524d5
+
+https://blog.csdn.net/meteor_cheng/article/details/88582426	中文文档
+
+~~~
+https://www.jianshu.com/p/758679db62ce
+循环生成表格时，一定要加tr
+http://ddrv.cn/a/277599	表格详解
+~~~
+
+~~~
+使用子文档时，必须用word打开，wps无效
+~~~
+
+
+
+
+
+## html转换成word
 
 https://pypi.org/project/html2docx/
 
