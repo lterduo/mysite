@@ -149,7 +149,7 @@
         <div>课题研究计划</div>
         <quill-editor v-model="addForm.content" :options="editorOption" class="editor"></quill-editor>
         <div>
-          <h3>注意：课题审核通过后，需点击导出按钮，生成标准文档，打印盖章后上传！</h3>
+          <el-button type="primary" style="margin-top: 20px;">生成申报书并下载</el-button>
         </div>
         <div class="div-file">
           <!-- 上传附件 -->
@@ -284,6 +284,9 @@
       <el-card>
         <div>课题研究计划</div>
         <quill-editor v-model="editContent" :options="editorOption" class="editor"></quill-editor>
+        <div>
+          <el-button type="primary" style="margin-top: 20px;" @click="genPdf()">生成申报书并下载</el-button>
+        </div>
         <div class="div-file">
           <!-- 上传附件 -->
           <div class="div-upload">
@@ -975,6 +978,14 @@ export default {
       setTimeout(() => {
         location.reload()
       }, 500);
+    },
+
+    // 生成申报书并下载
+    async genPdf () {
+      // console.log(this.editContent)
+      let data = { 'content': this.editContent }
+      let res = await this.axios.post('/genPdf/', this.editContent)
+      console.log(res)
     },
 
     // 上传文件，新增申报书

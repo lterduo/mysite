@@ -1,4 +1,5 @@
 
+from toPdf import *
 from urllib import parse
 import json
 import os
@@ -224,6 +225,19 @@ class AssessorMajorViewSet(viewsets.ModelViewSet):
     filter_fields = ['name']
     search_fields = ('name')
     ordering_fields = ['name']
+
+
+# 生成pdf
+class GenPdf(APIView):
+    def post(self, request):
+        content = request.body
+        content = content.decode('utf8')
+        print(content)
+        with open('toPdf/课题研究计划.html', 'wt') as f:
+            f.write(content)
+            f.close()
+
+        return JsonResponse({'msg': 'pdf'})
 
 
 # 上传文件

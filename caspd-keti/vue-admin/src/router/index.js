@@ -14,7 +14,7 @@ import ProjectDistribute from '../components/project/ProjectDistribute'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -69,3 +69,13 @@ export default new Router({
     
   ]
 })
+
+// router.beforeEach((from, to, next) => {
+//   if (to.name == 'projectAdd') { // 判断跳转的路由是否需要登录
+//       next('/applicant')
+//   } else {
+//      next()
+//   }
+// })
+export default router
+

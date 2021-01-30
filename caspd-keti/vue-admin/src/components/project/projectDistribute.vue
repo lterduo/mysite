@@ -234,9 +234,7 @@ export default {
 .el-breadcrumb {
   margin-bottom: 20px;
 }
-.el-row {
-  padding: 20px;
-}
+
 .categorySon {
   margin-top: 20px;
 }

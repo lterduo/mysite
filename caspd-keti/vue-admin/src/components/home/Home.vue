@@ -62,7 +62,7 @@
             <el-menu-item class="el-icon-s-unfold" index="projectDistribute">申报书分配</el-menu-item>
           </el-submenu>
           <!-- 5 -->
-          <el-submenu index="5">
+          <el-submenu index="6">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>立项评审</span>
@@ -70,7 +70,7 @@
             <el-menu-item class="el-icon-s-unfold" index="projectAssess">申报书评审</el-menu-item>
           </el-submenu>
           <!-- 6 -->
-          <el-submenu index="6">
+          <el-submenu index="7">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>系统管理</span>
@@ -164,5 +164,6 @@ export default {
 }
 .main {
   background-color: #fff;
+  height: 100%;
 }
 </style>

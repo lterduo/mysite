@@ -2,9 +2,10 @@ from docxtpl import DocxTemplate, Document
 
 doc = DocxTemplate('./template.docx')
 
+# 插入后，无法加载图片，放弃
 # 将文档当做子项
-sub = doc.new_subdoc()
-sub.subdocx = Document('./sub.docx')
+# sub = doc.new_subdoc()
+# sub.subdocx = Document('./sub.docx')
 
 leader = {
     'name': '冯颖',
@@ -15,7 +16,7 @@ leader = {
 context = {
     'title': 'aaa',
     'leader': leader,
-    'sub': sub
+    # 'sub': sub
 }
 
 # doc.render(context)

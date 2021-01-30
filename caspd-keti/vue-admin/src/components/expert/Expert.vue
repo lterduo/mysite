@@ -34,7 +34,7 @@
         <el-table-column prop="username" label="姓名" width="80"></el-table-column>
         <el-table-column prop="organization" label="单位" width="120"></el-table-column>
         <el-table-column prop="tel" label="电话" width="180"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+        <el-table-column prop="major" label="研究方向" width="180"></el-table-column>
         <el-table-column prop="addr" label="地址" width="180"></el-table-column>
         <el-table-column label="创建时间" width="120">
           <template slot-scope="scope">{{
@@ -73,6 +73,9 @@
           <el-form-item label="用户姓名" prop="username" :label-width="formLabelWidth">
             <el-input v-model="addUserForm.username" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="研究方向" :label-width="formLabelWidth">
+            <el-input v-model="addUserForm.major" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="单位" prop="organization" :label-width="formLabelWidth">
             <el-input v-model="addUserForm.organization" autocomplete="off"></el-input>
           </el-form-item>
@@ -105,6 +108,9 @@
           </el-form-item>
           <el-form-item label="用户姓名" prop="username" :label-width="formLabelWidth">
             <el-input v-model="editUserForm.username" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="研究方向" :label-width="formLabelWidth">
+            <el-input v-model="editUserForm.major" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="单位" prop="organization" :label-width="formLabelWidth">
             <el-input v-model="editUserForm.organization" autocomplete="off"></el-input>
