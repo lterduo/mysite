@@ -472,7 +472,7 @@ methods: {
 
 
 
-## 富文本 wangEditor
+## 富文本 wangEditor 
 
 * https://zhuanlan.zhihu.com/p/43416702
 
@@ -497,6 +497,25 @@ methods: {
 * npm插件 vue-wangeditor
 
   * https://www.npmjs.com/package/vue-wangeditor
+
+
+
+##  富文本 ueditor
+
+* https://github.com/HaoChuan9421/vue-ueditor-wrap  
+
+* https://www.npmjs.com/package/vue-ueditor-wrap
+
+  ~~~
+  可以集成了，确实比原来的更像传统编辑器。但是他妈的最基本的插入图片，居然不支持python后台。
+  为了插图片还得再撘个php、java后台啥的，要么就得自己开发个插入图片的插件，把图片转换成base64再插入，再开发一个支持拖拽和缩放的插件。果断放弃。
+  ~~~
+
+  
+
+
+
+
 
 ## 上传下载文件
 
@@ -525,6 +544,8 @@ methods: {
 * 
 
 ## vue 图形验证vue2-verify
+
+* https://github.com/mizuka-wu/vue2-verify
 
 * ```
   npm install vue2-verify

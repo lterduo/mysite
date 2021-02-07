@@ -1,5 +1,3 @@
-
-from toPdf import *
 from urllib import parse
 import json
 import os
@@ -21,28 +19,8 @@ from rest_framework.filters import OrderingFilter
 
 from api import models
 from api import serializers
-
-# from api.models import UserToken
-# from api.models import User
-# from api.serializers import UserSerializer
-# from api.models import Role
-# from api.serializers import RoleSerializer
-# from api.models import ProjectCategory
-# from api.serializers import ProjectCategorySerializer
-# from api.models import ProjectCategorySon
-# from api.serializers import ProjectCategorySonSerializer
-# from api.models import ProjectStatus
-# from api.serializers import ProjectStatusSerializer
-# from api.models import ProjectInfo
-# from api.serializers import ProjectInfoSerializer
-# from api.models import ProjectLeader
-# from api.serializers import ProjectLeaderSerializer
-# from api.models import ProjectMember
-# from api.serializers import ProjectMemberSerializer
-# from api.models import FileList
-# from api.serializers import FileListSerializer
-# from api.models import AuditInfo
-# from api.serializers import AuditInfoSerializer
+# 转换pdf
+from toPdf import toPdf
 
 
 # 测试
@@ -232,11 +210,8 @@ class GenPdf(APIView):
     def post(self, request):
         content = request.body
         content = content.decode('utf8')
-        print(content)
-        with open('toPdf/课题研究计划.html', 'wt') as f:
-            f.write(content)
-            f.close()
-
+        # print(content)
+        toPdf.toPdf(content)
         return JsonResponse({'msg': 'pdf'})
 
 

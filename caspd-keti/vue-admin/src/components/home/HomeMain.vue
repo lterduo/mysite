@@ -1,21 +1,30 @@
 <template>
   <div>
     <div>
-      <vue-wangeditor v-model="text"></vue-wangeditor>
+      ueditor
+      <vue-ueditor-wrap v-model="text" :config="editorConfig"></vue-ueditor-wrap>
     </div>
   </div>
 
 </template>
 
 <script>
-import vueWangeditor from 'vue-wangeditor'
+import VueUeditorWrap from 'vue-ueditor-wrap'
 
 export default {
-  components: { vueWangeditor, },
+  components: {
+    VueUeditorWrap
+  },
   data () {
     return {
       text: '',
-      disabledMenus: ''
+      editorConfig: {
+        autoHeightEnabled: false, //编译器不自动被内容撑高
+        initialFrameHeight: 350, //初始容器高度
+        initialFrameWith: 900,
+        // serverUrl: "/api/ueditor/net/controller.ashx", //上传文件地址
+        UEDITOR_HOME_URL: "/static/UEditor/", //UEditor资源文件的存放路径
+      },
     }
   },
 

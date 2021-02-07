@@ -1,0 +1,207 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+      }
+      .container {
+        /* 210mm×297mm */
+        width: 756px;
+        height: 1086px;
+        border: 2px solid;
+      }
+      .fujian {
+        margin-top: 16px;
+        margin-left: 20px;
+        text-align: left;
+        font-size: 20px;
+        font-family: 黑体;
+        letter-spacing: 0;
+      }
+      .footer {
+        height: 100%;
+        margin-bottom: 100px;
+        /* background: red; */
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p class="fujian">附件1</p>
+
+      <p style="text-align: center">
+        <strong
+          ><span style="font-size: 32px; font-family: 华文中宋"
+            >中 国 残 联 课 题 项 目</span
+          ></strong
+        >
+      </p>
+      <p style="text-align: center; line-height: 16px">&nbsp;</p>
+      <p style="text-align: center">
+        <strong
+          ><span style="font-size: 32px; font-family: 华文中宋"
+            >申&nbsp;&nbsp; 请&nbsp;&nbsp; 书</span
+          ></strong
+        >
+      </p>
+      <table cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr style="height: 57px" class="firstRow">
+            <td
+              style="border: medium none; padding: 0px 7px"
+              width="168"
+              height="57"
+            >
+              <p style="text-align: center">
+                <span style="font-size: 21px; font-family: 华文仿宋"
+                  >&nbsp;</span
+                >
+              </p>
+              <p style="text-align: center">
+                <span style="font-size: 21px; font-family: 华文仿宋"
+                  >&nbsp;</span
+                >
+              </p>
+              <p style="text-align: center">
+                <span style="font-size: 21px; font-family: 华文仿宋"
+                  >课题名称
+                </span>
+              </p>
+            </td>
+            <td
+              style="
+                border-color: currentcolor currentcolor windowtext;
+                border-style: none none solid;
+                border-width: medium medium 1px;
+                border-image: none 100% / 1 / 0 stretch;
+                padding: 0px 7px;
+              "
+              width="335"
+              height="57"
+            >
+              <p>
+                <span style="font-size: 21px; font-family: 仿宋"
+                  >&nbsp;&nbsp;
+                </span>
+              </p>
+              <p>
+                <span style="font-size: 21px; font-family: 仿宋">&nbsp;</span>
+              </p>
+              <p style="text-align: center">
+                <span style="font-size: 20px; font-family: 仿宋"
+                  >{{title}}</span
+                >
+              </p>
+              <p>
+                <span style="font-size: 19px; font-family: 仿宋">&nbsp;</span>
+              </p>
+            </td>
+          </tr>
+          <tr style="height: 57px">
+            <td
+              style="border: medium none; padding: 0px 7px"
+              width="168"
+              height="57"
+            >
+              <p style="text-align: center">
+                <span style="font-size: 21px; font-family: 华文仿宋"
+                  >项 目 主 持 人</span
+                >
+              </p>
+            </td>
+            <td
+              style="
+                border-color: currentcolor currentcolor windowtext;
+                border-style: none none solid;
+                border-width: medium medium 1px;
+                border-image: none 100% / 1 / 0 stretch;
+                padding: 0px 7px;
+              "
+              width="335"
+              height="57"
+            >
+              <p style="text-align: center">
+                <span style="font-size: 19px; font-family: 仿宋"
+                  >{{leader.name}}</span
+                >
+              </p>
+            </td>
+          </tr>
+          <tr style="height: 57px">
+            <td
+              style="border: medium none; padding: 0px 7px"
+              width="168"
+              height="57"
+            >
+              <p style="text-align: center">
+                <span style="font-size: 21px; font-family: 华文仿宋"
+                  >主持人所在单位</span
+                >
+              </p>
+            </td>
+            <td
+              style="
+                border-color: currentcolor currentcolor windowtext;
+                border-style: none none solid;
+                border-width: medium medium 1px;
+                border-image: none 100% / 1 / 0 stretch;
+                padding: 0px 7px;
+              "
+              width="335"
+              height="57"
+            >
+              <p style="text-align: center">
+                <span style="font-size: 19px; font-family: 仿宋"
+                  >{{leader.organization}}</span
+                >
+              </p>
+            </td>
+          </tr>
+          <tr style="height: 57px">
+            <td
+              style="border: medium none; padding: 0px 7px"
+              width="168"
+              height="57"
+            >
+              <p style="text-align: center">
+                <span style="font-size: 21px; font-family: 华文仿宋"
+                  >填&nbsp; 表&nbsp; 日&nbsp; 期</span
+                >
+              </p>
+            </td>
+            <td
+              style="
+                border-color: currentcolor currentcolor windowtext;
+                border-style: none none solid;
+                border-width: medium medium 1px;
+                border-image: none 100% / 1 / 0 stretch;
+                padding: 0px 7px;
+              "
+              width="335"
+              height="57"
+            >
+              <p style="text-align: center">
+                <span style="font-size: 19px; font-family: 仿宋">{{date}}</span>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="footer">
+        <p style="text-align: center">
+          <span style="font-size: 21px; font-family: 黑体"
+            >中国残疾人联合会</span
+          >
+        </p>
+        <p style="text-align: center">
+          <span style="font-size: 21px; font-family: 黑体">年月</span>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

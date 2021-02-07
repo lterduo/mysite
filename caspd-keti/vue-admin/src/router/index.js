@@ -15,6 +15,7 @@ import ProjectDistribute from '../components/project/ProjectDistribute'
 Vue.use(Router)
 
 const router = new Router({
+  mode:'history',
   routes: [
     {
       path: '/',

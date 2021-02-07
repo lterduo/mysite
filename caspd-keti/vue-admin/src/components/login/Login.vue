@@ -51,7 +51,9 @@
                   <el-input v-model="loginForm.password" placeholder="密码" show-password></el-input>
                 </el-form-item>
                 <div>
-                  <Verify :type="2" @success="success"></Verify>
+                  <!-- <Verify :type="3" @success="success"></Verify> -->
+                  <Verify :type="3" @success="success" :barSize="{width:'300px',height:'40px'}" :showButton="false">
+                  </Verify>
                 </div>
               </el-form>
               <div class="button-login">
@@ -460,6 +462,7 @@ h3 {
     }
   }
 }
+
 .el-table th,
 .el-table tr,
 .el-table td {
