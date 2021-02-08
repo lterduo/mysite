@@ -3,20 +3,42 @@
     <div class="login-container">
       <!-- 标题 -->
       <div class="header">
-        <h2>中国残疾人体育运动管理中心课题申报系统</h2>
+        <h2>中国残疾人体育运动管理中心课题管理系统</h2>
       </div>
       <!-- 用户登陆和系统提示区 -->
       <div class="main">
         <el-row>
           <!-- 系统提示 -->
           <el-col :span="16" class="notice">
-            <div>
-              <h3>使用指南</h3>
-              <p>1. 新用户请点击注册按钮进行注册。</p>
-              <p>2. 新注册的用户，其职称必须为副高或以上，且需将职称证明扫描后上传。</p>
-              <p>3. 新用户注册后，需待管理员进行验证并激活后方可正常登陆使用。</p>
-              <p>4. xxxxx</p>
+            <div class="guide">
+              <h3>申报使用指南</h3>
+              <h4>1. 新用户请点击注册按钮进行注册。</h4>
+              <h4>2. 新注册的用户，其职称必须为副高或以上，且需将职称证明扫描后上传。</h4>
+              <h4>3. 新用户注册后，需待管理员进行验证并激活后方可正常登陆使用。</h4>
+              <h4>4. 申报流程：</h4>
+              <div class="guide4">
+                <p>(1)在使用指南底部文件列表中下载申报书模板</p>
+                <p>(2)登录后，点击“申报书管理/申报书填写”菜单，点击“新增申报书”按钮，将课题相关信息录入到对应的表单中。</p>
+                <p>(3)录入过程中可以点击“保存”按钮临时保存，方便下次继续录入。再次录入时，点击申报书列表中“操作”项的编辑按钮，即可继续录入。</p>
+                <p>(4)信息录入完毕后，可以点击“生成申报书”按钮，自动生成申报书。
+                  如果因为word、wps等兼容性问题导致生成的文档格式与模板有出入，
+                  可在线下按照模板自行编辑申报书。
+                </p>
+                <p>(5)将申报书签字盖章后扫描，在申报书列表的“操作”项中点击编辑按钮，将扫描件和《前期研究成果》、《在研课题证明》分别上传到服务器，
+                  点击“提交审核”等待审核。
+                </p>
+              </div>
             </div>
+            <!-- 指南文件列表 -->
+            <el-table class="guideFileTable" :data="guideFileList" border style="width:401px;">
+              <el-table-column prop="name" label="指南文件" width="300"></el-table-column>
+              <el-table-column label="操作" width="100">
+                <template slot-scope="scope">
+                  <el-button size="mini" :plain="true" type="primary" icon="el-icon-download" circle
+                    @click="downloadFile(scope.row)"></el-button>
+                </template>
+              </el-table-column>
+            </el-table>
           </el-col>
           <!-- 用户登陆 -->
           <el-col :span="8" class="login">
@@ -29,7 +51,9 @@
                   <el-input v-model="loginForm.password" placeholder="密码" show-password></el-input>
                 </el-form-item>
                 <div>
-                  <Verify :type="2" @success="success"></Verify>
+                  <!-- <Verify :type="3" @success="success"></Verify> -->
+                  <Verify :type="3" @success="success" :barSize="{width:'300px',height:'40px'}" :showButton="false">
+                  </Verify>
                 </div>
               </el-form>
               <div class="button-login">
@@ -122,7 +146,7 @@
         <!-- 上传附件 -->
         <div class="div-upload">
           <input type="file" value="" class="input-upload" @change="uploadFileEdit">
-          <el-button type="primary" size="small" class="button-upload">上传附件
+          <el-button type="primary" size="small" class="button-upload">上传职称证明
             <i class="el-icon-upload el-icon--right"></i>
           </el-button>
         </div>
@@ -167,6 +191,10 @@ export default {
       loginForm: { userid: "", password: "" },
       data: {},
       verifyCode: false,
+      // 指南文件
+      guideFileList: [
+        { name: '申报书模板.doc', path: './uploadfiles/指南文件/申报书模板.doc' }
+      ],
       // 用户注册
       addUserFormVisible: false,
       formLabelWidth: '',
@@ -201,8 +229,8 @@ export default {
         value: '副高',
         label: '副高'
       }, {
-        value: '高级',
-        label: '高级'
+        value: '正高',
+        label: '正高'
       }],
     };
   },
@@ -354,63 +382,98 @@ h3 {
 }
 .bg-container {
   background-image: url("../../assets/image/login-bg1.png");
-}
-.login-container {
-  width: 1200px;
-  height: 100%;
-  margin: 0 auto;
-}
-.header {
-  width: 100%;
-  height: 130px;
-  // background: #fff;
-  font-size: 24px;
-  display: flex;
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-  // opacity: 0.3;
-}
-.main {
-  margin: 5px 0;
-  width: 100%;
-  height: 740px;
-}
-.login {
-  margin-top: 150px;
-  padding-left: 40px;
-  .button-login {
-    display: flex;
-    justify-content: end;
-    margin-top: 60px;
+
+  .login-container {
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+
+    .header {
+      width: 100%;
+      height: 130px;
+      // background: #fff;
+      font-size: 24px;
+      display: flex;
+      justify-content: center; /* 水平居中 */
+      align-items: center; /* 垂直居中 */
+      // opacity: 0.3;
+    }
+    .main {
+      margin: 5px 0;
+      width: 100%;
+      height: 740px;
+      .notice {
+        padding: 20px;
+        .guide {
+          .guide4 {
+            margin-top: -10px;
+            p {
+              margin: 0;
+              line-height: 30px;
+            }
+          }
+        }
+        .guideFileTable {
+          margin: 30px 0 0 0px;
+          .el-table th,
+          .el-table tr,
+          .el-table td {
+            background-color: transparent;
+          }
+        }
+      }
+      .login {
+        margin-top: 150px;
+        padding-left: 40px;
+        .el-card {
+          margin-right: 20px;
+          .button-login {
+            display: flex;
+            justify-content: end;
+            margin-top: 60px;
+          }
+        }
+      }
+    }
+
+    .footer {
+      font-size: 13px;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+  }
+  .div-file {
+    margin-top: 15px;
+    .div-upload {
+      height: 47px;
+      .input-upload {
+        width: 73px;
+        height: 33px;
+        position: absolute;
+        z-index: 1;
+        opacity: 0;
+      }
+      .button-upload {
+        position: absolute;
+      }
+      .button-upload:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
-.notice {
-  padding: 20px;
-}
 
-.footer {
-  font-size: 13px;
-  text-align: center;
-  padding-bottom: 10px;
+.el-table th,
+.el-table tr,
+.el-table td {
+  background-color: transparent;
 }
-
-.div-file {
-  margin-top: 15px;
-  .div-upload {
-    height: 47px;
-    .input-upload {
-      width: 73px;
-      height: 33px;
-      position: absolute;
-      z-index: 1;
-      opacity: 0;
-    }
-    .button-upload {
-      position: absolute;
-    }
-    .button-upload:hover {
-      cursor: pointer;
-    }
-  }
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: #fff;
+  background-color: rgba(148, 144, 144, 0.3);
+}
+.el-table th,
+.el-table tr {
+  background-color: transparent;
 }
 </style>

@@ -27,6 +27,7 @@ urlpatterns = [
     path('hello/', views.hello),
     url(r'^api/login/$', views.AuthView.as_view()),
     url(r'^api/', include(router.urls)),
+    url(r'^api/genPdf/', views.GenPdf.as_view()),
     url(r'^api/uploadFile/', views.UploadFile.as_view()),
     url(r'^api/deleteFile/', views.DeleteFile.as_view()),
     url(r'^api/downloadFile/', views.DownloadFile.as_view()),
