@@ -2,6 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     <style>
+      /* 转换pdf时flex无效，采用传统写法 */
       body {
         display: flex;
         justify-content: center;
@@ -29,8 +30,7 @@
       }
       .neirong {
         margin-top: 100px;
-        display: flex;
-        justify-content: center;
+        margin-left: 60px;
       }
       .neirong tr {
         height: 60px;
@@ -49,13 +49,12 @@
         font-family: 华文仿宋;
       }
       .footer {
-        height: 400px;
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        align-items: center;
+        margin-top: 260px;
         font-size: 21px;
         font-family: 黑体;
+      }
+      .footer p {
+        text-align: center;
       }
     </style>
   </head>
@@ -92,10 +91,10 @@
               <td>
                 <div
                   style="
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                    box-sizing: border-box;
+                    height: 60px;
+                    padding-top: 20px;
+                    text-align: center;
                   "
                 >
                   {{leader.organization}}

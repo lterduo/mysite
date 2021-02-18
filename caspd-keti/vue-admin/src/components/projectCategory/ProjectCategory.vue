@@ -41,7 +41,7 @@
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-edit" circle
               @click="showEditUserForm(scope.row.id)"></el-button>
             <el-button size="mini" :plain="true" type="danger" icon="el-icon-delete" circle
-              @click="deleteUser(scope.row.id)"></el-button>
+              @click="deleteUser(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -90,13 +90,33 @@
           <el-form-item label="描述">
             <el-input v-model="item.desc"></el-input>
           </el-form-item>
+          <el-button type="primary" @click="EditSonDirection(item.index)">编辑方向</el-button>
           <el-button type="primary" @click="DeleteSon(item.index)">删除</el-button>
         </el-form>
         <el-button type="primary" @click="AddSonForm">增加</el-button>
 
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editUserFormVisible=false">取 消</el-button>
+          <el-button @click="editSonFormVisible=false">取 消</el-button>
           <el-button type="primary" @click="editSonFormButton()">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <!-- 编辑子类方向对话框 -->
+      <el-dialog :visible.sync="editSonDirectionsFormVisible">
+        <el-form :inline="true" class="demo-form-inline" v-for="item in sonDirectionsFormArr.data" :key="item.index">
+          <el-form-item label="名称">
+            <el-input v-model="item.name"></el-input>
+          </el-form-item>
+          <el-form-item label="描述">
+            <el-input v-model="item.desc"></el-input>
+          </el-form-item>
+          <el-button type="primary" @click="DeleteSonDirection(item.index)">删除</el-button>
+        </el-form>
+        <el-button type="primary" @click="AddSonDirectionForm">增加</el-button>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editSonDirectionsFormVisible=false,editSonFormVisible=true">取 消</el-button>
+          <el-button type="primary" @click="editSonDirectionFormButton()">确 定</el-button>
         </div>
       </el-dialog>
     </el-card>
@@ -130,14 +150,18 @@ export default {
       // 子类列表
       editSonFormVisible: false,
       father_name: '',
-      sonFormArr: []
+      sonFormArr: [],
+      // 子类方向列表
+      editSonDirectionsFormVisible: false,
+      sonIndex: 0,
+      sonDirectionsFormArr: [],
     }
   },
   created () {
     this.getUsers(1, 10)
   },
   methods: {
-    //获取用户列表
+    //获取列表
     async getUsers (page, page_size) {
       const res = await this.axios.get(
         `/projectCategory/?page=${page}&page_size=${page_size}`
@@ -162,7 +186,7 @@ export default {
       this.getUsers(this.currentPage, this.page_size)
     },
 
-    // 查询用户
+    // 查询
     async queryUser () {
       const res = await this.axios.get(
         `/projectCategory/?page=${this.currentPage}&page_size=${this.page_size}&search=${this.query}`
@@ -176,7 +200,7 @@ export default {
       }
     },
 
-    //添加用户
+    //添加
     showAddUserForm () {
       this.addUserFormVisible = true
     },
@@ -187,7 +211,7 @@ export default {
       this.getUsers(this.currentPage, this.page_size)
     },
 
-    // 编辑用户
+    // 编辑
     async showEditUserForm (id) {
       const res = await this.axios.get('/projectCategory/' + id)
       if (res.status !== 200) {
@@ -222,16 +246,22 @@ export default {
         })
     },
 
-    //删除用户
-    deleteUser (id) {
+    //删除
+    deleteUser (row) {
       this.$confirm("此操作将永久删除信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(async () => {
-          const res = await this.axios.delete(`/projectCategory/${id}`)
-          // console.log(res)
+          console.log('row', row)
+          const resDel = await this.axios.delete(`/projectCategory/${row.id}`)
+          // 删除子类
+          let resSon = await this.axios.get('/projectCategorySon/?father_name=' + row.name)
+          resSon = resSon.data.results
+          for (let i = 0; i < resSon.length; i++) {
+            let resDelSon = await this.axios.delete(`/projectCategorySon/${resSon[i].id}`)
+          }
           this.$message({
             type: "success",
             message: "删除成功!",
@@ -274,9 +304,13 @@ export default {
             index: i,
             name: res.data.results[i].name,
             desc: res.data.results[i].desc,
-            father_name: this.father_name
+            father_name: this.father_name,
+            // 表中direction为空报错，则赋值{"data":[]}
+            direction: res.data.results[i].direction == null ?
+              { "data": [] } : res.data.results[i].direction
           })
         }
+        console.log('data', this.sonFormArr)
       }
     },
     AddSonForm () {
@@ -284,26 +318,27 @@ export default {
         index: this.sonFormArr.length,
         father_name: this.father_name,
         name: '',
-        desc: ''
+        desc: '',
+        direction: { "data": [] }
       })
       // console.log(this.sonFormArr)
     },
+
     DeleteSon (index) {
       this.sonFormArr.splice(index, 1)
       for (let i in this.sonFormArr) {
         this.sonFormArr[i].index = i
       }
     },
+
     // 确定按钮，先删除，再添加
     async editSonFormButton () {
-
       // 删除
       let resDelete = await this.axios.get(`/projectCategorySon/?father_name=${this.father_name}`)
       let memberTemp = resDelete.data.results
       for (var i = 0; i < memberTemp.length; i++) {
         let res = await this.axios.delete(`/projectCategorySon/${memberTemp[i].id}/`)
       }
-
       // 增加      
       for (var i = 0; i < this.sonFormArr.length; i++) {
         let res = await this.axios.post(`/projectCategorySon/`, this.sonFormArr[i])
@@ -315,8 +350,37 @@ export default {
       setTimeout(() => {
         this.editSonFormVisible = false
       }, 100);
-    }
+    },
 
+    // 编辑子类方向列表（第三层）
+    EditSonDirection (index) {
+      // console.log(this.sonFormArr[index])
+      this.editSonFormVisible = false
+      this.editSonDirectionsFormVisible = true
+      this.sonIndex = index
+      this.sonDirectionsFormArr = this.sonFormArr[index].direction
+    },
+    DeleteSonDirection (index) {
+      this.sonDirectionsFormArr.data.splice(index, 1)
+      for (let i in this.sonDirectionsFormArr.data) {
+        this.sonDirectionsFormArr.data[i].index = i
+      }
+    },
+    AddSonDirectionForm () {
+      if (this.sonDirectionsFormArr.data == null) {
+        this.sonDirectionsFormArr.data = []
+      }
+      this.sonDirectionsFormArr.data.push({
+        index: this.sonDirectionsFormArr.data.length,
+        name: '',
+        desc: '',
+      })
+    },
+    editSonDirectionFormButton () {
+      this.editSonDirectionsFormVisible = false
+      this.editSonFormVisible = true
+      this.sonFormArr[this.sonIndex].direction = this.sonDirectionsFormArr
+    },
   },
 } 
 </script>

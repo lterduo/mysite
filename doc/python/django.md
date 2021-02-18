@@ -805,3 +805,23 @@ CORS_ORIGIN_ALLOW_ALL = True
   ~~~
 
   
+
+## JSONField (Django2.2)
+
+https://pypi.org/project/django-jsonfield-backport/
+
+> 已废弃 django_mysql  https://blog.csdn.net/u012111465/article/details/89857085
+
+~~~
+pip install django-jsonfield-backport
+
+settings.py:
+INSTALLED_APPS = [
+    ...
+    "django_jsonfield_backport",
+]
+
+from django_jsonfield_backport.models import JSONField
+xxx = JSONField()
+~~~
+

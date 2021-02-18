@@ -80,13 +80,13 @@ class RoleViewSet(viewsets.ModelViewSet):
 
 # 课题分类
 class ProjectCategoryViewSet(viewsets.ModelViewSet):
-    queryset = models.ProjectCategory.objects.all().order_by('-id')
+    queryset = models.ProjectCategory.objects.all().order_by('-is_active', '-id')
     serializer_class = serializers.ProjectCategorySerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['name', 'desc', 'is_active']
     search_fields = ('name', 'desc')
-    ordering_fields = ['name', 'desc']
+    ordering_fields = []
 
 
 # 课题分类子类

@@ -67,7 +67,15 @@
         <el-col class="el-col-addForm">
           <span> 课题类别：</span>
           <span>{{projectCategory}}</span>
-          <span style="margin-left: 30px;"> 课题类别方向：</span>
+          <span style="margin-left: 30px;"> 课题子类：</span>
+          <el-select v-model="addForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向"
+            @change="changeCategory">
+            <el-option v-for="item in projectCategorySon" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col class="el-col-addForm">
+          <span> 课题方向：</span>
           <el-select v-model="addForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向">
             <el-option v-for="item in projectCategorySon" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
@@ -911,9 +919,11 @@ export default {
       }, 500);
     },
 
-    //下拉框改变，改变editForm.category
+    //课题子类  下拉框改变
     changeCategory (item) {
-      this.editForm.category = item
+      // this.editForm.category = item
+      console.log('changeCategory:', item)
+      console.log(this.projectCategorySon)
     },
 
     // 编辑申报书，保存

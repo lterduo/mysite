@@ -14,10 +14,11 @@ def html_to_pdf(html, to_file):
         path_wkthmltopdf = r'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
         config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
         # 生成pdf文件，to_file为文件路径
-        pdfkit.from_file(html, to_file, configuration=config)
+        # pdfkit.from_file(html, to_file, configuration=config)
+        pdfkit.from_url(html, to_file, configuration=config)
         print('完成')
     except Exception as e:
         print(e)
 
 
-html_to_pdf('./01.html', './out_2.pdf')
+html_to_pdf('./template01.html', './out_2.pdf')

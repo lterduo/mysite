@@ -541,6 +541,10 @@ export default {
       projectInfo: [],
       projectCategorys: [],
       selectValue: '', //课题类型下拉框显示的值
+
+      // 课题方向
+      projectCategorySonDirection: [],
+
       projectStatus: [],
       status: '',
       projectLeader: [],  //主持人，返回的是列表

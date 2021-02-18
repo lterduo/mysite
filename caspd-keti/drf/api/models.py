@@ -1,4 +1,5 @@
 from django.db import models
+from django_jsonfield_backport.models import JSONField
 
 
 class User(models.Model):
@@ -96,11 +97,12 @@ class ProjectCategory(models.Model):
         verbose_name = verbose_name_plural = '课题类别表'
 
 
-# 课题类型方向
+# 课题类型子类
 class ProjectCategorySon(models.Model):
     father_name = models.CharField(max_length=32, help_text='类别名，对应父类')
     name = models.CharField(max_length=32, help_text='子类名')
     desc = models.CharField(max_length=64, null=True)
+    direction = JSONField(null=True, help_text='课题方向列表')
 
     class Meta:
         db_table = 'project_category_son'
