@@ -82,7 +82,6 @@
       </el-dialog>
       <!-- 编辑子类对话框 -->
       <el-dialog :title="'父类名称： '+ father_name" :visible.sync="editSonFormVisible">
-
         <el-form :inline="true" class="demo-form-inline" v-for="item in sonFormArr" :key="item.index">
           <el-form-item label="名称">
             <el-input v-model="item.name"></el-input>
@@ -404,5 +403,8 @@ export default {
 }
 .bt-user-add {
   margin-left: 10px;
+}
+.el-dialog {
+  width: 60%;
 }
 </style>

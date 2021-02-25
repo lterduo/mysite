@@ -19,8 +19,10 @@ router.register(r'projectMember', views.ProjectMemberViewSet)
 router.register(r'fileList', views.FileListViewSet)
 router.register(r'auditInfo', views.AuditInfoViewSet)
 router.register(r'projectDistribute', views.ProjectDistributeViewSet)
+router.register(r'projectAssess', views.ProjectAssessViewSet)
 router.register(r'assessor', views.AssessorViewSet)
 router.register(r'assessorMajor', views.AssessorMajorViewSet)
+
 
 urlpatterns = [
     # path('admin/', admin.site.urls),

@@ -67,7 +67,9 @@
         <el-col class="el-col-addForm">
           <span> 课题类别：</span>
           <span>{{projectCategory}}</span>
-          <span style="margin-left: 30px;"> 课题子类：</span>
+        </el-col>
+        <el-col class="el-col-addForm">
+          <span> 课题子类：</span>
           <el-select v-model="addForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向"
             @change="changeCategory">
             <el-option v-for="item in projectCategorySon" :key="item.id" :label="item.name" :value="item.id">
@@ -76,8 +78,10 @@
         </el-col>
         <el-col class="el-col-addForm">
           <span> 课题方向：</span>
-          <el-select v-model="addForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向">
-            <el-option v-for="item in projectCategorySon" :key="item.id" :label="item.name" :value="item.id">
+          <el-select v-model="addForm.category_direction" filterable allow-create default-first-option
+            placeholder="请选择课题类别方向">
+            <el-option v-for="item in projectCategorySonDirections" :key="item.name" :label="item.name"
+              :value="item.name">
             </el-option>
           </el-select>
         </el-col>
@@ -201,7 +205,7 @@
         </el-col>
       </el-row>
       <!-- 审核意见 -->
-      <el-card>
+      <el-card v-if="auditInfo.info">
         <div style="margin-bottom: 10px;font-size: 16px;">审核意见</div>
         <quill-editor :disabled="true" v-model="auditInfo.info" :options="editorOptionAudit" class="editor-audit">
         </quill-editor>
@@ -211,13 +215,26 @@
         <el-col class="el-col-addForm">
           <span> 课题类别：</span>
           <span>{{projectCategory}}</span>
-          <span style="margin-left: 30px;"> 课题类别方向：</span>
-          <el-select v-model="editForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向">
+        </el-col>
+        <el-col class="el-col-addForm">
+          <span> 课题子类：</span>
+          <el-select v-model="editForm.category" filterable allow-create default-first-option placeholder="请选择课题类别方向"
+            @change="changeCategory">
             <el-option v-for="item in projectCategorySon" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-col>
+        <el-col class="el-col-addForm">
+          <span> 课题方向：</span>
+          <el-select v-model="editForm.category_direction" filterable allow-create default-first-option
+            placeholder="请选择课题类别方向">
+            <el-option v-for="item in projectCategorySonDirections" :key="item.name" :label="item.name"
+              :value="item.name">
+            </el-option>
+          </el-select>
+        </el-col>
       </el-card>
+
       <el-card>
         <el-col class="el-col-addForm">
           <span> 课题名称：</span>
@@ -339,13 +356,9 @@
       </el-row>
       <el-card>
         <el-col class="el-col-addForm">
-          <span> 课题类别方向：</span>
-          <el-select :disabled="true" v-model="selectValue" @change="changeCategory" filterable allow-create
-            default-first-option placeholder="请选择课题类别">
-            <el-option v-for="item in projectCategorys" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
-          </el-select>
-          <span> 课题名称：</span>
+          <span> 课题方向：</span>
+          <span>{{editForm.category_direction}}</span>
+          <span style="margin-left: 30px;"> 课题名称：</span>
           <el-input :disabled="true" v-model="editForm.name"></el-input>
         </el-col>
       </el-card>
@@ -568,10 +581,12 @@ export default {
       userid: '',
       query: '',  //查询条件
       projectInfo: [],
-      projectCategorys: [],
-      projectCategory: '',
-      projectCategorySon: [],
-      selectValue: '', //课题类型下拉框显示的值
+
+      projectCategory: '',  //课题类别
+      projectCategorySon: [], //子类
+
+      projectCategorySonDirections: [], // 课题方向列表
+
       projectStatus: [],
       status: '',
       projectLeader: [],  //主持人，返回的是列表
@@ -861,12 +876,42 @@ export default {
       }, 200);
     },
 
-    // 新增申报书
+    // 新增申报书 保存
     async addProject () {
       // 写projectInfo
       this.addForm.leader = this.userid
       this.addForm.pid = this.pid
       this.addForm.status = 1
+
+      const resProject = await this.axios.post(`/projectInfo/`, this.addForm)
+      if (resProject.status !== 201) {
+        return this.$message.error('新增申报书失败')
+      }
+      // 写projectMember
+      for (var i = 0; i < this.projectMember.length; i++) {
+        this.projectMember[i].pid = this.pid
+        let res = await this.axios.post(`/projectMember/`, this.projectMember[i])
+        if (res.status !== 201) {
+          return this.$message.error('新增参加者失败，请稍后在“编辑申报书”中添加')
+        }
+      }
+      this.$message.success('保存成功')
+      setTimeout(() => {
+        location.reload()
+      }, 500);
+    },
+
+    // 新增申报书 提交审核
+    async submitProject () {
+      // 判断附件列表，小于3返回
+      if (this.fileList.length < 3) {
+        return this.$message.error('请上传《申请书》、《前期研究成果》、《在研课题证明》！')
+      }
+      // 写projectInfo
+      this.addForm.leader = this.userid
+      this.addForm.pid = this.pid
+      this.addForm.status = 2
+
       const resProject = await this.axios.post(`/projectInfo/`, this.addForm)
       if (resProject.status !== 201) {
         return this.$message.error('新增申报书失败')
@@ -892,7 +937,7 @@ export default {
       this.addFormVisible = false
       this.editFormVisible = false
       this.editForm = item
-      this.selectValue = this.categoryName(this.editForm.category) //讲id转换成文字
+
       this.getProjectMember(item.pid)
       this.getFileList(item.pid)
       setTimeout(() => {
@@ -907,9 +952,9 @@ export default {
       this.addFormVisible = false
 
       this.editForm = item
-      //神坑啊，编辑器内容不能直接取值，必须通过中间变量取值
+      //坑，编辑器内容不能直接取值，必须通过中间变量取值
       this.editContent = item.content
-      this.selectValue = this.categoryName(this.editForm.category) //将id转换成文字
+
       this.getProjectMember(item.pid)
       this.getFileList(item.pid)
       this.getAuditInfo(item.pid)
@@ -919,11 +964,11 @@ export default {
       }, 500);
     },
 
-    //课题子类  下拉框改变
-    changeCategory (item) {
+    //课题子类  下拉框改变，初始化方向
+    changeCategory (id) {
       // this.editForm.category = item
-      console.log('changeCategory:', item)
-      console.log(this.projectCategorySon)
+      let item = this.projectCategorySon.find(item => item.id == id)
+      this.projectCategorySonDirections = item.direction.data
     },
 
     // 编辑申报书，保存
@@ -931,7 +976,7 @@ export default {
       // 写projectInfo
       this.editForm.leader = this.userid
       this.editForm.status = 1
-      this.editForm.content = this.editContent //quill的神坑
+      this.editForm.content = this.editContent //quill的坑
       const resProject = await this.axios.put(`/projectInfo/${this.editForm.id}/`, this.editForm)
 
       if (resProject.status !== 200) {
@@ -960,6 +1005,10 @@ export default {
 
     // 编辑申报书，提交
     async submitEditProject () {
+      // 判断附件列表，小于3返回
+      if (this.fileList.length < 3) {
+        return this.$message.error('请上传《申请书》、《前期研究成果》、《在研课题证明》！')
+      }
       // 写projectInfo
       this.editForm.leader = this.userid
       this.editForm.status = 2
@@ -1029,9 +1078,7 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' }
       };
       this.axios.post(url, formData, config).then((response) => {
-        console.log(response.data)
         this.getFileList(this.editForm.pid)
-        console.log('fileList:  ', this.fileList)
       })
     },
 
@@ -1059,10 +1106,6 @@ export default {
       })
     },
 
-    test () {
-      console.log('test:  ', this.editForm.content)
-      document.getElementById("test").scrollIntoView()
-    }
   },
 }
 </script>

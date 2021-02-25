@@ -95,7 +95,7 @@ class ProjectCategorySonViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ProjectCategorySonSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filter_fields = ['father_name', 'name', 'desc']
+    filter_fields = ['father_name', 'name', 'desc', 'id']
     search_fields = ('father_name', 'name', 'desc')
     ordering_fields = ['father_name', 'name', 'desc']
 
@@ -112,8 +112,10 @@ class ProjectInfoViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ProjectInfoSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filter_fields = ['name', 'leader', 'status', 'category']
-    search_fields = ('name', 'leader', 'status', 'create_time', 'category')
+    filter_fields = ['name', 'leader', 'status',
+                     'category', 'pid', 'category_direction']
+    search_fields = ('name', 'leader', 'status',
+                     'create_time', 'category', 'pid')
     ordering_fields = ['create_time', 'name', 'leader', 'status', 'category']
 
 
@@ -178,6 +180,18 @@ class ProjectDistributeViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['pid', 'pname', 'assessor', 'aname']
     search_fields = ('pid', 'pname', 'assessor', 'aname')
+    ordering_fields = ['pname']
+
+
+# 课题评审
+class ProjectAssessViewSet(viewsets.ModelViewSet):
+    queryset = models.ProjectAssess.objects.all()
+    serializer_class = serializers.ProjectAssessSerializer
+    pagination_class = MyPageNumberPagination
+
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['pid', 'pname', 'status']
+    search_fields = ('pid', 'pname', 'status')
     ordering_fields = ['pname']
 
 

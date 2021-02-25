@@ -10,27 +10,17 @@
     </el-breadcrumb>
     <el-card>
       <!-- 搜索框 新增按钮-->
-      <el-row class="row-search">
+      <!-- <el-row class="row-search">
         <el-col class="el-col-user-add">
           <el-input class="user-search" clearable placeholder="请输申报书信息（用空格分隔），支持模糊搜索" v-model="query">
             <el-button slot="append" icon="el-icon-search" @click.prevent="queryProjectInfo()"></el-button>
           </el-input>
         </el-col>
-      </el-row>
+      </el-row> -->
       <!-- 申报书列表 -->
-      <el-table :data="projectInfo" style="width: 100%">
+      <el-table :data="projcetDistribute" style="width: 100%">
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="name" label="名称" width="280"></el-table-column>
-        <el-table-column prop="category" label="类别" width="280">
-          <template slot-scope="scope">
-            <div>{{categoryName(scope.row.category)}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column label="创建时间" width="120">
-          <template slot-scope="scope">{{
-            scope.row.create_time | fmtdate
-          }}</template>
-        </el-table-column>
+        <el-table-column prop="pname" label="名称" width="280"></el-table-column>
         <el-table-column label="查看" width="80">
           <template slot-scope="scope">
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-search" circle
@@ -57,11 +47,7 @@
       <el-card>
         <el-col class="el-col-addForm">
           <span> 课题类别：</span>
-          <el-select :disabled="true" v-model="selectValue" filterable allow-create default-first-option
-            placeholder="请选择课题类别">
-            <el-option v-for="item in projectCategorys" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
-          </el-select>
+          <el-input :disabled="true" v-model="editForm.category_direction"></el-input>
           <span> 课题名称：</span>
           <el-input :disabled="true" v-model="editForm.name"></el-input>
         </el-col>
@@ -114,7 +100,7 @@
             <template slot-scope="scope">
               <el-radio-group v-model="scope.row.score" v-for="item in scope.row.scores" :key=item.score>
                 <el-radio :label="item.score">
-                  {{item.score}}
+                  {{item.name}}
                 </el-radio>
               </el-radio-group>
             </template>
@@ -127,12 +113,10 @@
       </el-card>
       <el-card>
         <div class="divAgree">三、是否同意该项目立项：</div>
-        <el-radio-group v-model="assessAgree">
-          <el-radio :label="true">是</el-radio>
-          <el-radio :label="false">否</el-radio>
-        </el-radio-group>
+        <el-radio v-model="assessAgree" label="同意">是</el-radio>
+        <el-radio v-model="assessAgree" label="不同意">否</el-radio>
       </el-card>
-      <el-button type="primary">提交</el-button>
+      <el-button type="primary" @click="assess()">提交</el-button>
     </el-dialog>
   </div>
 </template>
@@ -162,7 +146,7 @@ export default {
       editContent: '',
       pid: '',
       userid: '',
-      query: '',  //查询条件
+      projcetDistribute: [],
       projectInfo: [],
       projectCategorys: [],
       selectValue: '', //课题类型下拉框显示的值
@@ -171,6 +155,7 @@ export default {
       fileList: [],  //附件列表
       // qill-editor
       editorOption: {},
+      projectAssess: {}, //评审按钮传入的待评审课题
       //评审对话框
       assessDialogVisible: false,
       //评审评分信息
@@ -179,65 +164,65 @@ export default {
           {
             name: '1、研究内容与研究目标的一致性',
             scores: [
-              { score: '很好' },
-              { score: '较好' },
-              { score: '一般' },
-              { score: '较差' }],
-            score: ''
+              { name: '很好', score: 5 },
+              { name: '较好', score: 3 },
+              { name: '一般', score: 2 },
+              { name: '较差', score: 1 }],
+            score: 0
           },
           {
             name: '2、研究路径、方法的科学性',
             scores: [
-              { score: '很好' },
-              { score: '较好' },
-              { score: '一般' },
-              { score: '较差' }],
-            score: ''
+              { name: '很好', score: 5 },
+              { name: '较好', score: 3 },
+              { name: '一般', score: 2 },
+              { name: '较差', score: 1 }],
+            score: 0
           },
           {
             name: '3、项目的可行性',
             scores: [
-              { score: '强' },
-              { score: '较强' },
-              { score: '一般' },
-              { score: '较差' }],
-            score: ''
+              { name: '强', score: 5 },
+              { name: '较强', score: 3 },
+              { name: '一般', score: 2 },
+              { name: '较差', score: 1 }],
+            score: 0
           },
           {
             name: '4、前期的研究成果',
             scores: [
-              { score: '高' },
-              { score: '较高' },
-              { score: '一般' },
-              { score: '较低' }],
-            score: ''
+              { name: '高', score: 5 },
+              { name: '较高', score: 3 },
+              { name: '一般', score: 2 },
+              { name: '较低', score: 1 }],
+            score: 0
           },
           {
             name: '5、项目的团队力量',
             scores: [
-              { score: '强' },
-              { score: '较强' },
-              { score: '一般' },
-              { score: '较差' }],
-            score: ''
+              { name: '强', score: 5 },
+              { name: '较强', score: 3 },
+              { name: '一般', score: 2 },
+              { name: '较差', score: 1 }],
+            score: 0
           },
           {
             name: '6、项目时间安排的合理性',
             scores: [
-              { score: '很好' },
-              { score: '较好' },
-              { score: '一般' },
-              { score: '较差' }],
-            score: ''
+              { name: '很好', score: 5 },
+              { name: '较好', score: 3 },
+              { name: '一般', score: 2 },
+              { name: '较差', score: 1 }],
+            score: 0
           },
           {
             name: '7、经费安排的合理性',
             scores: [
-              { score: '很好' },
-              { score: '较好' },
-              { score: '一般' },
-              { score: '较差' }],
-            score: ''
+              { name: '很好', score: 5 },
+              { name: '较好', score: 3 },
+              { name: '一般', score: 2 },
+              { name: '较差', score: 1 }],
+            score: 0
           },
         ],
       // 评审建议
@@ -247,39 +232,18 @@ export default {
   },
 
   created () {
-    this.getProjectCategorys()
-    this.getProjectCategorySon()
     this.userid = localStorage.getItem("userid")
     this.getProjectInfo()
   },
 
   methods: {
 
-    // 获取课题状态
-    async getProjectStatus () {
-      const res = await this.axios.get(`/projectStatus/`)
-      if (res.status === 200) {
-        this.projectStatus = res.data
-      } else {
-        this.$message.warning("错误")
-      }
-    },
 
     // 获取课题信息
     async getProjectInfo () {
-      const res = await this.axios.get(`/projectInfo/?status=5`)
+      const res = await this.axios.get(`/projectDistribute/?assessor=${this.userid}`)
       if (res.status === 200) {
-        this.projectInfo = res.data.results
-      } else {
-        this.$message.warning("错误")
-      }
-    },
-
-    // 查询课题信息
-    async queryProjectInfo () {
-      const res = await this.axios.get(`/projectInfo/?leader=${this.userid}&search=${this.query}`)
-      if (res.status === 200) {
-        this.projectInfo = res.data.results
+        this.projcetDistribute = res.data.results
       } else {
         this.$message.warning("错误")
       }
@@ -296,43 +260,12 @@ export default {
       }
     },
 
-    //获取课题类别
-    async getProjectCategorys () {
-      const res1 = await this.axios.get(`/projectCategory/?is_active=True`)
-      if (res1.status === 200) {
-        if (res1.data.results.length === 1) {
-          this.projectCategory = res1.data.results[0].name
-          //获取课题类别方向
-          this.getProjectCategorySon()
-        } else {
-          this.$message.warning(`存在${res1.data.results.length}个激活类型，请联系管理员修改！`)
-        }
-      } else {
-        this.$message.warning("获取类型错误")
-      }
-    },
-
-    // 获取课题类别方向
-    async getProjectCategorySon () {
-      const res = await this.axios.get(`/projectCategorySon/?father_name=${this.projectCategory}`)
-      if (res.status === 200) {
-        this.projectCategorySon = res.data.results
-      } else {
-        this.$message.warning("错误")
-      }
-    },
-
-    // 获取类别名称
-    categoryName (id) {
-      const item = this.projectCategorySon.find(item => item.id == id)
-      return item ? item.name : null
-    },
 
     // 显示查看申报书卡片（）
-    showInfoForm (item) {
+    async showInfoForm (item) {
       this.infoFormVisible = true
-      this.editForm = item
-      this.selectValue = this.categoryName(this.editForm.category) //讲id转换成文字
+      let res = await this.axios.get('/projectInfo/?pid=' + item.pid)
+      this.editForm = res.data.results[0]
       this.getFileList(item.pid)
 
       setTimeout(() => {
@@ -353,8 +286,78 @@ export default {
     },
 
     //评审按钮
-    assessButton () {
+    assessButton (item) {
       this.assessDialogVisible = !this.assessDialogVisible
+      this.projectAssess = item
+    },
+
+    // 计算评审结果
+    async assess () {
+      // console.log(this.assessScore)
+      let score = 0
+      for (let i = 0; i < this.assessScore.length; i++) {
+        score = score + this.assessScore[i].score
+      }
+      // this.$message.success(`评审总分为：${score}分！`)
+      let res = await this.axios.get('/projectAssess/?pid=' + this.projectAssess.pid)
+      res = res.data.results
+
+      // 写ProjectAssess评审结果表
+      if (res[0]) {
+        // 有记录,添加记录的assessor_result
+        let data = res[0]
+        // 将评审结果添加到数组
+        data.assessor_result.data.push(
+          {
+            assessor: this.userid,
+            assessSuggestion: this.assessSuggestion,
+            assessAgree: this.assessAgree,
+            assessScore: this.assessScore,
+            total_score: score
+          }
+        )
+        let resPut = await this.axios.put(`/projectAssess/${data.id}/`, data)
+        // 删除projectDistribute
+        let resGet = await this.axios.get('/projectDistribute/?pid=' + this.projectAssess.pid + '&assessor=' + this.userid)
+        resGet = resGet.data.results[0]
+        let resDel = await this.axios.delete(`/projectDistribute/${resGet.id}`)
+        console.log('del:' + resDel.data.status)
+        if (resPut.status == 200) {
+          this.$message.success('评审完成')
+        } else {
+          this.$message.error('评审失败')
+        }
+      } else {
+        // 无记录，post
+        let data = {
+          pid: this.projectAssess.pid,
+          pname: this.projectAssess.pname,
+          status: 1,
+          assessor_result: {
+            data: [{
+              assessor: this.userid,
+              assessSuggestion: this.assessSuggestion,
+              assessAgree: this.assessAgree,
+              assessScore: this.assessScore,
+              total_score: score
+            }]
+          }
+        }
+        let resPost = await this.axios.post('/projectAssess/', data)
+        // 删除projectDistribute
+        let resGet = await this.axios.get('/projectDistribute/?pid=' + this.projectAssess.pid + '&assessor=' + this.userid)
+        resGet = resGet.data.results[0]
+        let resDel = await this.axios.delete(`/projectDistribute/${resGet.id}`)
+        console.log('del:' + resDel.data.status)
+        if (resPost.status == 201) {
+          this.$message.success('评审成功！')
+        } else {
+          this.$message.error('评审失败')
+        }
+      }
+      // 对话框不可见，初始化课题列表
+      this.assessDialogVisible = false
+      this.getProjectInfo()
     }
   },
 }

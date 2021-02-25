@@ -37,7 +37,6 @@ django-admin startapp login
 python manage.py runserver 
 python manage.py runserver 0.0.0.0:8000 
 
-
 `'login' 这个 app 加入到 settings.py 中，否则makemigrations 会提示没有没有变化`
 
 # mysql

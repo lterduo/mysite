@@ -11,6 +11,8 @@ class User(models.Model):
     email = models.CharField(max_length=32, null=True)
     addr = models.CharField(max_length=64, null=True)
     is_active = models.BooleanField(default=False)
+    status = models.CharField(
+        max_length=10, default='未审核', help_text='注册状态，未审核、审核未通过、审核通过')
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     role_id = models.IntegerField()
@@ -25,6 +27,8 @@ class User(models.Model):
     degree = models.CharField(max_length=16, null=True, help_text='最后学位')
     province = models.CharField(max_length=16, null=True)
     zipcode = models.CharField(max_length=6, null=True)
+
+    bank = JSONField(default={"bank": " ", "account": " "}, help_text='银行账号')
 
     class Meta:
         db_table = 'user'
@@ -123,7 +127,10 @@ class ProjectStatus(models.Model):
 class ProjectInfo(models.Model):
     pid = models.CharField(max_length=64, null=True)
     name = models.CharField(max_length=64, null=True)
-    category = models.IntegerField(null=True)
+    category = models.IntegerField(
+        null=True, help_text='课题子类,对应project_category_son中id')
+    category_direction = models.CharField(
+        max_length=64, null=True, help_text='课题子类方向')
     leader = models.CharField(max_length=32, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -215,3 +222,15 @@ class ProjectDistribute(models.Model):
     class Meta:
         db_table = 'project_distribute'
         verbose_name = verbose_name_plural = '课题分配表'
+
+
+# 课题评审结果表
+class ProjectAssess(models.Model):
+    pid = models.CharField(max_length=64, null=True)
+    pname = models.CharField(max_length=64, null=True)  # 项目名称
+    assessor_result = JSONField(null=True)  # 专家userid
+    status = models.IntegerField(null=True)
+
+    class Meta:
+        db_table = 'project_assess'
+        verbose_name = verbose_name_plural = '课题评审表'

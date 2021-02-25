@@ -20,26 +20,31 @@
       </el-row>
       <!-- 3.表格 -->
       <el-table :data="users" style="width: 100%">
-        <el-table-column type="expand">
+        <el-table-column label="详情" type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="专家的地址是：">
+              <el-form-item label="地址：">
                 <span>{{ props.row.addr }}</span>
+              </el-form-item>
+              <el-form-item label="电话：">
+                <span>{{ props.row.tel }}</span>
+              </el-form-item>
+              <el-form-item label="开户行：">
+                <span>{{ props.row.bank.bank}}</span>
+                <span> </span>
+                <span>{{props.row.bank.account}}</span>
               </el-form-item>
             </el-form>
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="userid" label="id" width="80"></el-table-column>
+        <el-table-column prop="userid" label="id" width="100"></el-table-column>
         <el-table-column prop="username" label="姓名" width="80"></el-table-column>
         <el-table-column prop="organization" label="单位" width="120"></el-table-column>
-        <el-table-column prop="tel" label="电话" width="180"></el-table-column>
         <el-table-column prop="major" label="研究方向" width="180"></el-table-column>
-        <el-table-column prop="addr" label="地址" width="180"></el-table-column>
         <el-table-column label="创建时间" width="120">
-          <template slot-scope="scope">{{
-            scope.row.create_time | fmtdate
-          }}</template>
+          <template slot-scope="scope">
+            {{scope.row.create_time | fmtdate}}</template>
         </el-table-column>
         <el-table-column prop="is_active" label="用户状态" width="90">
           <template slot-scope="scope">
@@ -88,6 +93,12 @@
           <el-form-item label="地址" :label-width="formLabelWidth">
             <el-input v-model="addUserForm.addr" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="开户银行" :label-width="formLabelWidth">
+            <el-input v-model="addUserForm.bank.bank" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="银行账号" :label-width="formLabelWidth">
+            <el-input v-model="addUserForm.bank.account" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="是否激活" :label-width="formLabelWidth">
             <el-switch v-model="addUserForm.is_active" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
           </el-form-item>
@@ -124,6 +135,12 @@
           <el-form-item label="地址" :label-width="formLabelWidth">
             <el-input v-model="editUserForm.addr" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="开户银行" :label-width="formLabelWidth">
+            <el-input v-model="editUserForm.bank.bank" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="银行账号" :label-width="formLabelWidth">
+            <el-input v-model="editUserForm.bank.account" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="是否激活" :label-width="formLabelWidth">
             <el-switch v-model="editUserForm.is_active" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
           </el-form-item>
@@ -154,6 +171,7 @@ export default {
       formLabelWidth: "",
       addUserForm: {
         role_id: 3,
+        bank: { bank: '', account: '' },
       },
       // 添加用户对话框校验规则
       addUserFormRules: {
@@ -174,7 +192,9 @@ export default {
           { required: true, message: '请输入电话', trigger: 'blur' },
         ]
       },
-      editUserForm: {},
+      editUserForm: {
+        bank: { bank: '', account: '' }
+      },
     }
   },
   created () {
@@ -209,7 +229,7 @@ export default {
     // 查询用户
     async queryUser () {
       const res = await this.axios.get(
-        `/user/?page=${this.currentPage}&page_size=${this.page_size}&search=${this.query}`
+        `/user/?role_id=3&page=${this.currentPage}&page_size=${this.page_size}&search=${this.query}`
       )
       if (res.status === 200) {
         this.users = res.data.results
@@ -227,7 +247,7 @@ export default {
 
     async addUserFormButton () {
       const res = await this.axios.post("/user/", this.addUserForm)
-      console.log(res)
+      console.log(this.addUserForm)
       this.addUserFormVisible = false
       this.getUsers(this.currentPage, this.page_size)
     },
@@ -308,7 +328,7 @@ export default {
 } 
 </script>
 
-<style>
+<style lang='less'>
 .el-card {
   height: 100%;
   margin-top: 15px;
@@ -327,5 +347,18 @@ export default {
 }
 .bt-user-add {
   margin-left: 10px;
+}
+
+.demo-table-expand {
+  font-size: 0;
+  label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
 }
 </style>

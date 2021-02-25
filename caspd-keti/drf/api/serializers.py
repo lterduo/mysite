@@ -84,3 +84,9 @@ class AssessorMajorSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssessorMajor
         fields = '__all__'
+
+
+class ProjectAssessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectAssess
+        fields = '__all__'

@@ -16,10 +16,18 @@
               <span> 课题类别：</span>
               <span>{{projectCategory}}</span>
             </div>
-            <div class="categorySon"> 课题类别方向：
+            <div class="categorySon"> 课题子类：
               <el-select v-model="projectCategorySon" @change="changeCategory" filterable allow-create
-                default-first-option placeholder="请选择课题类别方向">
+                default-first-option placeholder="请选择课题类别">
                 <el-option v-for="item in projectCategorySons" :key="item.id" :label="item.name" :value="item.id">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="categorySon"> 课题方向：
+              <el-select v-model="projectCategorySonDirection" @change="changeCategoryDirection" filterable allow-create
+                default-first-option placeholder="请选择课题方向">
+                <el-option v-for="item in projectCategorySonDirections" :key="item.name" :label="item.name"
+                  :value="item.name">
                 </el-option>
               </el-select>
             </div>
@@ -36,20 +44,11 @@
         </el-col>
         <el-col :span="12">
           <div>评审专家:</div>
-          <div class="assessorMajors"> 专家研究方向：
-            <el-select v-model="assessorMajor" @change="changeMajor" filterable allow-create default-first-option
-              placeholder="请选择课题类别方向">
-              <el-option v-for="item in assessorMajors" :key="item.id" :label="item.name" :value="item.id">
-              </el-option>
-            </el-select>
-          </div>
-          <!-- 课题列表 -->
-          <el-table :data="assessors" style="width: 500px">
-            <el-table-column label="分配" width="80">
-              <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.checked" @change="assessorChecked(scope.row)"></el-checkbox>
-              </template>
-            </el-table-column>
+          <el-button type="primary" @click="selectAssessor()" style="margin-top: 20px;">
+            选择专家
+          </el-button>
+          <!-- 专家列表 -->
+          <el-table :data="assessorsSelected" style="width: 500px">
             <el-table-column prop="username" label="姓名" width="280"></el-table-column>
           </el-table>
         </el-col>
@@ -64,6 +63,28 @@
         <el-table-column prop="aname" label="专家姓名" width="200"></el-table-column>
       </el-table>
     </el-card>
+    <!-- 选择专家对话框 -->
+    <el-dialog title="选择专家" :visible.sync="selectAssessorVisible">
+      <div class="assessorMajors"> 专家研究方向：
+        <el-select v-model="assessorMajor" @change="changeMajor" filterable allow-create default-first-option
+          placeholder="请选择课题类别方向">
+          <el-option v-for="item in assessorMajors" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+        </el-select>
+      </div>
+      <!-- 专家列表 -->
+      <el-table :data="assessors" style="width: 500px">
+        <el-table-column label="分配" width="80">
+          <template slot-scope="scope">
+            <el-checkbox v-model="scope.row.checked"></el-checkbox>
+          </template>
+        </el-table-column>
+        <el-table-column prop="username" label="姓名" width="280"></el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="assessorSelectButton()">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,11 +95,15 @@ export default {
       projectCategory: '', //课题类别列表
       projectCategorySons: [],  //课题方向列表
       projectCategorySon: '', //选中的课题方向
+      projectCategorySonDirections: [],
+      projectCategorySonDirection: '',
       assessors: [],  //专家列表
       assessorMajors: ['',],  //专家研究方向列表
       assessorMajor: '', //选中的课题方向
       projectInfos: [],
-      projectDistribute: []
+      projectDistribute: [],
+      selectAssessorVisible: false, //选择专家对话框
+      assessorsSelected: [], //选中的专家
     }
   },
   created () {
@@ -125,13 +150,25 @@ export default {
       }
     },
 
-    // 课题类别下拉框改变，获取课题列表
+    // 课题类别下拉框改变，获取课题方向列表
     async changeCategory (event) {
-      // console.log(event)
-      let res = await this.axios.get('projectInfo/?category=' + event)
+      console.log('changeCategory', event)
+      let res = await this.axios.get('projectCategorySon/?id=' + event)
+      if (res.status == 200) {
+        this.projectCategorySonDirections = res.data.results[0].direction.data
+        console.log(this.projectCategorySonDirections)
+      }
+    },
+
+    // 课题方向下拉框改变，获取课题列表
+    async changeCategoryDirection (event) {
+      let url = 'projectInfo/?category=' + this.projectCategorySon +
+        '&category_direction=' + this.projectCategorySonDirection +
+        '&status=4'
+      let res = await this.axios.get(url)
       if (res.status == 200) {
         this.projectInfos = res.data.results
-        // console.log(this.projectInfos)
+        console.log(url)
       }
     },
 
@@ -143,6 +180,11 @@ export default {
       } else {
         this.$message.warning("获取专家错误")
       }
+    },
+
+    // 选择专家按钮，点击显示选择对话框，选择专家
+    selectAssessor () {
+      this.selectAssessorVisible = true
     },
 
     // 获取专家研究方向
@@ -158,6 +200,7 @@ export default {
     // 专家方向下拉框改变，获取专家列表
     async changeMajor (e) {
       //获取方向名称，查询专家表
+      this.assessors = []
       let major = this.getMajorName(e)
       if (e == 0) {
         major = ''  //id=0时查询所有
@@ -183,8 +226,16 @@ export default {
     projectChecked (item) {
       // console.log(item)
     },
-    assessorChecked (item) {
 
+    // 选择专家对话框确认按钮，初始化外层专家列表
+    assessorSelectButton () {
+      this.assessorsSelected = []
+      for (let j = 0; j < this.assessors.length; j++) {
+        if (this.assessors[j].checked) {
+          this.assessorsSelected.push(this.assessors[j])
+        }
+      }
+      this.selectAssessorVisible = false
     },
 
     // 确定按钮

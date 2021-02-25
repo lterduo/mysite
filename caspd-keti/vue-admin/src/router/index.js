@@ -10,7 +10,7 @@ import ProjectAdd from '../components/project/ProjectAdd.vue'
 import ProjectAudit from '../components/project/ProjectAudit'
 import ProjectAssess from '../components/project/ProjectAssess.vue'
 import ProjectDistribute from '../components/project/ProjectDistribute'
-
+import ProjectAssessAdmin from '../components/project/ProjectAssessAdmin.vue'
 
 Vue.use(Router)
 
@@ -64,6 +64,10 @@ const router = new Router({
           path:'/projectDistribute',
           name:'projectDistribute',
           component: ProjectDistribute
+        },{
+          path:'/projectAssessAdmin',
+          name:'projectAssessAdmin',
+          component: ProjectAssessAdmin
         }
       ]
     },

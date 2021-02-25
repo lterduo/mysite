@@ -19,27 +19,55 @@
         </el-col>
       </el-row>
       <!-- 3.表格 -->
-      <el-table :data="users" style="width: 100%">
-        <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column prop="userid" label="id" width="80"></el-table-column>
+      <el-table :data="users" style="width: 100%" :header-cell-style="{'text-align':'center'}">
+        <el-table-column type="expand" label="详情">
+          <template slot-scope="scope">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="职称：">
+                <span>{{ scope.row.title }}</span>
+              </el-form-item>
+              <el-form-item label="电话：">
+                <span>{{ scope.row.tel }}</span>
+              </el-form-item>
+              <el-form-item label="邮箱：">
+                <span>{{scope.row.email}}</span>
+              </el-form-item>
+              <el-form-item label="地址：">
+                <span>{{scope.row.addr}}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column type="index" label="序号" width="60"></el-table-column> -->
+        <el-table-column prop="userid" label="id" width="100"></el-table-column>
         <el-table-column prop="username" label="姓名" width="80"></el-table-column>
-        <el-table-column prop="organization" label="单位" width="120"></el-table-column>
-        <el-table-column prop="tel" label="电话" width="180"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-        <el-table-column prop="addr" label="地址" width="180"></el-table-column>
+        <el-table-column prop="organization" label="单位" width="180"></el-table-column>
+        <!-- <el-table-column prop="tel" label="电话" width="180"></el-table-column> -->
+        <!-- <el-table-column prop="email" label="邮箱" width="180"></el-table-column> -->
+        <!-- <el-table-column prop="addr" label="地址" width="180"></el-table-column> -->
         <el-table-column label="创建时间" width="120">
           <template slot-scope="scope">{{
             scope.row.create_time | fmtdate
           }}</template>
         </el-table-column>
-        <el-table-column prop="is_active" label="用户状态" width="90">
+        <!-- <el-table-column prop="is_active" label="用户状态" width="90">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.is_active" active-color="#13ce66" inactive-color="#ff4949"
               @change="userIsActive(scope.row)"></el-switch>
           </template>
+        </el-table-column> -->
+        <el-table-column prop="status" label="用户状态" width="290">
+          <template slot-scope="scope">
+            <el-radio-group v-model="scope.row.status" size="mini" @change=changeStatus(scope.row)>
+              <el-radio-button label="未审核"></el-radio-button>
+              <el-radio-button label="审核未通过"></el-radio-button>
+              <el-radio-button label="审核通过"></el-radio-button>
+            </el-radio-group>
+          </template>
         </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
+            <!-- 查看用户，审核职称文件 -->
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-search" circle
               @click="userInfoForm(scope.row.userid)"></el-button>
             <el-button size="mini" :plain="true" type="primary" icon="el-icon-edit" circle
@@ -70,6 +98,9 @@
           <el-form-item label="单位" prop="organization" :label-width="formLabelWidth">
             <el-input v-model="addUserForm.organization" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="职称" prop="title" :label-width="formLabelWidth">
+            <el-input v-model="addUserForm.title" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="电话" prop="tel" :label-width="formLabelWidth">
             <el-input v-model="addUserForm.tel" autocomplete="off"></el-input>
           </el-form-item>
@@ -79,8 +110,15 @@
           <el-form-item label="地址" :label-width="formLabelWidth">
             <el-input v-model="addUserForm.addr" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="是否激活" :label-width="formLabelWidth">
+          <!-- <el-form-item label="是否激活" :label-width="formLabelWidth">
             <el-switch v-model="addUserForm.is_active" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          </el-form-item> -->
+          <el-form-item label="用户状态">
+            <el-radio-group v-model="addUserForm.status" size="mini">
+              <el-radio-button label="未审核"></el-radio-button>
+              <el-radio-button label="审核未通过"></el-radio-button>
+              <el-radio-button label="审核通过"></el-radio-button>
+            </el-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -126,6 +164,9 @@
           <el-form-item label="单位" prop="organization" :label-width="formLabelWidth">
             <el-input v-model="editUserForm.organization" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="职称" prop="title" :label-width="formLabelWidth">
+            <el-input v-model="editUserForm.title" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="电话" prop="tel" :label-width="formLabelWidth">
             <el-input v-model="editUserForm.tel" autocomplete="off"></el-input>
           </el-form-item>
@@ -135,8 +176,15 @@
           <el-form-item label="地址" :label-width="formLabelWidth">
             <el-input v-model="editUserForm.addr" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="是否激活" :label-width="formLabelWidth">
+          <!-- <el-form-item label="是否激活" :label-width="formLabelWidth">
             <el-switch v-model="editUserForm.is_active" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          </el-form-item> -->
+          <el-form-item label="用户状态">
+            <el-radio-group v-model="editUserForm.status" size="mini">
+              <el-radio-button label="未审核"></el-radio-button>
+              <el-radio-button label="审核未通过"></el-radio-button>
+              <el-radio-button label="审核通过"></el-radio-button>
+            </el-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -240,11 +288,17 @@ export default {
     //添加用户
     showAddUserForm () {
       this.addUserFormVisible = true
+      this.addUserForm = { role_id: 2 }
     },
 
     async addUserFormButton () {
+      // 根据status修改is_active
+      this.addUserForm.is_active = false
+      if (this.addUserForm.status == '审核通过') {
+        this.addUserForm.is_active = true
+      }
       const res = await this.axios.post("/user/", this.addUserForm)
-      console.log(res)
+
       this.addUserFormVisible = false
       this.getUsers(this.currentPage, this.page_size)
     },
@@ -266,8 +320,13 @@ export default {
         type: "warning",
       })
         .then(async () => {
+          // 根据status修改is_active
+          this.editUserForm.is_active = false
+          if (this.editUserForm.status == '审核通过') {
+            this.editUserForm.is_active = true
+          }
+
           var url = '/user/' + this.editUserForm.userid + '/'
-          console.log(url)
           const res = await this.axios.put(url, this.editUserForm)
           if (res.status !== 200) {
             return this.$message.error('更新用户状态失败')
@@ -284,12 +343,16 @@ export default {
         })
     },
 
-    //切换用户是否激活状态
-    async userIsActive (user) {
+
+    // 切换用户状态
+    async changeStatus (user) {
       var url = '/user/' + user.userid + '/'
-      var data = { userid: user.userid, is_active: user.is_active }
+      //修改is_active
+      user.is_active = false
+      if (user.status == '审核通过') {
+        user.is_active = true
+      }
       const res = await this.axios.put(url, user)
-      // const res = await this.axios.get(url)
       console.log(res)
       if (res.status !== 200) {
         user.is_active = !user.is_active
@@ -401,6 +464,18 @@ export default {
     .button-upload:hover {
       cursor: pointer;
     }
+  }
+}
+.demo-table-expand {
+  font-size: 0;
+  label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
   }
 }
 </style>

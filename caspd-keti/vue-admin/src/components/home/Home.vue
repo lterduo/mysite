@@ -67,7 +67,8 @@
               <i class="el-icon-location"></i>
               <span>立项评审</span>
             </template>
-            <el-menu-item class="el-icon-s-unfold" index="projectAssess">申报书评审</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" index="projectAssess">专家评审</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" index="projectAssessAdmin">管理员计算</el-menu-item>
           </el-submenu>
           <!-- 6 -->
           <el-submenu index="7">

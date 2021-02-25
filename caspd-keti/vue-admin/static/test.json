@@ -1,0 +1,160 @@
+{
+  "data": [
+    {
+      "assessor": "adminfeng",
+      "assessAgree": "同意",
+      "assessScore": [
+        {
+          "name": "1、研究内容与研究目标的一致性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "2、研究路径、方法的科学性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "3、项目的可行性",
+          "score": 5,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "4、前期的研究成果",
+          "score": 5,
+          "scores": [
+            { "name": "高", "score": 5 },
+            { "name": "较高", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较低", "score": 1 }
+          ]
+        },
+        {
+          "name": "5、项目的团队力量",
+          "score": 5,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "6、项目时间安排的合理性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "7、经费安排的合理性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        }
+      ],
+      "total_score": 35,
+      "assessSuggestion": "1"
+    },
+    {
+      "assessor": "adminfeng",
+      "assessAgree": "不同意",
+      "assessScore": [
+        {
+          "name": "1、研究内容与研究目标的一致性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "2、研究路径、方法的科学性",
+          "score": 3,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "3、项目的可行性",
+          "score": 3,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "4、前期的研究成果",
+          "score": 3,
+          "scores": [
+            { "name": "高", "score": 5 },
+            { "name": "较高", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较低", "score": 1 }
+          ]
+        },
+        {
+          "name": "5、项目的团队力量",
+          "score": 2,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "6、项目时间安排的合理性",
+          "score": 2,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "7、经费安排的合理性",
+          "score": 2,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        }
+      ],
+      "total_score": 20,
+      "assessSuggestion": "3"
+    }
+  ]
+}
