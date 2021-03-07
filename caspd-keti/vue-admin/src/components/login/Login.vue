@@ -1,6 +1,7 @@
 <template>
   <div class="bg-container">
     <div class="login-container">
+
       <!-- 标题 -->
       <div class="header">
         <h2>中国残疾人体育运动管理中心课题管理系统</h2>
@@ -362,6 +363,7 @@ export default {
         fileDownload(res.data, item.name)
       })
     },
+
   },
 };
 </script>

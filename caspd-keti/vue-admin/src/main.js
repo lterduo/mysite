@@ -12,7 +12,8 @@ import axios from 'axios'
 import moment from 'moment'
 
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+// axios.defaults.baseURL = 'http://39.99.231.153:8000/api/'
+axios.defaults.baseURL = '/api'
 Vue.prototype.axios = axios
 
 Vue.config.productionTip = false

@@ -569,3 +569,23 @@ methods: {
 因为$route.path返回值为"/customerAdd"，而 el-menu 的 index 不带"/" ,所以必须用slice处理
 ~~~
 
+# js跨域问题
+https://blog.csdn.net/wh_xmy/article/details/87705840
+* main.js
+  * 注释 axios.defaults.baseURL = 'http://39.99.231.153:8000/api/'
+  * baseUrl不在这里写，而是写到配置代理表里
+  ~~~
+  axios.defaults.baseURL = '/api'
+  ~~~
+* config/index.js
+  ~~~
+  proxyTable: {
+      '/api': {
+        target:'http://39.99.231.153:8000/api/', // 你请求的第三方接口
+        changeOrigin:true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
+        pathRewrite:{  // 路径重写，
+          '^/api': ''  // 替换target中的请求地址，也就是说以后你在请求http://api.douban.com/v2/XXXXX这个地址的时候直接写成/api即可。
+        }
+      },
+    },
+  ~~~
