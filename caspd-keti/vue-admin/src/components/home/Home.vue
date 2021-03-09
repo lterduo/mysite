@@ -20,66 +20,20 @@
       <!-- 侧边栏导航 -->
       <el-aside class="aside" width="240px">
         <el-menu :unique-opened="true" :router="true" background-color="#545c64" text-color="#fff">
-          <!-- 1 -->
-          <el-submenu index="1">
+          <el-submenu v-for="item in menus.data" :key="item.id" :index="item.id">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>申报人管理</span>
+              <span>{{item.name}}</span>
             </template>
-            <el-menu-item class="el-icon-s-unfold" index="applicant">申报人管理</el-menu-item>
-          </el-submenu>
-          <!-- 2 -->
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>专家管理</span>
-            </template>
-            <el-menu-item class="el-icon-s-unfold" index="expert">专家管理</el-menu-item>
-          </el-submenu>
-          <!-- 3 -->
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>课题类别管理</span>
-            </template>
-            <el-menu-item class="el-icon-s-unfold" index="projectCategory">课题类别</el-menu-item>
-          </el-submenu>
-          <!-- 4 -->
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>申报书管理</span>
-            </template>
-            <el-menu-item class="el-icon-s-unfold" index="projectAdd">申报书填写</el-menu-item>
-            <el-menu-item class="el-icon-s-unfold" index="projectAudit">申报书审核</el-menu-item>
-          </el-submenu>
-          <!-- 5 -->
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>申报书分配</span>
-            </template>
-            <el-menu-item class="el-icon-s-unfold" index="projectDistribute">申报书分配</el-menu-item>
-          </el-submenu>
-          <!-- 5 -->
-          <el-submenu index="6">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>立项评审</span>
-            </template>
-            <el-menu-item class="el-icon-s-unfold" index="projectAssess">专家评审</el-menu-item>
-            <el-menu-item class="el-icon-s-unfold" index="projectAssessAdmin">管理员计算</el-menu-item>
-          </el-submenu>
-          <!-- 6 -->
-          <el-submenu index="7">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>系统管理</span>
-            </template>
-            <el-menu-item class="el-icon-s-unfold" index="1-2">选项2</el-menu-item>
+            <el-menu-item class="el-icon-s-unfold" :index="itemSub.path" v-for="itemSub in item.children"
+              :key="itemSub.id">
+              {{itemSub.name}}
+            </el-menu-item>
           </el-submenu>
         </el-menu>
+
       </el-aside>
+
       <!-- 内容区 -->
       <el-main class="main">
         <router-view></router-view>
@@ -90,6 +44,111 @@
 
 <script>
 export default {
+  data () {
+    return {
+      menus: {
+        "data": [
+          {
+            "id": 1,
+            "name": "申报人管理",
+            "path": null,
+            "children": [
+              {
+                "id": 101,
+                "name": "申报人管理",
+                "path": "applicant",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "name": "专家管理",
+            "path": null,
+            "children": [
+              {
+                "id": 201,
+                "name": "专家管理",
+                "path": "expert",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "name": "课题类别管理",
+            "path": null,
+            "children": [
+              {
+                "id": 301,
+                "name": "课题类别管理",
+                "path": "projectCategory",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": 4,
+            "name": "申报书管理",
+            "path": null,
+            "children": [
+              {
+                "id": 401,
+                "name": "申报书填写",
+                "path": "projectAdd",
+                "children": []
+              },
+              {
+                "id": 402,
+                "name": "申报书审核",
+                "path": "projectAudit",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": 5,
+            "name": "申报书分配",
+            "path": null,
+            "children": [
+              {
+                "id": 501,
+                "name": "申报书分配",
+                "path": "projectDistribute",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": 6,
+            "name": "立项评审",
+            "path": null,
+            "children": [
+              {
+                "id": 601,
+                "name": "专家评审",
+                "path": "projectAssess",
+                "children": []
+              },
+              {
+                "id": 602,
+                "name": "管理员计算",
+                "path": "projectAssessAdmin",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": 7,
+            "name": "系统管理",
+            "path": null,
+            "children": []
+          }
+        ]
+      }
+
+    }
+  },
   beforeCreate () {
     //获取token
     const token = localStorage.getItem("token")
@@ -110,7 +169,7 @@ export default {
       alert('hei')
     }
   },
-} 
+}
 </script >
 
 <style  lang="less">

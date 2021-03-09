@@ -255,10 +255,16 @@ export default {
 
       const res = await this.axios.post("/login/", this.loginForm)
       this.data = res.data
-      console.log(res)
       if (this.data.code === 1000) {
         // 是否激活
         if (this.data.is_active) {
+          //获取菜单列表
+          let url = '/role/?role_id=' + this.data.role_id
+          let resMenu = await this.axios.get('/role/?role_id=' + this.data.role_id)
+          resMenu = resMenu.data
+          console.log('role', this.data, resMenu, url)
+
+
           this.$message.success(this.data.msg)
           //保存token
           localStorage.setItem("userid", this.data.userid)

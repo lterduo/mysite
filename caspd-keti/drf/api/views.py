@@ -75,6 +75,7 @@ class RoleViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RoleSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = [OrderingFilter]
+    filter_fields = ['role_id']
     ordering_fields = ['role_id']
 
 
@@ -317,7 +318,7 @@ class AuthView(APIView):
                 ret['code'] = '1001'
                 ret['msg'] = '用户名或者密码错误'
                 return JsonResponse(ret)
-                # 里为了简单，应该是进行加密，再加上其他参数
+                # 后续进行加密，再加上其他参数
             token = str(time.time()) + usr
             print(token)
             models.UserToken.objects.update_or_create(
@@ -326,7 +327,10 @@ class AuthView(APIView):
             ret['token'] = token
             ret['userid'] = obj.userid
             ret['is_active'] = obj.is_active
+            ret['role_id'] = obj.role_id
+
         except Exception as e:
             ret['code'] = 1002
             ret['msg'] = '请求异常'
+
         return JsonResponse(ret)

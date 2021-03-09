@@ -47,6 +47,7 @@ class UserToken(models.Model):
 class Role(models.Model):
     role_id = models.IntegerField()
     role_name = models.CharField(max_length=16)
+    menus = JSONField(null=True, help_text='角色权限包含的菜单')
 
     class Meta:
         db_table = 'role'
