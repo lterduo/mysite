@@ -85,15 +85,32 @@
     </el-card>
     <el-card v-show="computeCardVisible">
       <el-table :data="assessResult.data" style="width: 100%">
-        <el-table-column prop="assessor" label="专家" width="180"></el-table-column>
-        <el-table-column prop="assessAgree" label="是否同意" width="180"></el-table-column>
+        <el-table-column prop="aname" label="专家" width="180"></el-table-column>
+        <el-table-column prop="assessAgree" label="是否同意" width="110"></el-table-column>
         <el-table-column prop="total_score" label="打分" width="80"></el-table-column>
+        <!-- 打分详情 -->
+        <el-table-column type="expand" label="展开" width="80">
+          <template slot-scope="scope">
+            <el-table :data="scope.row.assessScore">
+              <el-table-column prop="name" label="评分项"></el-table-column>
+              <el-table-column prop="score" label="得分"></el-table-column>
+            </el-table>
+          </template>
+        </el-table-column>
+        <el-table-column prop="assessFunds" label="经费" width="180"></el-table-column>
         <el-table-column prop="assessSuggestion" label="评审意见" width="280"></el-table-column>
+        <el-table-column label="操作" width="100">
+          <template slot-scope="scope">
+            <el-button size="mini" :plain="true" type="danger" icon="el-icon-delete" circle
+              @click="deleteAssessResult(scope.row)"></el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="div-compute">
-        <span>评审专家总数：{{this.computeResult.assessors}}</span>
-        <span>同意数：{{this.computeResult.agrees}}</span>
-        <span>总分：{{this.computeResult.score}}</span>
+        <span>评审专家总数：{{computeResult.assessors}}</span>
+        <span>同意数：{{computeResult.agrees}}</span>
+        <span>总分：{{computeResult.score}}</span>
+        <span>平均经费：{{computeResult.assessFunds}}</span>
       </div>
     </el-card>
   </div>
@@ -132,7 +149,8 @@ export default {
       projectAssess: [], //课题列表
       computeCardVisible: false,
       assessResult: {},  //专家评审详情
-      computeResult: {}
+      computeResult: {},
+      projectAssessUpdate: {}, //删除某专家评审意见时用,更新projectAssess
     }
   },
 
@@ -192,24 +210,59 @@ export default {
 
     //计算按钮
     assessButton (item) {
+      this.infoFormVisible = false
       this.computeCardVisible = true
       this.assessResult = item.assessor_result
+      // 传入pid，delete某专家评审结果时需要
+      this.projectAssessUpdate = item
+      console.log(this.projectAssessUpdate)
       let agrees = 0
       let score = 0
+      let assessFunds = 0
       for (let i = 0; i < this.assessResult.data.length; i++) {
         score = score + this.assessResult.data[i].total_score
         if (this.assessResult.data[i].assessAgree == '同意') {
           agrees = agrees + 1
         }
+        // 经费累加
+        if (this.assessResult.data[i].assessFunds) {
+          assessFunds = assessFunds + this.assessResult.data[i].assessFunds
+        }
       }
+      // 平均经费
+      assessFunds = assessFunds / this.assessResult.data.length
       this.computeResult = {
         assessors: this.assessResult.data.length,
         agrees: agrees,
         score: score,
+        assessFunds: assessFunds
       }
     },
 
-
+    // 删除某个评审结果（通知专家重新评审）
+    async deleteAssessResult (item) {
+      // 删除评审结果
+      for (let i = 0; i < this.assessResult.data.length; i++) {
+        if (item == this.assessResult.data[i]) {
+          console.log(item)
+          this.assessResult.data.splice(i, 1)
+        }
+      }
+      // 更新评审表
+      this.projectAssessUpdate.assessor_result = this.assessResult
+      let id = this.projectAssessUpdate.id
+      let resPut = await this.axios.put(`/projectAssess/${id}/`, this.projectAssessUpdate)
+      console.log(resPut)
+      // 添加分配表，重新评审
+      let dataTemp = {
+        pid: this.projectAssessUpdate.pid,
+        pname: this.projectAssessUpdate.pname,
+        assessor: item.assessor,
+        aname: item.aname
+      }
+      let resPost = await this.axios.post('/projectDistribute/', dataTemp)
+      console.log(resPost)
+    }
   },
 }
 </script>

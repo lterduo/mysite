@@ -33,12 +33,13 @@
             </div>
             <!-- 课题列表 -->
             <el-table :data="projectInfos" style="width: 500px">
-              <el-table-column label="分配" width="80">
+              <el-table-column label="分配" width="50">
                 <template slot-scope="scope">
                   <el-checkbox v-model="scope.row.checked" @change="projectChecked(scope.row)"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column prop="name" label="名称" width="280"></el-table-column>
+              <el-table-column prop="category_direction" label="课题方向" width="100"></el-table-column>
             </el-table>
           </div>
         </el-col>
@@ -145,6 +146,14 @@ export default {
       const res = await this.axios.get(`/projectCategorySon/?father_name=${this.projectCategory}`)
       if (res.status === 200) {
         this.projectCategorySons = res.data.results
+        // 增加一条"所有子类"
+        this.projectCategorySons.splice(0, 0, { id: 0, name: '所有子类', father_name: this.projectCategory })
+        // 获取子类下的课题
+        let url = 'projectInfo/?category=' + this.projectCategorySon + '&status=4'
+        let resInfo = await this.axios.get(url)
+        if (resInfo.status == 200) {
+          this.projectInfos = resInfo.data.results
+        }
       } else {
         this.$message.warning("获取方向错误")
       }
@@ -152,11 +161,24 @@ export default {
 
     // 课题类别下拉框改变，获取课题方向列表
     async changeCategory (event) {
-      console.log('changeCategory', event)
+      if (event == 0) {
+        // 选择所有子类
+        let url = 'projectInfo/?status=4'
+        let resInfo = await this.axios.get(url)
+        if (resInfo.status == 200) {
+          this.projectInfos = resInfo.data.results
+        }
+        return
+      }
       let res = await this.axios.get('projectCategorySon/?id=' + event)
       if (res.status == 200) {
         this.projectCategorySonDirections = res.data.results[0].direction.data
         console.log(this.projectCategorySonDirections)
+      }
+      let url = 'projectInfo/?category=' + this.projectCategorySon + '&status=4'
+      let resInfo = await this.axios.get(url)
+      if (resInfo.status == 200) {
+        this.projectInfos = resInfo.data.results
       }
     },
 

@@ -18,7 +18,7 @@
 
     <el-container>
       <!-- 侧边栏导航 -->
-      <el-aside class="aside" width="240px">
+      <el-aside class="aside" width="240">
         <el-menu :unique-opened="true" :router="true" background-color="#545c64" text-color="#fff">
           <el-submenu v-for="item in menus.data" :key="item.id" :index="item.id.toString()">
             <template slot="title">
@@ -126,6 +126,10 @@ export default {
 }
 .aside {
   background-color: #545c64;
+  width: 240px;
+  .el-menu {
+    width: 240px;
+  }
 }
 .main {
   background-color: #fff;

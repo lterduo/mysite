@@ -196,7 +196,8 @@ export default {
       verifyCode: false,
       // 指南文件
       guideFileList: [
-        { name: '申报书模板.doc', path: './uploadfiles/指南文件/申报书模板.doc' }
+        { name: '申报书模板.doc', path: './uploadfiles/指南文件/申报书模板.doc' },
+        { name: '保密及权属协议书.docx', path: './uploadfiles/指南文件/保密及权属协议书.docx' }
       ],
       // 用户注册
       addUserFormVisible: false,
@@ -275,6 +276,7 @@ export default {
           this.$message.success(this.data.msg)
           //保存token
           localStorage.setItem("userid", this.data.userid)
+          localStorage.setItem("username", this.data.username)
           localStorage.setItem("token", this.data.token)
           this.$router.push("home")
         } else {

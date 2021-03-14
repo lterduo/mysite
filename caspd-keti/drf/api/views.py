@@ -352,6 +352,7 @@ class AuthView(APIView):
             ret['msg'] = '登录成功'
             ret['token'] = token
             ret['userid'] = obj.userid
+            ret['username'] = obj.username
             ret['is_active'] = obj.is_active
             ret['role_id'] = obj.role_id
 

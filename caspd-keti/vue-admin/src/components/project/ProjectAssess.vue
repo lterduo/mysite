@@ -112,6 +112,10 @@
         <el-input type="textarea" v-model="assessSuggestion"></el-input>
       </el-card>
       <el-card>
+        <div class="divSuggestion">三、专家对该项目经费建议：</div>
+        <el-input v-model="assessFunds"></el-input>
+      </el-card>
+      <el-card>
         <div class="divAgree">三、是否同意该项目立项：</div>
         <el-radio v-model="assessAgree" label="同意">是</el-radio>
         <el-radio v-model="assessAgree" label="不同意">否</el-radio>
@@ -227,12 +231,14 @@ export default {
         ],
       // 评审建议
       assessSuggestion: '',
+      assessFunds: 0,
       assessAgree: ''
     }
   },
 
   created () {
     this.userid = localStorage.getItem("userid")
+    this.username = localStorage.getItem("username")
     this.getProjectInfo()
   },
 
@@ -310,10 +316,12 @@ export default {
         data.assessor_result.data.push(
           {
             assessor: this.userid,
+            aname: this.username,
             assessSuggestion: this.assessSuggestion,
             assessAgree: this.assessAgree,
             assessScore: this.assessScore,
-            total_score: score
+            total_score: score,
+            assessFunds: this.assessFunds
           }
         )
         let resPut = await this.axios.put(`/projectAssess/${data.id}/`, data)
@@ -336,10 +344,12 @@ export default {
           assessor_result: {
             data: [{
               assessor: this.userid,
+              aname: this.username,
               assessSuggestion: this.assessSuggestion,
               assessAgree: this.assessAgree,
               assessScore: this.assessScore,
-              total_score: score
+              total_score: score,
+              assessFunds: this.assessFunds
             }]
           }
         }

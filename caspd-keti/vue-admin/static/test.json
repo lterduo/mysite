@@ -1,34 +1,160 @@
 {
-  "project": {
-    "content": "1、本课题研究的理论意义和实践意义</br>                  2、研究的重点和难点</br>                  3、研究方法和途径（体育专题研究课题请写明采取的主要工作方法、主要技术路线、主要指标及可行性分析）</br>                  4、研究的主要内容（体育专题研究课题请写明工作实施方案、地点、时间）</br>                  5、本课题的创新",
-    "leader": "1",
-    "pid": "11615539828193"
-  },
-  "leader": {
-    "userid": "1",
-    "username": "1",
-    "password": "1",
-    "organization": "1",
-    "tel": "1",
-    "email": "1",
-    "addr": "1",
-    "is_active": True,
-    "status": "审核通过",
-    "create_time": "2021-02-22T01:03:14.261433",
-    "update_time": "2021-03-12T15:29:28.484317",
-    "role_id": 1,
-    "gender": "2",
-    "national": "3",
-    "birth": "4",
-    "duty": "5",
-    "title_level": None,
-    "title": "1",
-    "major": "6",
-    "education": "7",
-    "degree": "77",
-    "province": "44",
-    "zipcode": "456",
-    "bank": { "bank": " ", "account": " " }
-  },
-  "member": []
+  "data": [
+    {
+      "assessor": "adminfeng",
+      "assessAgree": "同意",
+      "assessScore": [
+        {
+          "name": "1、研究内容与研究目标的一致性",
+          "score": 3,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "2、研究路径、方法的科学性",
+          "score": 3,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "3、项目的可行性",
+          "score": 3,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "4、前期的研究成果",
+          "score": 5,
+          "scores": [
+            { "name": "高", "score": 5 },
+            { "name": "较高", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较低", "score": 1 }
+          ]
+        },
+        {
+          "name": "5、项目的团队力量",
+          "score": 2,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "6、项目时间安排的合理性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "7、经费安排的合理性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        }
+      ],
+      "total_score": 26,
+      "assessSuggestion": "2"
+    },
+    {
+      "assessor": "adminfeng",
+      "assessAgree": "不同意",
+      "assessScore": [
+        {
+          "name": "1、研究内容与研究目标的一致性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "2、研究路径、方法的科学性",
+          "score": 5,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "3、项目的可行性",
+          "score": 3,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "4、前期的研究成果",
+          "score": 3,
+          "scores": [
+            { "name": "高", "score": 5 },
+            { "name": "较高", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较低", "score": 1 }
+          ]
+        },
+        {
+          "name": "5、项目的团队力量",
+          "score": 2,
+          "scores": [
+            { "name": "强", "score": 5 },
+            { "name": "较强", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "6、项目时间安排的合理性",
+          "score": 2,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        },
+        {
+          "name": "7、经费安排的合理性",
+          "score": 3,
+          "scores": [
+            { "name": "很好", "score": 5 },
+            { "name": "较好", "score": 3 },
+            { "name": "一般", "score": 2 },
+            { "name": "较差", "score": 1 }
+          ]
+        }
+      ],
+      "total_score": 23,
+      "assessSuggestion": "挺好！"
+    }
+  ]
 }
