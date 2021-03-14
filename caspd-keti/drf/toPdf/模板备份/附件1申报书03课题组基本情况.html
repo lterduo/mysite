@@ -1,0 +1,158 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        box-sizing: border-box;
+
+        font-size: 16px;
+      }
+      .container {
+        width: 794px;
+        height: 1123px;
+        border: 2px solid;
+      }
+      .neirong {
+        margin-top: 80px;
+        margin-left: 30px;
+        line-height: 40px;
+      }
+      .title {
+        margin-bottom: 20px;
+        font-size: 22px;
+      }
+      table {
+        border-top: 1px solid #000;
+        border-left: 1px solid #000;
+        border-spacing: 0;
+        text-align: center;
+        line-height: 40px;
+      }
+      table .col1 {
+        width: 100px;
+      }
+      table .col2 {
+        width: 50px;
+      }
+      table .col3 {
+        width: 150px;
+      }
+
+      .table-member {
+        border-top: 0;
+        border-left: 1px solid #000;
+        border-spacing: 0;
+      }
+
+      td,
+      th {
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+      }
+      .th1 {
+        width: 30px;
+        line-height: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="neirong">
+        <div class="title">一、课题组基本情况</div>
+        <table>
+          <tbody>
+            <tr>
+              <td colspan="2">课题名称</td>
+              <td colspan="7">{{project.name}}</td>
+            </tr>
+            <tr>
+              <th rowspan="6" class="th1">项目主持人情况</th>
+              <td class="col1">姓名</td>
+              <td class="col1">{{leader.username}}</td>
+              <td class="col2" class="col2">性别</td>
+              <td class="col2">{{leader.gender}}</td>
+              <td class="col2">民族</td>
+              <td class="col2">{{leader.national}}</td>
+              <td class="col1">出生年月</td>
+              <td class="col3">{{leader.birth}}</td>
+            </tr>
+            <tr>
+              <td class="col1">行政职务</td>
+              <td class="col1">{{leader.duty}}</td>
+              <td colspan="2">专业职称</td>
+              <td colspan="2">{{leader.title}}</td>
+              <td>研究专长</td>
+              <td class="col3">{{leader.major}}</td>
+            </tr>
+            <tr>
+              <td>最后学历</td>
+              <td>{{leader.education}}</td>
+              <td colspan="2">最后学位</td>
+              <td colspan="2">{{leader.degree}}</td>
+              <td class="col1" style="line-height: 20px">
+                所在省（自治区、直辖市）
+              </td>
+              <td class="col3">{{leader.province}}</td>
+            </tr>
+            <tr>
+              <td>工作单位</td>
+              <!-- <td colspan="7">{{leader.organization}}</td> -->
+              <td colspan="7" style="width: 568px; line-height: 30px">
+                上述使用的是超链接的形式进行图片显示，实际使用时不太方便，接下来使用锚点的方法来将图片和结果显示在一个页面，代码如下
+              </td>
+            </tr>
+            <tr>
+              <td>联系电话</td>
+              <td colspan="3">{{leader.tel}}</td>
+              <td colspan="2">E-mail</td>
+              <td colspan="2">{{leader.email}}</td>
+            </tr>
+            <tr>
+              <td>通讯地址</td>
+              <td colspan="5">{{leader.addr}}</td>
+              <td>邮政编码</td>
+              <td>{{leader.zipcode}}</td>
+            </tr>
+          </tbody>
+
+          <table class="table-member">
+            <tbody>
+              <tr>
+                <th rowspan="6" class="th1">项目主持人情况</th>
+                <td class="col1">姓名</td>
+                <td style="width: 130px">单位</td>
+                <td style="width: 88px">最后学历</td>
+                <td style="width: 88px">所学专业</td>
+                <td style="width: 100px">技术职务</td>
+                <td style="width: 150px">研究分工</td>
+              </tr>
+              {% for m in member.member %}
+              <tr>
+                <td>{{m.name}}</td>
+                <td>{{m.organization}}</td>
+                <td>{{m.education}}</td>
+                <td>{{m.major}}</td>
+                <td>{{m.duty}}</td>
+                <td>{{m.division}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <table class="table-member">
+            <tr>
+              <td style="width: 133px">预期成果形式</td>
+              <td style="width: 312">{{project.result_type}}</td>
+              <td style="width: 100px">字数</td>
+              <td style="width: 150px">{{project.total_words}}</td>
+            </tr>
+            <tr>
+              <td style="width: 130px">预计完成时间</td>
+              <td colspan="3">{{project.complete_time}}</td>
+            </tr>
+          </table>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

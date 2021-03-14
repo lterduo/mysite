@@ -1,17 +1,34 @@
 {
-  "data": [
-    {
-      "id": 6,
-      "name": "立项评审",
-      "path": null,
-      "children": [
-        {
-          "id": 601,
-          "name": "专家评审",
-          "path": "projectAssess",
-          "children": []
-        }
-      ]
-    }
-  ]
+  "project": {
+    "content": "1、本课题研究的理论意义和实践意义</br>                  2、研究的重点和难点</br>                  3、研究方法和途径（体育专题研究课题请写明采取的主要工作方法、主要技术路线、主要指标及可行性分析）</br>                  4、研究的主要内容（体育专题研究课题请写明工作实施方案、地点、时间）</br>                  5、本课题的创新",
+    "leader": "1",
+    "pid": "11615539828193"
+  },
+  "leader": {
+    "userid": "1",
+    "username": "1",
+    "password": "1",
+    "organization": "1",
+    "tel": "1",
+    "email": "1",
+    "addr": "1",
+    "is_active": True,
+    "status": "审核通过",
+    "create_time": "2021-02-22T01:03:14.261433",
+    "update_time": "2021-03-12T15:29:28.484317",
+    "role_id": 1,
+    "gender": "2",
+    "national": "3",
+    "birth": "4",
+    "duty": "5",
+    "title_level": None,
+    "title": "1",
+    "major": "6",
+    "education": "7",
+    "degree": "77",
+    "province": "44",
+    "zipcode": "456",
+    "bank": { "bank": " ", "account": " " }
+  },
+  "member": []
 }

@@ -172,7 +172,7 @@ class ProjectLeader(models.Model):
         verbose_name = verbose_name_plural = '课题主持人表'
 
 
-# 课题主持人
+# 课题参加者
 class ProjectMember(models.Model):
     pid = models.CharField(max_length=64, null=True)
     name = models.CharField(max_length=32, null=True)

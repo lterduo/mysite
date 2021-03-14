@@ -97,7 +97,11 @@
           <el-input v-model="addUserForm.national" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="出生年月" prop="birth" :label-width="formLabelWidth">
-          <el-input v-model="addUserForm.birth" autocomplete="off"></el-input>
+
+          <el-date-picker v-model="addUserForm.birth" type="date" placeholder="选择日期" format="yyyy年MM月dd日"
+            value-format="yyyy-MM-dd">
+          </el-date-picker>
+          {{addUserForm.birth}}
         </el-form-item>
         <el-form-item label="单位" prop="organization" :label-width="formLabelWidth">
           <el-input v-model="addUserForm.organization" autocomplete="off"></el-input>
@@ -261,9 +265,12 @@ export default {
           //获取菜单列表
           let url = '/role/?role_id=' + this.data.role_id
           let resMenu = await this.axios.get('/role/?role_id=' + this.data.role_id)
-          resMenu = resMenu.data
-          console.log('role', this.data, resMenu, url)
-
+          if (resMenu.status == 200) {
+            resMenu = resMenu.data.results[0]
+            localStorage.setItem("menus", JSON.stringify(resMenu.menus))
+          } else {
+            this.$message.error('获取权限失败！')
+          }
 
           this.$message.success(this.data.msg)
           //保存token
@@ -296,7 +303,7 @@ export default {
     async addUserFormButton () {
       this.addUserForm.role_id = 2
       const res = await this.axios.post("/user/", this.addUserForm)
-      console.log(res.status)
+
       if (res.status === 201) {
         this.$message.success('注册成功，等待管理员激活。')
       }
@@ -305,9 +312,9 @@ export default {
 
     // 验证密码是否一致
     confirmPass () {
-      console.log(this.addUserForm)
+
       if (this.addUserForm.password != this.addUserForm.passwordConfirm) {
-        console.log(this.addUserForm.passwordConfirm)
+
         this.$message.warning('密码不一致，请重新填写！')
         this.addUserForm.passwordConfirm = ''
         setTimeout(() => {
@@ -341,9 +348,9 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' }
       };
       this.axios.post(url, formData, config).then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         this.getFileList(pid)
-        console.log('fileList:  ', this.fileList)
+        // console.log('fileList:  ', this.fileList)
       })
     },
 
@@ -355,7 +362,6 @@ export default {
       }
       let data = { path: item.path }
       let resDelete = await this.axios.post('/deleteFile/', data)
-      console.log(resDelete)
     },
 
     // 下载文件
@@ -481,5 +487,9 @@ h3 {
 .el-table th,
 .el-table tr {
   background-color: transparent;
+}
+
+.el-dialog {
+  z-index: 10;
 }
 </style>

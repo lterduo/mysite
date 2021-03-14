@@ -20,7 +20,7 @@
       <!-- 侧边栏导航 -->
       <el-aside class="aside" width="240px">
         <el-menu :unique-opened="true" :router="true" background-color="#545c64" text-color="#fff">
-          <el-submenu v-for="item in menus.data" :key="item.id" :index="item.id">
+          <el-submenu v-for="item in menus.data" :key="item.id" :index="item.id.toString()">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{item.name}}</span>
@@ -46,116 +46,21 @@
 export default {
   data () {
     return {
-      menus: {
-        "data": [
-          {
-            "id": 1,
-            "name": "申报人管理",
-            "path": null,
-            "children": [
-              {
-                "id": 101,
-                "name": "申报人管理",
-                "path": "applicant",
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": 2,
-            "name": "专家管理",
-            "path": null,
-            "children": [
-              {
-                "id": 201,
-                "name": "专家管理",
-                "path": "expert",
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": 3,
-            "name": "课题类别管理",
-            "path": null,
-            "children": [
-              {
-                "id": 301,
-                "name": "课题类别管理",
-                "path": "projectCategory",
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": 4,
-            "name": "申报书管理",
-            "path": null,
-            "children": [
-              {
-                "id": 401,
-                "name": "申报书填写",
-                "path": "projectAdd",
-                "children": []
-              },
-              {
-                "id": 402,
-                "name": "申报书审核",
-                "path": "projectAudit",
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": 5,
-            "name": "申报书分配",
-            "path": null,
-            "children": [
-              {
-                "id": 501,
-                "name": "申报书分配",
-                "path": "projectDistribute",
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": 6,
-            "name": "立项评审",
-            "path": null,
-            "children": [
-              {
-                "id": 601,
-                "name": "专家评审",
-                "path": "projectAssess",
-                "children": []
-              },
-              {
-                "id": 602,
-                "name": "管理员计算",
-                "path": "projectAssessAdmin",
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": 7,
-            "name": "系统管理",
-            "path": null,
-            "children": []
-          }
-        ]
-      }
+      menus: {}
 
     }
   },
-  beforeCreate () {
+  created () {
     //获取token
-    const token = localStorage.getItem("token")
+    // const token = localStorage.getItem("token")
+    // 获取菜单
+    const menus = localStorage.getItem("menus")
+    this.menus = JSON.parse(menus)
+
     //如果没有，跳转登录
-    if (!token) {
-      this.$router.push({ name: "login" })
-    }
+    // if (!token) {
+    //   this.$router.push({ name: "login" })
+    // }
     //如果有，继续渲染
   },
   methods: {

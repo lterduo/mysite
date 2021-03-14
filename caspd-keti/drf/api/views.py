@@ -1,3 +1,4 @@
+from datetime import datetime
 from urllib import parse
 import json
 import os
@@ -19,11 +20,14 @@ from rest_framework.filters import OrderingFilter
 
 from api import models
 from api import serializers
-# 转换pdf
-from toPdf import toPdf
 
+# 转换pdf
+from toPdf import toHtml
+from toPdf import htmlToPdf
 
 # 测试
+
+
 def hello(request):
     for i in range(20):
         u = models.ProjectCategory()
@@ -74,7 +78,7 @@ class RoleViewSet(viewsets.ModelViewSet):
     queryset = models.Role.objects.all()
     serializer_class = serializers.RoleSerializer
     pagination_class = MyPageNumberPagination
-    filter_backends = [OrderingFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['role_id']
     ordering_fields = ['role_id']
 
@@ -224,10 +228,32 @@ class AssessorMajorViewSet(viewsets.ModelViewSet):
 class GenPdf(APIView):
     def post(self, request):
         content = request.body
-        content = content.decode('utf8')
-        # print(content)
-        toPdf.toPdf(content)
-        return JsonResponse({'msg': 'pdf'})
+        content = json.loads(content.decode('utf8'))
+        # print('genPdf*****************************', content)
+
+        # 获取信息
+        project = content['project']
+        leader = content['leader']
+        member = content['member']
+        pid = project['pid']
+        # print('genPdf*****************************', type(project))
+
+        # 查询信息
+        # project = models.ProjectInfo.objects.filter(pid=pid).first().__dict__
+
+        project['create_time'] = datetime.now().strftime('%Y.%m.%d')
+        if len(member) < 6:
+            for i in range(6-len(member)):
+                member.append({'name': ' '})
+
+        # 模板列表
+        fileList = ['附件1申报书01封面.html', '附件1申报书02承诺.html',
+                    '附件1申报书03课题组基本情况.html', '附件1申报书04课题研究计划.html', '附件1申报书05项目主持人情况及课题研究基础.html']
+        # 生成html
+        toHtml.generate_html(fileList, pid, project, leader, member)
+        htmlToPdf.html_to_pdf(fileList, pid)
+
+        return JsonResponse({'pid': pid})
 
 
 # 上传文件

@@ -161,7 +161,16 @@
         <div>课题研究计划</div>
         <quill-editor v-model="addForm.content" :options="editorOption" class="editor"></quill-editor>
         <div>
-          <el-button type="primary" style="margin-top: 20px;">生成申报书并下载</el-button>
+          <div>
+            <p>说明：</p>
+            <p>1、填写过程中可以点击页面右下角“保存”按钮临时保存，下次可点击课题列表中的“编辑”继续填写</p>
+            <p>2、填写完毕，点击“生成申报书并下载”按钮，下载生成的申报书文档</p>
+            <p>3、将生成的申报书、《前期研究成果》、《在研课题证明》全部打印盖章、扫描后，
+              点击下方“上传附件”按钮将扫描件上传</p>
+            <p>4、点击页面右下角“提交审核”按钮进行审核</p>
+            <!-- <el-button type="primary" @click="genPdf">测试生成</el-button> -->
+          </div>
+          <el-button type="primary" style="margin-top: 20px;" @click="genPdf('add')">生成申报书并下载</el-button>
         </div>
         <div class="div-file">
           <!-- 上传附件 -->
@@ -192,6 +201,7 @@
       </el-card>
       <!-- 保存、提交按钮 -->
       <div class="div-add">
+
         <el-button type="primary" @click.prevent="addProject()" class="el-button-add">保存</el-button>
         <el-button type="primary" @click.prevent="submitProject()" class="el-button-add">提交审核</el-button>
       </div>
@@ -310,7 +320,7 @@
         <div>课题研究计划</div>
         <quill-editor v-model="editContent" :options="editorOption" class="editor"></quill-editor>
         <div>
-          <el-button type="primary" style="margin-top: 20px;" @click="genPdf()">生成申报书并下载</el-button>
+          <el-button type="primary" style="margin-top: 20px;" @click="genPdf('edit')">生成申报书并下载</el-button>
         </div>
         <div class="div-file">
           <!-- 上传附件 -->
@@ -593,7 +603,13 @@ export default {
       leader: {}, //主持人，取列表第一项
       projectMember: [],  //本项目参加人
       addFormVisible: false,  //显示新增卡片      
-      addForm: {},
+      addForm: {
+        content: '1、本课题研究的理论意义和实践意义</br>\
+                  2、研究的重点和难点</br>\
+                  3、研究方法和途径（体育专题研究课题请写明采取的主要工作方法、主要技术路线、主要指标及可行性分析）</br>\
+                  4、研究的主要内容（体育专题研究课题请写明工作实施方案、地点、时间）</br>\
+                  5、本课题的创新'
+      },
       infoFormVisible: false,
       editForm: {},  //编辑申报书
       editFormVisible: false, // 显示编辑卡片
@@ -635,7 +651,7 @@ export default {
             ]
           ], //工具菜单栏配置
         },
-        placeholder: '请在这里填写内容', //提示
+        placeholder: '',
         readyOnly: false, //是否只读
         theme: 'snow', //主题 snow/bubble
       },
@@ -688,13 +704,6 @@ export default {
     //leader member 测试用，不能放这里
     this.getProjectLeader()
   },
-
-  // computed: {
-  //   // 编辑器
-  //   editor () {
-  //     return this.$refs.myQuillEditor.quill;
-  //   }
-  // },
 
   methods: {
 
@@ -847,9 +856,9 @@ export default {
 
 
     //获取状态名称
-    // return好坑啊!!!!!!!!!!!!!!!!!!
+    // return好坑!!!!!!!!!!!!!!!!!!
     statusName (id) {
-      name = ''
+      let name = ''
       this.projectStatus.forEach((s) => {
         if (s.s_id == id) {
           name = s.status
@@ -952,7 +961,7 @@ export default {
       this.addFormVisible = false
 
       this.editForm = item
-      //坑，编辑器内容不能直接取值，必须通过中间变量取值
+      //坑，编辑器内容不能直接取值，必须通过中间变量取值。否则无法正常编辑
       this.editContent = item.content
 
       this.getProjectMember(item.pid)
@@ -1040,11 +1049,30 @@ export default {
     },
 
     // 生成申报书并下载
-    async genPdf () {
-      // console.log(this.editContent)
-      let data = { 'content': this.editContent }
-      let res = await this.axios.post('/genPdf/', this.editContent)
-      console.log(res)
+    async genPdf (e) {
+      if (e == 'add') {
+        // 新增申报书页面
+        this.addForm.leader = this.userid
+        this.addForm.pid = this.pid
+        let data = { 'project': this.addForm, 'leader': this.leader, 'member': this.projectMember }
+        let res = await this.axios.post('/genPdf/', data)
+        let fileName = {
+          path: './toPdf/pdf_temp/' + res.data.pid + '.pdf',
+          name: res.data.pid + '.pdf'
+        }
+        this.downloadFile(fileName)
+      }
+      if (e == 'edit') {
+        // 编辑页面
+        this.editForm.content = this.editContent
+        let data = { 'project': this.editForm, 'leader': this.leader, 'member': this.projectMember }
+        let res = await this.axios.post('/genPdf/', data)
+        let fileName = {
+          path: './toPdf/pdf_temp/' + res.data.pid + '.pdf',
+          name: res.data.pid + '.pdf'
+        }
+        this.downloadFile(fileName)
+      }
     },
 
     // 上传文件，新增申报书
@@ -1096,6 +1124,7 @@ export default {
 
     // 下载文件
     downloadFile (item) {
+      // 注意：path里带有文件名
       let url = `/downloadFile/?path=${item.path}&name=${item.name}`
       let params = {
         path: item.path,

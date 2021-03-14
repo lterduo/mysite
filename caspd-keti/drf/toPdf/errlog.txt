@@ -1,0 +1,6 @@
+2021-03-11 16:08:52.849817  html_to_pdf.pyname 'to_file' is not defined2021-03-11 16:10:11.987010  html_to_pdf.pywkhtmltopdf reported an error:
+Loading pages (1/6)
+[>                                                           ] 0%[======>                                                     ] 10%Error: Failed to load http://xn--101-ee9dszh12d5tky99awg3d7lc.html/, with network status code 3 and http status code 0 - Host xn--101-ee9dszh12d5tky99awg3d7lc.html not found
+Error: Failed loading page http://xn--101-ee9dszh12d5tky99awg3d7lc.html (sometimes it will work just to ignore this error with --load-error-handling ignore)
+Exit with code 1 due to network error: HostNotFoundError
+2021-03-11 16:11:47.008001  html_to_pdf.pywkhtmltopdf exited with non-zero code 1. error:

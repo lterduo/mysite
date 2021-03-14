@@ -18,9 +18,14 @@ const router = new Router({
   mode:'history',
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/',
+      name: '/',
+      component: Home
     },
     {
       path: '/home',
@@ -75,12 +80,36 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach((from, to, next) => {
-//   if (to.name == 'projectAdd') { // 判断跳转的路由是否需要登录
-//       next('/applicant')
-//   } else {
-//      next()
-//   }
-// })
+// 挂载路由导航守卫,to表示将要访问的路径，from表示从哪里来，next是下一个要做的操作 next('/login')强制跳转login
+router.beforeEach((to, from, next) => {
+  // 访问登录页，放行
+  if (to.path === '/login') return next()
+  // 获取token
+  const tokenStr = localStorage.getItem('token')
+  // 没有token, 强制跳转到登录页
+  if (!tokenStr){
+     return next('/login')
+  }
+
+  //如果手动输入地址，要检验是否在权限菜单列表中。不在menus里，强制跳转
+  const menus = JSON.parse(localStorage.getItem("menus"))
+  let ml = ['/home','/login','/']
+  menus.data.forEach(item=>{
+
+    item.children.forEach(itemSub=>{
+      ml.push('/' + itemSub.path)
+    })
+  })
+  const menuList = ml
+
+  if(menuList.includes(to.path)){
+    next()
+  }else{
+    alert('没有权限')
+    next('/login')
+  }
+
+})
+
 export default router
 
